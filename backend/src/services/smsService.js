@@ -31,6 +31,79 @@ class MockSmsProvider extends BaseSmsProvider {
 }
 
 /**
+ * Fast2SMS Provider (Instant Delivery for Indian +91 Numbers)
+ */
+class Fast2SmsProvider extends BaseSmsProvider {
+  constructor() {
+    super();
+    this.apiKey = env.SMS_API_KEY;
+  }
+
+  async send(phone, message) {
+    if (!this.apiKey || this.apiKey === 'mock_sms_api_key') {
+      console.warn('[Fast2SMS Warn] Fast2SMS API key missing; falling back to MockSmsProvider');
+      const fallback = new MockSmsProvider();
+      return fallback.send(phone, message);
+    }
+
+    // Sanitize to clean 10-digit Indian phone number
+    const cleanPhone = phone.replace(/\D/g, '').slice(-10);
+    if (!cleanPhone || cleanPhone.length !== 10) {
+      console.warn(`[Fast2SMS Warn] Invalid 10-digit Indian phone number: '${phone}'`);
+      return { success: false, reason: 'Invalid phone format (requires 10 digits)' };
+    }
+
+    try {
+      const response = await fetch('https://www.fast2sms.com/dev/bulkV2', {
+        method: 'POST',
+        headers: {
+          'authorization': this.apiKey,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          route: 'q',
+          message: message,
+          language: 'english',
+          flash: 0,
+          numbers: cleanPhone,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.return === true || data.status_code === 200 || (Array.isArray(data.message) && data.message[0]?.toLowerCase().includes('success'))) {
+        console.log(`\n📲 [Fast2SMS LIVE DELIVERED] Successfully sent SMS to +91${cleanPhone}!`);
+        console.log(`[RequestId]: ${data.request_id || 'OK'}`);
+        console.log(`[Message]: ${message}\n`);
+        return {
+          success: true,
+          provider: 'fast2sms',
+          messageId: data.request_id || `F2S-${Date.now()}`,
+          status: 'DELIVERED',
+          raw: data,
+        };
+      } else {
+        console.warn(`\n⚠️ [Fast2SMS Notice] Message for +91${cleanPhone}: ${data.message || JSON.stringify(data)}`);
+        if (data.status_code === 999) {
+          console.warn(`👉 Action needed: Please complete a ₹100 recharge on your fast2sms.com wallet to activate live SMS dispatch.\n`);
+        }
+        return {
+          success: false,
+          provider: 'fast2sms',
+          reason: data.message || 'API responded with notice',
+          raw: data,
+        };
+      }
+    } catch (error) {
+      console.error(`[Fast2SMS Error] Dispatch failed for +91${cleanPhone}: ${error.message}`);
+      return {
+        success: false,
+        error: error.message,
+      };
+    }
+  }
+}
+
+/**
  * Twilio SMS Provider (Production Integration Ready)
  */
 class TwilioSmsProvider extends BaseSmsProvider {
@@ -49,7 +122,6 @@ class TwilioSmsProvider extends BaseSmsProvider {
     }
 
     try {
-      // In production, instantiate twilio client dynamically
       console.log(`[SMS Twilio] Dispatching SMS to ${phone}`);
       return {
         success: true,
@@ -87,8 +159,10 @@ class GenericSmsProvider extends BaseSmsProvider {
 
 // Factory to select provider based on SMS_PROVIDER env variable
 const getSmsProvider = () => {
-  const providerType = (env.SMS_PROVIDER || 'mock').toLowerCase();
+  const providerType = (env.SMS_PROVIDER || 'fast2sms').toLowerCase();
   switch (providerType) {
+    case 'fast2sms':
+      return new Fast2SmsProvider();
     case 'twilio':
       return new TwilioSmsProvider();
     case 'generic':
@@ -115,7 +189,6 @@ const sendSMS = async (phone, message) => {
     return result;
   } catch (error) {
     console.error(`[SMS Dispatch Error] Failed to send SMS to ${phone}: ${error.message}`);
-    // Return error status without throwing to ensure core business flow continuity
     return {
       success: false,
       error: error.message,
@@ -127,6 +200,7 @@ module.exports = {
   sendSMS,
   BaseSmsProvider,
   MockSmsProvider,
+  Fast2SmsProvider,
   TwilioSmsProvider,
   GenericSmsProvider,
 };

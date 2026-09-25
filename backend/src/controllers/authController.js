@@ -13,12 +13,22 @@ const register = async (req, res, next) => {
   try {
     const { name, email, phone, password, role } = req.body;
 
-    // Check duplicate email
+    // Check duplicate email in registered users
     const existingEmail = await User.findOne({ email: email.toLowerCase() });
     if (existingEmail) {
       return sendError(
         res,
         'A user with this email address already exists. Please login.',
+        400
+      );
+    }
+
+    // Check if this email is already listed as a member in a team created by a leader
+    const existingMemberTeam = await Team.findOne({ 'members.email': email.toLowerCase() });
+    if (existingMemberTeam) {
+      return sendError(
+        res,
+        `This email is already registered as a team member in team '${existingMemberTeam.teamName}'. Only the team leader can register and manage submissions.`,
         400
       );
     }
@@ -33,8 +43,8 @@ const register = async (req, res, next) => {
       );
     }
 
-    // Default role is participant; admin/panelist can only be set if not explicitly prohibited
-    const userRole = role && ['participant', 'panelist', 'admin'].includes(role) ? role : 'participant';
+    // Public registration is restricted to participants (Panelists are created exclusively by Admin)
+    const userRole = 'participant';
 
     const user = await User.create({
       name,

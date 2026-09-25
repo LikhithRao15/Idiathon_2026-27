@@ -28,4 +28,11 @@ router.get('/assigned-teams/:teamId', panelistController.getAssignedTeamDetails)
  */
 router.get('/dashboard', panelistController.getPanelistDashboard);
 
+/**
+ * @route   PUT /api/panelists/teams/:teamId/select-round1
+ * @desc    Select team for Round 2
+ * @access  Private (Panelist, Admin)
+ */
+router.put('/teams/:teamId/select-round1', panelistController.selectTeamForRound2);
+
 module.exports = router;

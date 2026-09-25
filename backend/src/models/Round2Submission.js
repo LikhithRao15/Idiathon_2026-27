@@ -14,19 +14,12 @@ const round2SubmissionSchema = new mongoose.Schema(
       required: [true, 'Detailed concept is required'],
       trim: true,
     },
-    problemAnalysis: {
+    valuePropositionAndCircularity: {
       type: String,
-      required: [true, 'Problem analysis is required'],
-      trim: true,
-    },
-    proposedSolution: {
-      type: String,
-      required: [true, 'Proposed solution is required'],
       trim: true,
     },
     valueProposition: {
       type: String,
-      required: [true, 'Value proposition is required'],
       trim: true,
     },
     feasibilityPlan90Days: {
@@ -39,14 +32,20 @@ const round2SubmissionSchema = new mongoose.Schema(
       required: [true, 'Resource requirements are required'],
       trim: true,
     },
+    problemAnalysis: {
+      type: String,
+      trim: true,
+    },
+    proposedSolution: {
+      type: String,
+      trim: true,
+    },
     expectedImpact: {
       type: String,
-      required: [true, 'Expected impact is required'],
       trim: true,
     },
     scalability: {
       type: String,
-      required: [true, 'Scalability plan is required'],
       trim: true,
     },
     status: {

@@ -44,35 +44,31 @@ const submitRound2 = async (req, res, next) => {
 
     const {
       detailedConcept,
-      problemAnalysis,
-      proposedSolution,
+      valuePropositionAndCircularity,
       valueProposition,
       feasibilityPlan90Days,
       resourceRequirements,
+      problemAnalysis,
+      proposedSolution,
       expectedImpact,
       scalability,
       isDraft,
     } = req.body;
 
-    let existingSubmission = await Round2Submission.findOne({ teamId: team._id });
-    if (existingSubmission && existingSubmission.status === 'SUBMITTED') {
-      return sendError(
-        res,
-        'Round 2 proposal has already been submitted for your team.',
-        400
-      );
-    }
+    const valProp = valuePropositionAndCircularity || valueProposition || '';
 
+    let existingSubmission = await Round2Submission.findOne({ teamId: team._id });
     const submissionStatus = isDraft === true || isDraft === 'true' ? 'DRAFT' : 'SUBMITTED';
 
     let submission;
     if (existingSubmission) {
       existingSubmission.detailedConcept = detailedConcept || existingSubmission.detailedConcept;
-      existingSubmission.problemAnalysis = problemAnalysis || existingSubmission.problemAnalysis;
-      existingSubmission.proposedSolution = proposedSolution || existingSubmission.proposedSolution;
-      existingSubmission.valueProposition = valueProposition || existingSubmission.valueProposition;
+      existingSubmission.valuePropositionAndCircularity = valProp || existingSubmission.valuePropositionAndCircularity;
+      existingSubmission.valueProposition = valProp || existingSubmission.valueProposition;
       existingSubmission.feasibilityPlan90Days = feasibilityPlan90Days || existingSubmission.feasibilityPlan90Days;
       existingSubmission.resourceRequirements = resourceRequirements || existingSubmission.resourceRequirements;
+      existingSubmission.problemAnalysis = problemAnalysis || existingSubmission.problemAnalysis;
+      existingSubmission.proposedSolution = proposedSolution || existingSubmission.proposedSolution;
       existingSubmission.expectedImpact = expectedImpact || existingSubmission.expectedImpact;
       existingSubmission.scalability = scalability || existingSubmission.scalability;
       existingSubmission.status = submissionStatus;
@@ -84,11 +80,12 @@ const submitRound2 = async (req, res, next) => {
       submission = await Round2Submission.create({
         teamId: team._id,
         detailedConcept: detailedConcept || '',
-        problemAnalysis: problemAnalysis || '',
-        proposedSolution: proposedSolution || '',
-        valueProposition: valueProposition || '',
+        valuePropositionAndCircularity: valProp,
+        valueProposition: valProp,
         feasibilityPlan90Days: feasibilityPlan90Days || '',
         resourceRequirements: resourceRequirements || '',
+        problemAnalysis: problemAnalysis || '',
+        proposedSolution: proposedSolution || '',
         expectedImpact: expectedImpact || '',
         scalability: scalability || '',
         status: submissionStatus,

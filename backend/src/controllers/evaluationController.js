@@ -33,11 +33,11 @@ const evaluateRound1 = async (req, res, next) => {
       return sendError(res, 'Team not found.', 404);
     }
 
-    // Panelist must be assigned to this team unless admin
+    // Panelist must be assigned to this team unless admin or if team is in open pool (no specific panelists assigned yet)
     if (req.user.role === 'panelist') {
-      const isAssigned = team.assignedPanelists && team.assignedPanelists.some(
-        (p) => p.toString() === panelistId.toString()
-      );
+      const isAssigned = team.assignedPanelists && team.assignedPanelists.length > 0
+        ? team.assignedPanelists.some((p) => p.toString() === panelistId.toString())
+        : true;
       if (!isAssigned) {
         return sendError(res, 'Access denied. You are not assigned to evaluate this team.', 403);
       }
@@ -124,9 +124,9 @@ const evaluateRound2 = async (req, res, next) => {
 
     // Panelist assignment check
     if (req.user.role === 'panelist') {
-      const isAssigned = team.assignedPanelists && team.assignedPanelists.some(
-        (p) => p.toString() === panelistId.toString()
-      );
+      const isAssigned = team.assignedPanelists && team.assignedPanelists.length > 0
+        ? team.assignedPanelists.some((p) => p.toString() === panelistId.toString())
+        : true;
       if (!isAssigned) {
         return sendError(res, 'Access denied. You are not assigned to evaluate this team.', 403);
       }

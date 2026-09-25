@@ -34,12 +34,21 @@ const submitRound1 = async (req, res, next) => {
       );
     }
 
-    // Check if already officially submitted
-    let existingSubmission = await Round1Submission.findOne({ teamId: team._id });
-    if (existingSubmission && existingSubmission.status === 'SUBMITTED') {
+    // Check if team is already selected for Round 2 or submitted
+    if (team.round1Status === 'SELECTED') {
       return sendError(
         res,
-        'Round 1 proposal has already been submitted for your team. You cannot submit again.',
+        'Round 1 problem statement is locked. Your team has been SELECTED for Round 2 and submissions can no longer be modified.',
+        400
+      );
+    }
+
+    // Check if already officially submitted
+    let existingSubmission = await Round1Submission.findOne({ teamId: team._id });
+    if (existingSubmission && (existingSubmission.status === 'SUBMITTED' || existingSubmission.status === 'SELECTED')) {
+      return sendError(
+        res,
+        'Round 1 proposal has already been submitted for your team and is locked.',
         400
       );
     }

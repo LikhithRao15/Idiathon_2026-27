@@ -227,6 +227,10 @@ const rejectRound2Team = async (req, res, next) => {
       { status: 'NOT_SELECTED' }
     );
 
+    notificationService.notifyRound2Rejected(team.leader, team).catch((err) => {
+      console.error('[Notification Error on Round 2 Rejection]', err.message);
+    });
+
     return sendSuccess(
       res,
       `Team '${team.teamName}' marked as Not Selected in Round 2.`,
