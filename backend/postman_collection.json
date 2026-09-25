@@ -1,0 +1,295 @@
+{
+  "info": {
+    "name": "Ideathon Management System API",
+    "_postman_id": "8a329d44-0be9-411a-a001-c52994f1b56a",
+    "description": "Comprehensive REST API Collection for Hasiru Samvadha Ideathon Management System (3-Round Evaluation, RBAC, Multi-channel Notifications)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "panelistToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "participantToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Register Participant",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Rohan Mehta\",\n  \"email\": \"rohan@example.com\",\n  \"phone\": \"+919876543220\",\n  \"password\": \"Password@123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth", "register"] }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@ideathon.org\",\n  \"password\": \"Password@123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Get Current User Profile (Me)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{participantToken}}" }],
+            "url": { "raw": "{{baseUrl}}/auth/me", "host": ["{{baseUrl}}"], "path": ["auth", "me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Themes",
+      "item": [
+        {
+          "name": "Get Themes",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/themes", "host": ["{{baseUrl}}"], "path": ["themes"] }
+          }
+        },
+        {
+          "name": "Create Theme (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sustainable Smart Cities & Clean Energy\",\n  \"description\": \"Innovations for urban greening, clean energy grids, and recycling.\",\n  \"isActive\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/themes", "host": ["{{baseUrl}}"], "path": ["themes"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Teams",
+      "item": [
+        {
+          "name": "Create Team (Leader)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{participantToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"teamName\": \"EcoTransformers\",\n  \"theme\": \"65dfa1b2c3d4e5f678901234\",\n  \"members\": [\n    {\n      \"name\": \"Sameer Verma\",\n      \"email\": \"sameer@example.com\",\n      \"phone\": \"+919876543231\",\n      \"roleInTeam\": \"Hardware Engineer\"\n    }\n  ]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/teams", "host": ["{{baseUrl}}"], "path": ["teams"] }
+          }
+        },
+        {
+          "name": "Get My Team",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{participantToken}}" }],
+            "url": { "raw": "{{baseUrl}}/teams/my-team", "host": ["{{baseUrl}}"], "path": ["teams", "my-team"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Round 1 (Idea Pitching)",
+      "item": [
+        {
+          "name": "Submit Round 1 Pitch",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{participantToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"problemStatement\": \"Rapid accumulation of unsegregated organic waste in urban apartment complexes.\",\n  \"proposedSolution\": \"Decentralised smart aerobic composters with IoT odor and temperature monitoring.\",\n  \"isDraft\": false\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/round1/submit", "host": ["{{baseUrl}}"], "path": ["round1", "submit"] }
+          }
+        },
+        {
+          "name": "Get Round 1 Submission",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{participantToken}}" }],
+            "url": { "raw": "{{baseUrl}}/round1/submission", "host": ["{{baseUrl}}"], "path": ["round1", "submission"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Round 2 (Idea Elaboration)",
+      "item": [
+        {
+          "name": "Submit Round 2 Elaboration",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{participantToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"detailedConcept\": \"Modular IoT aerobic biomethanation pod equipped with ESP32 controllers.\",\n  \"problemAnalysis\": \"15,000 tonnes of daily food waste in metropolitan areas.\",\n  \"proposedSolution\": \"Zero-landfill closed-loop decomposition generating organic fertilizer.\",\n  \"valueProposition\": \"Reduces waste hauling fees by 60% with revenue from compost sales.\",\n  \"feasibilityPlan90Days\": \"Month 1: CAD & sensor prototyping. Month 2: PHC & residential pilots. Month 3: Regulatory compliance.\",\n  \"resourceRequirements\": \"3D printers, gas sensors, microcontroller kits, AWS IoT Core.\",\n  \"expectedImpact\": \"Eliminate 50 tonnes CO2e greenhouse gas emissions monthly per unit.\",\n  \"scalability\": \"Hub-and-spoke franchise servicing across Tier-1 municipalities.\",\n  \"isDraft\": false\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/round2/submit", "host": ["{{baseUrl}}"], "path": ["round2", "submit"] }
+          }
+        },
+        {
+          "name": "Get Round 2 Submission",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{participantToken}}" }],
+            "url": { "raw": "{{baseUrl}}/round2/submission", "host": ["{{baseUrl}}"], "path": ["round2", "submission"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Evaluations",
+      "item": [
+        {
+          "name": "Submit Round 1 Evaluation (Panelist)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{panelistToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"teamId\": \"65dfa1b2c3d4e5f678901299\",\n  \"scores\": {\n    \"problemUnderstanding\": 9,\n    \"innovation\": 8.5,\n    \"proposedSolution\": 9,\n    \"feasibility\": 8,\n    \"expectedImpact\": 9\n  },\n  \"comments\": \"Commendable solution with high potential for green sustainability.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/evaluations/round1", "host": ["{{baseUrl}}"], "path": ["evaluations", "round1"] }
+          }
+        },
+        {
+          "name": "Submit Round 2 Evaluation (Panelist)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{panelistToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"teamId\": \"65dfa1b2c3d4e5f678901299\",\n  \"scores\": {\n    \"conceptClarity\": 9,\n    \"innovation\": 9,\n    \"valueProposition\": 8.5,\n    \"technicalFeasibility\": 8,\n    \"feasibilityPlan90Days\": 9,\n    \"resourcePlanning\": 8.5,\n    \"expectedImpact\": 9,\n    \"scalability\": 8.5\n  },\n  \"comments\": \"Very solid 90-day execution plan.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/evaluations/round2", "host": ["{{baseUrl}}"], "path": ["evaluations", "round2"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Admin Operations",
+      "item": [
+        {
+          "name": "Admin Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/dashboard", "host": ["{{baseUrl}}"], "path": ["admin", "dashboard"] }
+          }
+        },
+        {
+          "name": "Select Team in Round 1",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/teams/:teamId/round1/select", "host": ["{{baseUrl}}"], "path": ["admin", "teams", ":teamId", "round1", "select"] }
+          }
+        },
+        {
+          "name": "Select Team in Round 2 (Promote to Finalist)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/teams/:teamId/round2/select", "host": ["{{baseUrl}}"], "path": ["admin", "teams", ":teamId", "round2", "select"] }
+          }
+        },
+        {
+          "name": "Assign Panelist to Team",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"panelistId\": \"65dfa1b2c3d4e5f678901233\",\n  \"teamId\": \"65dfa1b2c3d4e5f678901299\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/assign-panelist", "host": ["{{baseUrl}}"], "path": ["admin", "assign-panelist"] }
+          }
+        },
+        {
+          "name": "Schedule Finalist Pitch",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"teamId\": \"65dfa1b2c3d4e5f678901299\",\n  \"venue\": \"Grand Innovation Auditorium - Hall A\",\n  \"eventDate\": \"2026-10-15T09:00:00.000Z\",\n  \"startTime\": \"10:00 AM\",\n  \"presentationDuration\": \"15 minutes\",\n  \"instructions\": \"Bring slides on a USB drive and your prototype hardware.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/finalists", "host": ["{{baseUrl}}"], "path": ["admin", "finalists"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "8. Notifications",
+      "item": [
+        {
+          "name": "Get User Notifications",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{participantToken}}" }],
+            "url": { "raw": "{{baseUrl}}/notifications", "host": ["{{baseUrl}}"], "path": ["notifications"] }
+          }
+        },
+        {
+          "name": "Mark All Notifications Read",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{participantToken}}" }],
+            "url": { "raw": "{{baseUrl}}/notifications/read-all", "host": ["{{baseUrl}}"], "path": ["notifications", "read-all"] }
+          }
+        }
+      ]
+    }
+  ]
+}
