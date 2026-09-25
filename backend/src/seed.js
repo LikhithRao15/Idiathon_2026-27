@@ -30,12 +30,15 @@ const seedDatabase = async () => {
       Event.deleteMany({}),
     ]);
 
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@ideathon.org';
+    const adminPassword = process.env.ADMIN_PASSWORD || defaultPassword;
+
     console.log('[Seed] Creating 1 Admin user...');
     const admin = await User.create({
-      name: 'System Administrator',
-      email: 'admin@ideathon.org',
-      phone: '+919876543210',
-      password: defaultPassword,
+      name: process.env.ADMIN_NAME || 'System Administrator',
+      email: adminEmail,
+      phone: process.env.ADMIN_PHONE || '+919876543210',
+      password: adminPassword,
       role: 'admin',
       isActive: true,
       isEmailVerified: true,
@@ -118,8 +121,8 @@ const seedDatabase = async () => {
     console.log('✅ Clean Database Initialization Complete!');
     console.log('======================================================');
     console.log('Admin Account:');
-    console.log('  Email:    admin@ideathon.org');
-    console.log(`  Password: ${defaultPassword}`);
+    console.log(`  Email:    ${adminEmail}`);
+    console.log(`  Password: ${adminPassword}`);
     console.log('------------------------------------------------------');
     console.log('Panelist Accounts:');
     console.log('  1. Email: panelist1@ideathon.org');
