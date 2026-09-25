@@ -1,54 +1,68 @@
-# 🌿 Hasiru Samvadha Ideathon Management System — Backend API
+# 🌿 ಹಸಿರು ಸಂವಾದ — Reimagine Waste Management Ideathon 2026–27
 
-A complete, production-ready, modular REST API backend built in **Node.js**, **Express.js**, and **MongoDB/Mongoose** for managing a multi-stage Ideathon with 3 rounds, Role-Based Access Control (**Participant**, **Panelist**, **Admin**), automated scoring, and multi-channel notifications (In-App, Email, SMS).
+A complete, production-grade, full-stack platform built for the **Hasiru Samvadha Ideathon (2026–27)** featuring a **Bilingual Next.js 14 Web Application**, a robust **Node.js/Express.js REST API**, **MongoDB Atlas** persistence, **Fast2SMS** multi-recipient broadcasting, and strict Role-Based Access Control (**Participant**, **Panelist**, **Admin**).
 
 ---
 
-## ⚡ Quick Start: What to Do After Cloning
+## 🚀 Key Highlights & Architecture
 
-Follow these simple steps after cloning the repository:
+- **🌱 Bilingual Landing Page**: Full English and Kannada (ಕನ್ನಡ) language switching, smooth natural scrolling, countdown timer, challenge tracks, timeline, rubric, and event poster modal.
+- **⚡ Embedded Pitch Workspace (`#pitch`)**: Authenticated team leaders can create teams, manage members, draft, and submit Round 1 proposals directly on the landing page or via the dedicated portal.
+- **📱 Multi-Recipient SMS & Email**: Direct Fast2SMS Bulk V2 quick SMS API with mock fallback. SMS alerts are automatically broadcast to team leaders and teammates upon registration, team creation, and advancement.
+- **🎯 3 Official Themes**:
+  1. *Waste Management* (Segregation, IoT bins, community incentives)
+  2. *Handling Waste* (Hazardous/E-waste, worker safety, collection logistics)
+  3. *Waste Disposal* (Composting, landfill reduction, circular recycling)
+- **📅 Exact Milestone Timeline**:
+  - **Round 1 (Idea Pitching Proposal)**: Oct 2, 2026 – Nov 1, 2026
+  - **Round 2 (Idea Elaboration & 90-Day Plan)**: Nov 2, 2026 – Dec 1, 2026
+  - **Grand Finale Stage Pitch**: Dec 15, 2026
+- **📞 Unified Footer with Helplines**:
+  - 📞 **Helpdesk 1 · General & Registration**: `+91 98800 12345`
+  - 📞 **Helpdesk 2 · Technical & Pitch Support**: `+91 98800 23456`
+  - 📞 **Helpdesk 3 · Mentorship & Rounds Desk**: `+91 98800 34567`
+  - ✉️ **Official Support Email**: `hasirusamvada@reimagine.org`
+
+---
+
+## ⚡ Quick Start: Running Full-Stack
 
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/LikhithRao15/Idiathon_2026-27.git
-cd Idiathon_2026-27/backend
+cd Idiathon_2026-27
 ```
 
-### 2. Install Dependencies
+### 2. Install Dependencies for Both Backend & Frontend
 ```bash
-npm install
+npm run install:all
 ```
+*(Or install individually: `cd backend && npm install` and `cd frontend && npm install`)*
 
-### 3. Setup Environment Variables (`.env`)
-Create your `.env` file by copying the provided template:
+---
 
-**Windows (PowerShell / CMD):**
-```powershell
-copy .env.example .env
-```
-**Linux / macOS:**
-```bash
-cp .env.example .env
-```
+### 3. Setup Environment Variables
 
-Open `.env` and configure your **MongoDB URI**:
+#### Backend Configuration (`backend/.env`):
+Create `backend/.env` from `backend/.env.example`:
 ```env
-PORT=5000
+PORT=5001
 NODE_ENV=development
 API_PREFIX=/api
 CLIENT_URL=http://localhost:3000
 
-# Your MongoDB URI (Local or MongoDB Atlas)
-MONGODB_URI=mongodb://127.0.0.1:27017/ideathon_db
+# MongoDB URI (MongoDB Atlas or Local MongoDB)
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/ideathon_2026
 
 # JWT Secret
 JWT_SECRET=super_secret_jwt_key_for_ideathon_management_system_2026
 JWT_EXPIRES_IN=7d
 
+# Team Constraints
 MAX_TEAM_SIZE=4
-MIN_TEAM_SIZE=1
+MIN_TEAM_SIZE=2
 
-# Email Service (Nodemailer)
+# Email Service
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_SECURE=false
@@ -57,176 +71,159 @@ SMTP_PASS=password123
 EMAIL_FROM_NAME="Hasiru Samvadha Ideathon"
 EMAIL_FROM_ADDRESS="no-reply@ideathon.org"
 
-# SMS Service (mock | twilio | generic)
-SMS_PROVIDER=mock
-SMS_API_KEY=mock_sms_api_key
-SMS_SENDER_ID=IDEATHON
+# Fast2SMS Provider Configuration
+SMS_PROVIDER=fast2sms
+FAST2SMS_API_KEY=your_fast2sms_api_key_here
+SMS_SENDER_ID=FSTSMS
+```
+
+#### Frontend Configuration (`frontend/.env.local`):
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5001/api
 ```
 
 ---
 
-### 4. Seed Database with Initial Data
-Run the database seed script to automatically create:
-- **1 System Admin**
-- **2 Jury Panelists**
-- **3 Official Ideathon Themes**
-- **Sample Participants & Teams across Round 1, Round 2, and Finalist stages**
-
+### 4. Seed Database with Official Data
+Populate MongoDB Atlas with official themes, timeline rounds, admin, panelists, and sample teams:
 ```bash
+cd backend
 npm run seed
 ```
 
 ---
 
-### 5. Start the Server
+### 5. Start Full-Stack Application
 
-#### Development Mode (with hot-reload):
+#### Run Both Backend and Frontend Concurrently:
+From the root project directory:
 ```bash
 npm run dev
 ```
 
-#### Production Mode:
-```bash
-npm start
-```
-
-Your API is now running live at:  
-👉 **`http://localhost:5000`**  
-👉 API Prefix: **`http://localhost:5000/api`**  
-👉 Health Check: **`http://localhost:5000/health`**
+- 🌐 **Frontend Web App**: `http://localhost:3000`
+- ⚙️ **Backend REST API**: `http://localhost:5001/api`
+- 🩺 **Health Check**: `http://localhost:5001/api/health`
 
 ---
 
-### 6. Run Automated Tests
-Run all 22 integration tests with an in-memory database:
-```bash
-npm test
-```
+## 🔑 Pre-Seeded Test Credentials
 
----
-
-## 🔑 Test Credentials for Development
-
-Once you run `npm run seed`, you can immediately test the APIs with these pre-seeded accounts:
-
-| Role | Email | Password | Assigned Status / Team |
+| Role | Email | Password | Access & Capabilities |
 |---|---|---|---|
-| **Admin** | `admin@ideathon.org` | `Password@123` | Full administrative control |
-| **Panelist 1** | `panelist1@ideathon.org` | `Password@123` | Assigned to `TEAM-2026-001` & `TEAM-2026-002` |
-| **Panelist 2** | `panelist2@ideathon.org` | `Password@123` | Assigned to `TEAM-2026-002` & `TEAM-2026-003` |
+| **Admin** | `admin@ideathon.org` | `Password@123` | Full administrative console (`/admin`), round reviews, finalist passes |
+| **Panelist 1** | `panelist1@ideathon.org` | `Password@123` | Jury evaluation dashboard (`/panelist`) |
+| **Panelist 2** | `panelist2@ideathon.org` | `Password@123` | Jury evaluation dashboard (`/panelist`) |
 | **Participant 1** | `rohan@example.com` | `Password@123` | Leader of **EcoTransformers** (Round 1 Submitted) |
-| **Participant 2** | `priya@example.com` | `Password@123` | Leader of **HealthAI Diagnostics** (Round 1 Selected, Round 2 Submitted) |
-| **Participant 3** | `kavya@example.com` | `Password@123` | Leader of **AgriVision IoT** (Grand Finalist) |
+| **Participant 2** | `priya@example.com` | `Password@123` | Leader of **HealthAI Diagnostics** (Round 1 Selected, Round 2 Dossier) |
+| **Participant 3** | `kavya@example.com` | `Password@123` | Leader of **AgriVision IoT** (Grand Finalist with Stage Pass) |
 
 ---
 
-## 📮 Postman Collection
-
-Import `backend/postman_collection.json` into Postman to test all endpoints with pre-configured request payloads, environment variables, and authentication headers.
-
----
-
-## 📁 Project Architecture
+## 📁 Project Structure
 
 ```
 Idiathon_2026-27/
 │
-├── backend/
+├── frontend/                     # Next.js 14 Web Application
 │   ├── src/
-│   │   ├── config/          # db.js, env.js
-│   │   ├── controllers/     # auth, team, round1, round2, panelist, evaluation, admin, theme, notification
-│   │   ├── middleware/      # auth (JWT), role (RBAC), error handling, validation
-│   │   ├── models/          # User, Team, Theme, Round1Submission, Round2Submission, Evaluation, Notification, Event
-│   │   ├── routes/          # REST route endpoints for each module
-│   │   ├── services/        # emailService, smsService (abstraction), notificationService
-│   │   ├── utils/           # generateTeamId, generateToken, response formatters
-│   │   ├── validators/      # input validation rules using express-validator
-│   │   ├── app.js           # Express app assembly & security middleware
-│   │   └── seed.js          # Database seeding script
-│   │
-│   ├── tests/
-│   │   └── ideathon.test.js # 22 automated integration tests
-│   ├── server.js            # Node HTTP server entrypoint
-│   ├── postman_collection.json
-│   ├── .env.example
+│   │   ├── app/
+│   │   │   ├── admin/            # Admin Command Console (/admin)
+│   │   │   ├── panelist/         # Panelist Evaluation Portal (/panelist)
+│   │   │   ├── participant/      # Participant Workspace (/participant)
+│   │   │   ├── login/            # Authentication (/login)
+│   │   │   ├── register/         # Team Leader Registration (/register)
+│   │   │   ├── globals.css       # Bespoke design tokens & responsive CSS
+│   │   │   ├── layout.js         # Global Layout (Navbar + Footer)
+│   │   │   └── page.js           # Bilingual Landing Page + Floating Nav
+│   │   ├── components/
+│   │   │   ├── Navbar.js         # Unified frosted glass header
+│   │   │   ├── Footer.js         # Unified footer with 3 sample helplines
+│   │   │   └── IdeaPitchSection.js # Embedded Pitch & Team Workspace (#pitch)
+│   │   ├── context/
+│   │   │   └── AuthContext.js    # JWT session & toast notification state
+│   │   └── lib/
+│   │       └── api.js            # Standardized API client wrapper
+│   ├── public/                   # Static assets & event reference poster
 │   └── package.json
 │
-├── .gitignore
-├── package.json             # Root helper scripts (install, dev, start, test, seed)
+├── backend/                      # Express.js REST API
+│   ├── src/
+│   │   ├── config/               # Database connection & env loader
+│   │   ├── controllers/          # Business logic (auth, team, r1, r2, admin, etc.)
+│   │   ├── middleware/           # Auth (JWT), role checking (RBAC), validator
+│   │   ├── models/               # Mongoose Schemas (User, Team, Theme, Submissions)
+│   │   ├── routes/               # API route definitions
+│   │   ├── services/             # Fast2SMS, Email, and multi-recipient notification
+│   │   ├── utils/                # Token generation, team IDs, responses
+│   │   ├── validators/           # Express-validator schemas & word counts
+│   │   ├── app.js                # Express app setup & CORS
+│   │   └── seed.js               # Database population script
+│   ├── server.js                 # HTTP Server entrypoint
+│   └── package.json
+│
+├── package.json                  # Root npm scripts (dev, start, install:all)
+├── .gitignore                    # Git exclusions
 └── README.md
 ```
 
 ---
 
-## 🔄 3-Round Competition Lifecycle & Workflow
+## 🔄 Competition Workflow & Lifecycle
 
 ```mermaid
 graph TD
-    A[Participant Registers] --> B[Create Team & Select Active Theme]
-    B --> C[Round 1: Idea Pitching Proposal]
+    A[Team Leader Registers on Landing Page] --> B[Create Team & Select Theme]
+    B --> C[Round 1: Idea Pitching Proposal (150-200 words)]
     C -->|Submit| D[Assigned Panelists Evaluate Round 1]
     D --> E{Admin Round 1 Review}
-    E -->|REJECT| F[Status: NOT_SELECTED<br>Round 2 Remains Locked]
-    E -->|SELECT| G[Status: SELECTED<br>Round 2 Automatically Unlocked]
-    G --> H[Round 2: Idea Elaboration & 90-Day Plan]
+    E -->|REJECT| F[Status: NOT_SELECTED<br>Round 2 Locked]
+    E -->|SELECT| G[Status: SELECTED<br>Round 2 Dossier Automatically Unlocked]
+    G --> H[Round 2: Deep-Dive Concept, Circularity, 90-Day Plan]
     H -->|Submit| I[Assigned Panelists Evaluate Round 2]
     I --> J{Admin Round 2 Review}
     J -->|REJECT| K[Status: NOT_SELECTED]
-    J -->|SELECT| L[Status: FINALIST]
-    L --> M[Admin Schedules Grand Finale Pitch & Venue]
-    M --> N[Grand Jury Evaluation & Final Results]
+    J -->|SELECT| L[Status: FINALIST<br>SMS/Email Broadcast]
+    L --> M[Admin Issues Grand Finale Pass & Slot]
+    M --> N[Grand Finale Stage Evaluation on Dec 15, 2026]
 ```
 
 ---
 
-## 🔒 Critical Business & Security Rules
+## 🔒 Business & Security Rules
 
-1. **Strict Round 2 Gate**: Only teams whose `round1Status === 'SELECTED'` can access or submit Round 2. Attempting unauthorized access returns `403 Forbidden` with:
-   ```json
-   {
-     "success": false,
-     "message": "Round 2 is available only for teams selected in Round 1."
-   }
-   ```
-2. **Panelist Assignment Isolation**: A panelist can only view and evaluate teams explicitly assigned to them by the admin.
-3. **Automated Backend Scoring**: Scores across all rubrics are validated (0–10 each) and total scores are calculated automatically on the backend.
-4. **Resilient Notifications**: If external email or SMS delivery encounters an error, the team selection and status updates succeed without failing.
-5. **No Password Exposure**: Passwords use bcrypt hashing and are excluded from all query outputs and API responses.
+1. **Strict Round 2 Gate**: Only teams whose status is `SELECTED` in Round 1 can access or submit Round 2.
+2. **Designated Leader Rule**: Only the designated team leader registers and manages the pitch. Teammate emails and phone numbers receive notification alerts.
+3. **Panelist Assignment Isolation**: Jury members only have access to submissions explicitly assigned to them by the administrator.
+4. **Resilient Fast2SMS**: Fast2SMS Bulk V2 quick SMS API with automatic fallback ensuring SMS deliveries never block critical workflow transitions.
+5. **Word Count Validation**: Round 1 and Round 2 inputs enforce strict word boundaries (e.g. 1000 words concept, 150 words value proposition, 200 words 90-day plan).
 
 ---
 
-## 📡 API Endpoints Overview
+## 📡 API Endpoints Summary
 
-| Module | Route | Method | Description | Role |
+| Module | Endpoint | Method | Description | Access |
 |---|---|---|---|---|
-| **Auth** | `/api/auth/register` | `POST` | Register participant | Public |
-| **Auth** | `/api/auth/login` | `POST` | Login & get JWT token | Public |
-| **Auth** | `/api/auth/me` | `GET` | Get logged-in user profile | Auth |
-| **Themes** | `/api/themes` | `GET` | List active themes | Public |
-| **Themes** | `/api/themes` | `POST` | Create new theme | Admin |
-| **Teams** | `/api/teams` | `POST` | Create team with unique ID | Participant |
-| **Teams** | `/api/teams/my-team` | `GET` | Get participant's team | Participant |
+| **Auth** | `/api/auth/register` | `POST` | Register team leader | Public |
+| **Auth** | `/api/auth/login` | `POST` | Login & receive JWT | Public |
+| **Auth** | `/api/auth/me` | `GET` | Get current user profile | Authenticated |
+| **Themes** | `/api/themes` | `GET` | List the 3 active themes | Public |
+| **Teams** | `/api/teams` | `POST` | Create team & add members | Participant |
+| **Teams** | `/api/teams/my-team` | `GET` | Fetch active team & progress | Participant |
 | **Round 1** | `/api/round1/submit` | `POST` | Submit Round 1 pitch | Participant Leader |
-| **Round 1** | `/api/round1/submission` | `GET` | View Round 1 pitch | Auth |
-| **Round 2** | `/api/round2/submit` | `POST` | Submit Round 2 elaboration | Participant Leader (Selected) |
-| **Round 2** | `/api/round2/submission` | `GET` | View Round 2 proposal | Auth |
+| **Round 1** | `/api/round1/submission` | `GET` | View Round 1 pitch | Authenticated |
+| **Round 2** | `/api/round2/submit` | `POST` | Submit Round 2 dossier | Selected Leader |
+| **Round 2** | `/api/round2/submission` | `GET` | View Round 2 dossier | Authenticated |
 | **Evaluation** | `/api/evaluations/round1` | `POST` | Score Round 1 submission | Assigned Panelist |
 | **Evaluation** | `/api/evaluations/round2` | `POST` | Score Round 2 submission | Assigned Panelist |
-| **Evaluation** | `/api/evaluations/final` | `POST` | Score Grand Finalist | Grand Jury |
-| **Admin** | `/api/admin/dashboard` | `GET` | Metrics & stage funnel | Admin |
+| **Admin** | `/api/admin/dashboard` | `GET` | Stage metrics & funnel statistics | Admin |
 | **Admin** | `/api/admin/teams/:id/round1/select` | `PUT` | Select team for Round 2 | Admin |
-| **Admin** | `/api/admin/teams/:id/round1/reject` | `PUT` | Reject team in Round 1 | Admin |
 | **Admin** | `/api/admin/teams/:id/round2/select` | `PUT` | Promote team to Finalist | Admin |
-| **Admin** | `/api/admin/finalists` | `POST` | Schedule pitch slot & venue | Admin |
-| **Admin** | `/api/admin/rounds` | `GET` | View round open/closed statuses | Admin |
-| **Admin** | `/api/admin/rounds/:round/update` | `PUT` | Open/close rounds & deadlines | Admin |
-| **Admin** | `/api/admin/panelists` | `GET` / `POST` | Manage panelist accounts | Admin |
+| **Admin** | `/api/admin/finalists` | `POST` | Issue Finalist Pass & Slot | Admin |
 | **Admin** | `/api/admin/assign-panelist` | `POST` | Assign panelist to team | Admin |
-| **Panelist** | `/api/panelists/assigned-teams` | `GET` | View assigned teams | Panelist |
-| **Notifications** | `/api/notifications` | `GET` | In-app alerts & unread count | Auth |
-| **Notifications** | `/api/notifications/read-all` | `PATCH` | Mark all read | Auth |
+| **Notifications**| `/api/notifications` | `GET` | List notifications & alerts | Authenticated |
 
 ---
 
 ## 📜 License
-Licensed under ISC License. Developed for Hasiru Samvadha Ideathon.
+Licensed under the ISC License. Developed for Hasiru Samvadha Ideathon 2026–27.
