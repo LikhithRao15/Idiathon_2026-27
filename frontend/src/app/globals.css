@@ -2657,15 +2657,16 @@ input:focus, select:focus, textarea:focus {
 .w-full { width: 100%; }
 
 /* Portal Layouts */
-/* Portal Layouts */
 .portal-container {
-  width: min(1040px, calc(100% - 48px));
+  width: calc(100% - 48px);
+  max-width: 1880px;
   margin: 0 auto;
   padding: 32px 0 70px 0;
 }
 
 .portal-container.admin-portal {
-  width: min(1380px, calc(100% - 48px));
+  width: calc(100% - 48px);
+  max-width: 1920px;
 }
 
 .portal-header {

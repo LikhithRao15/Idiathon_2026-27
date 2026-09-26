@@ -15,6 +15,20 @@ router.use(requireAuth, requireRole('admin'));
 router.get('/dashboard', adminController.getDashboardStats);
 
 /**
+ * @route   PUT /api/admin/teams/batch-select-round1
+ * @desc    Batch select teams for Round 1
+ * @access  Private (Admin only)
+ */
+router.put('/teams/batch-select-round1', adminController.batchSelectRound1);
+
+/**
+ * @route   PUT /api/admin/teams/batch-select-round2
+ * @desc    Batch select teams for Round 2
+ * @access  Private (Admin only)
+ */
+router.put('/teams/batch-select-round2', adminController.batchSelectRound2);
+
+/**
  * @route   PUT /api/admin/teams/:teamId/round1/select
  * @desc    Select team in Round 1 and unlock Round 2
  * @access  Private (Admin only)

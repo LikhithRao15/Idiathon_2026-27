@@ -242,6 +242,78 @@ const rejectRound2Team = async (req, res, next) => {
 };
 
 /**
+ * @desc    Batch select teams for Round 1 (advance to Round 2)
+ * @route   PUT /api/admin/teams/batch-select-round1
+ * @access  Private (Admin only)
+ */
+const batchSelectRound1 = async (req, res, next) => {
+  try {
+    const { teamIds } = req.body;
+    if (!Array.isArray(teamIds) || teamIds.length === 0) {
+      return sendError(res, 'Please provide an array of team IDs to select.', 400);
+    }
+
+    const updated = [];
+    for (const tId of teamIds) {
+      const team = await Team.findById(tId).populate('leader');
+      if (team) {
+        team.round1Status = 'SELECTED';
+        team.round2Status = 'DRAFT';
+        await team.save();
+
+        await Round1Submission.findOneAndUpdate(
+          { teamId: team._id },
+          { status: 'SELECTED' }
+        );
+
+        notificationService.notifyRound1Selected(team.leader, team).catch(() => {});
+        updated.push(team._id);
+      }
+    }
+
+    return sendSuccess(res, `Successfully selected ${updated.length} teams for Round 2.`, { count: updated.length, updated });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @desc    Batch select teams for Round 2 (promote to Finalists)
+ * @route   PUT /api/admin/teams/batch-select-round2
+ * @access  Private (Admin only)
+ */
+const batchSelectRound2 = async (req, res, next) => {
+  try {
+    const { teamIds } = req.body;
+    if (!Array.isArray(teamIds) || teamIds.length === 0) {
+      return sendError(res, 'Please provide an array of team IDs to promote.', 400);
+    }
+
+    const updated = [];
+    for (const tId of teamIds) {
+      const team = await Team.findById(tId).populate('leader');
+      if (team && team.round1Status === 'SELECTED') {
+        team.round2Status = 'SELECTED';
+        team.finalStatus = 'FINALIST';
+        await team.save();
+
+        await Round2Submission.findOneAndUpdate(
+          { teamId: team._id },
+          { status: 'SELECTED' }
+        );
+
+        notificationService.notifyRound2Selected(team.leader, team).catch(() => {});
+        updated.push(team._id);
+      }
+    }
+
+    return sendSuccess(res, `Successfully promoted ${updated.length} teams to Grand Finalists.`, { count: updated.length, updated });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * @desc    Create / Update Finalist Event Schedule details
  * @route   POST /api/admin/finalists
  * @access  Private (Admin only)
@@ -570,8 +642,10 @@ module.exports = {
   getDashboardStats,
   selectRound1Team,
   rejectRound1Team,
+  batchSelectRound1,
   selectRound2Team,
   rejectRound2Team,
+  batchSelectRound2,
   scheduleFinalistEvent,
   getFinalistDetails,
   getRoundConfigs,

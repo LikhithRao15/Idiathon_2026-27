@@ -246,6 +246,8 @@ const updateMyTeam = async (req, res, next) => {
   }
 };
 
+const Evaluation = require('../models/Evaluation');
+
 /**
  * @desc    Get all teams (Admin or Panelist view)
  * @route   GET /api/teams
@@ -274,9 +276,51 @@ const getAllTeams = async (req, res, next) => {
     const teams = await Team.find(filter)
       .populate('leader', 'name email phone')
       .populate('theme', 'name description')
-      .sort({ createdAt: -1 });
+      .populate('assignedPanelists', 'name email')
+      .sort({ createdAt: -1 })
+      .lean();
 
-    return sendSuccess(res, 'Teams retrieved successfully.', teams);
+    // Fetch all evaluations for the fetched teams to enrich scoring insights for Admin & Panelists
+    const teamIds = teams.map((t) => t._id);
+    const allEvaluations = await Evaluation.find({ teamId: { $in: teamIds } })
+      .populate('panelistId', 'name email')
+      .sort({ createdAt: -1 })
+      .lean();
+
+    // Group evaluations by teamId and compute metrics
+    const evalMap = {};
+    for (const ev of allEvaluations) {
+      const tIdStr = ev.teamId.toString();
+      if (!evalMap[tIdStr]) {
+        evalMap[tIdStr] = { r1: [], r2: [], final: [], all: [] };
+      }
+      evalMap[tIdStr].all.push(ev);
+      if (ev.round === 1) evalMap[tIdStr].r1.push(ev);
+      else if (ev.round === 2) evalMap[tIdStr].r2.push(ev);
+      else if (ev.round === 3) evalMap[tIdStr].final.push(ev);
+    }
+
+    const enrichedTeams = teams.map((team) => {
+      const evals = evalMap[team._id.toString()] || { r1: [], r2: [], final: [], all: [] };
+      
+      const r1Total = evals.r1.reduce((sum, e) => sum + (e.totalScore || 0), 0);
+      const r1Avg = evals.r1.length > 0 ? Number((r1Total / evals.r1.length).toFixed(1)) : null;
+
+      const r2Total = evals.r2.reduce((sum, e) => sum + (e.totalScore || 0), 0);
+      const r2Avg = evals.r2.length > 0 ? Number((r2Total / evals.r2.length).toFixed(1)) : null;
+
+      return {
+        ...team,
+        evaluations: evals.all,
+        r1AvgScore: r1Avg,
+        r1EvaluationsCount: evals.r1.length,
+        r2AvgScore: r2Avg,
+        r2EvaluationsCount: evals.r2.length,
+        latestAvgScore: r2Avg !== null ? r2Avg : r1Avg,
+      };
+    });
+
+    return sendSuccess(res, 'Teams retrieved successfully.', enrichedTeams);
   } catch (error) {
     next(error);
   }
