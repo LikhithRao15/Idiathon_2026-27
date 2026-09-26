@@ -56,7 +56,7 @@ const footerTranslations = {
 };
 
 export default function Footer() {
-  const { lang = 'en' } = useAuth();
+  const { user, lang = 'en' } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -167,9 +167,9 @@ export default function Footer() {
               </button>
             </li>
             <li>
-              <button type="button" onClick={() => handleNavClick('register')}>
+              <Link href="/register">
                 {t.register}
-              </button>
+              </Link>
             </li>
           </ul>
 
@@ -186,9 +186,11 @@ export default function Footer() {
             <li>
               <Link href="/panelist">{t.judgeEval}</Link>
             </li>
-            <li>
-              <Link href="/admin">{t.adminConsole}</Link>
-            </li>
+            {user?.role === 'admin' && (
+              <li>
+                <Link href="/admin">{t.adminConsole}</Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>

@@ -667,7 +667,7 @@ export default function ParticipantPage() {
                 Round 2 is strictly unlocked after your Round 1 proposal is evaluated and marked as <strong>SELECTED</strong> by the judging panel.
               </p>
               <div style={{ background: '#ecfdf5', color: '#065f46', padding: '8px 16px', borderRadius: '20px', display: 'inline-block', fontSize: '12px', fontWeight: 600 }}>
-                💡 Tip: Use the 1-Click Role Switcher at the top to log in as <strong>⚖️ Judge 1</strong> or <strong>👑 Admin</strong> to select this team!
+                💡 Note: Round 2 will be automatically unlocked once your Round 1 proposal is evaluated and approved.
               </div>
             </div>
           ) : (

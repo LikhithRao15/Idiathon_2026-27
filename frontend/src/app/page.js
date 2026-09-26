@@ -1,6 +1,7 @@
 'use client';
 import { Fragment, useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 import IdeaPitchSection from '../components/IdeaPitchSection';
 import {
@@ -483,7 +484,7 @@ const data = {
   },
 };
 
-const sectionIds = ['top', 'about', 'challenges', 'why', 'timeline', 'faq', 'pitch', 'register'];
+const sectionIds = ['top', 'about', 'challenges', 'why', 'timeline', 'faq', 'pitch'];
 
 const Brand = () => (
   <>
@@ -497,7 +498,8 @@ const Brand = () => (
 );
 
 function App() {
-  const { user, logout, registerParticipant, showToast, lang, setLang } = useAuth();
+  const { user, logout, lang, setLang } = useAuth();
+  const router = useRouter();
   const [menu, setMenu] = useState(false);
   const [active, setActive] = useState(0);
   const [activeSubtopic, setActiveSubtopic] = useState(0);
@@ -506,21 +508,6 @@ function App() {
   const [time, setTime] = useState(['--', '--', '--', '--']);
   const [activeSection, setActiveSection] = useState('top');
   const [isScrolled, setIsScrolled] = useState(false);
-
-  // Registration form state
-  const [formState, setFormState] = useState({
-    teamName: '',
-    leadName: '',
-    email: '',
-    phone: '',
-    password: '',
-    size: '3 Members',
-    trackIndex: 0,
-    subtopicIndex: 0,
-    idea: '',
-  });
-  const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const t = data[lang];
 
@@ -532,13 +519,12 @@ function App() {
     setMenu(false);
   };
 
-  const selectTrackForRegistration = (trackIdx, subIdx) => {
-    setFormState((prev) => ({
-      ...prev,
-      trackIndex: trackIdx,
-      subtopicIndex: subIdx,
-    }));
-    scroll('register');
+  const selectTrackForRegistration = () => {
+    if (user) {
+      scroll('pitch');
+    } else {
+      router.push('/register');
+    }
   };
 
   // Reset active subtopic when switching challenge track
@@ -595,35 +581,14 @@ function App() {
     if (id === 'challenges') return activeSection === 'challenges' || activeSection === 'why';
     if (id === 'timeline') return activeSection === 'timeline';
     if (id === 'faq') return activeSection === 'faq';
-    if (id === 'register') return activeSection === 'register';
+    if (id === 'pitch') return activeSection === 'pitch';
     return false;
   };
 
-  const isDarkSection = activeSection === 'register' || activeSection === 'why';
+  const isDarkSection = activeSection === 'why';
   const currentChallenge = t.challenges[active];
   const Icon = currentChallenge.icon;
   const currentSub = currentChallenge.subtopics[activeSubtopic] || currentChallenge.subtopics[0];
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    if (!formState.email || !formState.leadName) {
-      if (showToast) showToast('Please fill out all required fields.', true);
-      return;
-    }
-    setIsSubmitting(true);
-    const pwd = formState.password || 'Ideathon2026!';
-    const res = await registerParticipant({
-      name: formState.leadName,
-      email: formState.email,
-      phone: formState.phone,
-      password: pwd,
-    });
-    setIsSubmitting(false);
-    if (res?.success) {
-      setSubmitted(true);
-      scroll('pitch');
-    }
-  };
 
   return (
     <div className={`site-shell ${lang === 'kn' ? 'kannada' : ''} ${isDarkSection ? 'nav-on-dark' : ''}`}>
@@ -639,7 +604,7 @@ function App() {
             why: lang === 'en' ? '03 Experience' : '೦೩ ಅನುಭವ',
             timeline: lang === 'en' ? '04 Timeline' : '೦೪ ಕಾಲಪಟ್ಟಿ',
             faq: lang === 'en' ? '05 Rules & FAQ' : '೦೫ ನಿಯಮಗಳು',
-            register: lang === 'en' ? '06 Register' : '೦೬ ನೋಂದಣಿ',
+            pitch: lang === 'en' ? '06 Pitch Workspace' : '೦೬ ಆಲೋಚನಾ ವೇದಿಕೆ',
           };
           const label = names[id];
           const isActive = activeSection === id;
@@ -703,9 +668,9 @@ function App() {
                       🌱 Go to My Idea Pitch Workspace ↓
                     </button>
                   ) : (
-                    <button className="primary-btn" onClick={() => scroll('register')}>
+                    <Link href="/register" className="primary-btn">
                       {t.reg} <ArrowRight size={21} />
-                    </button>
+                    </Link>
                   )}
                   <button className="text-btn" onClick={() => scroll('challenges')}>
                     <span>{t.explore}</span> <ChevronDown className="explore-arrow" size={19} />
@@ -1166,228 +1131,6 @@ function App() {
         {user ? (
           <IdeaPitchSection />
         ) : null}
-
-        {/* VIEW 6: REGISTER CTA, INTERACTIVE FORM & FOOTER */}
-        <section className="register snap-section" id="register">
-          <div className="register-leaf">
-            <Leaf size={230} />
-          </div>
-          <div className="register-main">
-            <div className="container register-grid">
-              {/* LEFT: CALL TO ACTION + POSTER QR / CONTACT HUB */}
-              <div className="register-left">
-                <p className="section-kicker">{lang === 'en' ? '06 — YOUR TURN' : '06 — ನಿಮ್ಮ ಸರದಿ'}</p>
-                <h2>
-                  {lang === 'en' ? (
-                    <>
-                      What will you
-                      <br />
-                      <em>reimagine?</em>
-                    </>
-                  ) : (
-                    <>
-                      ನೀವು ಏನನ್ನು
-                      <br />
-                      <em>ಮರುಕಲ್ಪಿಸುವಿರಿ?</em>
-                    </>
-                  )}
-                </h2>
-                <p className="register-copy">
-                  {lang === 'en'
-                    ? 'Bring your team of 2–4. Choose your focus stream. Submit your smart intervention for a cleaner, greener tomorrow.'
-                    : 'ನಿಮ್ಮ ತಂಡವನ್ನು ತನ್ನಿ. ಪ್ರಶ್ನೆಗಳನ್ನು ತನ್ನಿ. ರೂಪಿಸಲು ಯೋಗ್ಯವಾದ ಆಲೋಚನೆಯನ್ನು ತನ್ನಿ.'}
-                </p>
-
-                {/* POSTER QR & CONTACT BLOCK */}
-                <div className="poster-contact-card">
-                  <div className="qr-block" onClick={() => setShowPoster(true)} title="Click to view full poster">
-                    <QrCode size={58} />
-                    <span>{lang === 'en' ? 'Scan / View Poster' : 'ಪೋಸ್ಟರ್ ವೀಕ್ಷಿಸಿ'}</span>
-                  </div>
-                  <div className="contact-details">
-                    <span className="contact-heading">
-                      {lang === 'en' ? 'IDEATHON HELPDESK & UPDATES' : 'ಸಂಪರ್ಕ ಮತ್ತು ಮಾಹಿತಿ'}
-                    </span>
-                    <div className="contact-pills">
-                      <a href="mailto:hasirusamvada@reimagine.org" className="contact-pill">
-                        <Mail size={15} /> hasirusamvada@reimagine.org
-                      </a>
-                      <a href="tel:+919880000000" className="contact-pill">
-                        <Phone size={15} /> +91 98800 00000
-                      </a>
-                      <button type="button" className="contact-pill whatsapp" onClick={() => setShowPoster(true)}>
-                        <MessageCircle size={15} /> WhatsApp / QR Scanner
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* RIGHT: INTERACTIVE TEAM REGISTRATION FORM CARD */}
-              <div className="register-form-card">
-                <span className="form-badge">{t.form.badge}</span>
-                <h3>{t.form.title}</h3>
-
-                {submitted ? (
-                  <div className="form-success">
-                    <div className="success-icon">
-                      <Check size={32} />
-                    </div>
-                    <h4>{t.form.successTitle}</h4>
-                    <p>{t.form.successMsg}</p>
-                    <div className="success-summary">
-                      <span>
-                        <b>{formState.teamName || 'Team'}</b> · {formState.size}
-                      </span>
-                      <span>
-                        {t.challenges[formState.trackIndex]?.title} —{' '}
-                        {t.challenges[formState.trackIndex]?.subtopics[formState.subtopicIndex]?.name}
-                      </span>
-                    </div>
-                    <button
-                      type="button"
-                      className="register-btn"
-                      onClick={() => setSubmitted(false)}
-                    >
-                      {t.form.reset}
-                    </button>
-                  </div>
-                ) : (
-                  <form onSubmit={handleFormSubmit} className="team-form">
-                    <div className="form-row">
-                      <label>
-                        <span>{t.form.teamName} *</span>
-                        <input
-                          type="text"
-                          required
-                          placeholder={t.form.teamNamePh}
-                          value={formState.teamName}
-                          onChange={(e) => setFormState({ ...formState, teamName: e.target.value })}
-                        />
-                      </label>
-                      <label>
-                        <span>{t.form.leadName} *</span>
-                        <input
-                          type="text"
-                          required
-                          placeholder={t.form.leadNamePh}
-                          value={formState.leadName}
-                          onChange={(e) => setFormState({ ...formState, leadName: e.target.value })}
-                        />
-                      </label>
-                    </div>
-
-                    <div className="form-row">
-                      <label>
-                        <span>{t.form.email} *</span>
-                        <input
-                          type="email"
-                          required
-                          placeholder={t.form.emailPh}
-                          value={formState.email}
-                          onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                        />
-                      </label>
-                      <label>
-                        <span>{t.form.phone} *</span>
-                        <input
-                          type="tel"
-                          required
-                          placeholder={t.form.phonePh}
-                          value={formState.phone}
-                          onChange={(e) => setFormState({ ...formState, phone: e.target.value })}
-                        />
-                      </label>
-                    </div>
-
-                    <div className="form-row three-col">
-                      <label>
-                        <span>{t.form.size}</span>
-                        <select
-                          value={formState.size}
-                          onChange={(e) => setFormState({ ...formState, size: e.target.value })}
-                        >
-                          <option value="2 Members">2 Members</option>
-                          <option value="3 Members">3 Members</option>
-                          <option value="4 Members">4 Members</option>
-                        </select>
-                      </label>
-
-                      <label>
-                        <span>{t.form.track}</span>
-                        <select
-                          value={formState.trackIndex}
-                          onChange={(e) =>
-                            setFormState({
-                              ...formState,
-                              trackIndex: Number(e.target.value),
-                              subtopicIndex: 0,
-                            })
-                          }
-                        >
-                          {t.challenges.map((tr, idx) => (
-                            <option key={tr.title} value={idx}>
-                              {tr.title}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-
-                      <label>
-                        <span>{t.form.subtopic}</span>
-                        <select
-                          value={formState.subtopicIndex}
-                          onChange={(e) =>
-                            setFormState({ ...formState, subtopicIndex: Number(e.target.value) })
-                          }
-                        >
-                          {t.challenges[formState.trackIndex]?.subtopics.map((st, sIdx) => (
-                            <option key={st.name} value={sIdx}>
-                              {st.name}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-                    </div>
-
-                    <div className="form-row">
-                      <label>
-                        <span>{lang === 'en' ? 'Create Password *' : 'ಪಾಸ್‌ವರ್ಡ್ ರಚಿಸಿ *'}</span>
-                        <input
-                          type="password"
-                          placeholder={lang === 'en' ? 'Min 6 characters (e.g. Pass@2026)' : 'ಕನಿಷ್ಠ ೬ ಅಕ್ಷರಗಳು'}
-                          value={formState.password}
-                          onChange={(e) => setFormState({ ...formState, password: e.target.value })}
-                          required
-                        />
-                      </label>
-                    </div>
-
-                    <label>
-                      <span>{t.form.idea}</span>
-                      <textarea
-                        rows={2}
-                        placeholder={t.form.ideaPh}
-                        value={formState.idea}
-                        onChange={(e) => setFormState({ ...formState, idea: e.target.value })}
-                      />
-                    </label>
-
-                    <button type="submit" className="register-btn full-width" disabled={isSubmitting}>
-                      {isSubmitting
-                        ? (lang === 'en' ? 'Creating Account & Workspace...' : 'ಖಾತೆ ರಚಿಸಲಾಗುತ್ತಿದೆ...')
-                        : (
-                          <>
-                            {t.form.submit} <ArrowUpRight size={20} />
-                          </>
-                        )}
-                    </button>
-                  </form>
-                )}
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
     </div>
   );

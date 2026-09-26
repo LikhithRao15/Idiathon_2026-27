@@ -136,14 +136,14 @@ export default function Navbar() {
           {user ? (
             <>
               {user.role === 'participant' && (
-                <button
-                  type="button"
+                <Link
+                  href="/participant"
                   className="nav-cta"
-                  onClick={() => handleNavClick('pitch')}
+                  onClick={() => setMenuOpen(false)}
                   style={{ background: 'var(--green2)', color: '#ffffff' }}
                 >
                   {t.pitch}
-                </button>
+                </Link>
               )}
               {user.role === 'panelist' && (
                 <Link
@@ -182,13 +182,13 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <button
-                type="button"
+              <Link
+                href="/register"
                 className="nav-cta"
-                onClick={() => handleNavClick('register')}
+                onClick={() => setMenuOpen(false)}
               >
                 {t.register} <ArrowUpRight size={18} />
-              </button>
+              </Link>
               <Link
                 href="/login"
                 className="nav-cta"
