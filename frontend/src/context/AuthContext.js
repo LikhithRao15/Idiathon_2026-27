@@ -11,12 +11,18 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [toasts, setToasts] = useState([]);
+  const [lang, setLangState] = useState('en');
   const router = useRouter();
 
-  // Load session on initial mount
+  // Load session & language on initial mount
   useEffect(() => {
     const savedToken = localStorage.getItem('ideathon_token');
     const savedUser = localStorage.getItem('ideathon_user');
+    const savedLang = localStorage.getItem('ideathon_lang');
+
+    if (savedLang) {
+      setLangState(savedLang);
+    }
 
     if (savedToken) {
       setToken(savedToken);
@@ -33,6 +39,11 @@ export function AuthProvider({ children }) {
       setLoading(false);
     }
   }, []);
+
+  const setLang = (newLang) => {
+    setLangState(newLang);
+    localStorage.setItem('ideathon_lang', newLang);
+  };
 
   const showToast = (message, isError = false) => {
     const id = Date.now() + Math.random();
@@ -131,6 +142,8 @@ export function AuthProvider({ children }) {
         registerParticipant,
         logout,
         showToast,
+        lang,
+        setLang,
       }}
     >
       {children}

@@ -6,12 +6,41 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 import { Leaf, Menu, X, ArrowUpRight } from 'lucide-react';
 
+const navTranslations = {
+  en: {
+    about: 'About',
+    challenges: 'Challenges',
+    timeline: 'Timeline',
+    faq: 'Rules & FAQ',
+    pitch: '🌱 My Pitch Workspace',
+    judge: '⚖️ Judge Portal',
+    admin: '👑 Admin Console',
+    register: 'Register Team',
+    signIn: 'Sign In',
+    signOut: 'Sign Out',
+  },
+  kn: {
+    about: 'ವಿವರಣೆ',
+    challenges: 'ಸವಾಲುಗಳು',
+    timeline: 'ಕಾಲಪಟ್ಟಿ',
+    faq: 'ನಿಯಮಗಳು',
+    pitch: '🌱 ಆಲೋಚನಾ ವೇದಿಕೆ',
+    judge: '⚖️ ಮೌಲ್ಯಮಾಪನ',
+    admin: '👑 ಆಡಳಿತ ಮಂಡಳಿ',
+    register: 'ತಂಡ ನೋಂದಣಿ',
+    signIn: 'ಪ್ರವೇಶಿಸಿ',
+    signOut: 'ನಿರ್ಗಮಿಸಿ',
+  },
+};
+
 export default function Navbar() {
-  const { user, logout } = useAuth();
+  const { user, logout, lang = 'en', setLang } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const t = navTranslations[lang] || navTranslations.en;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,29 +82,55 @@ export default function Navbar() {
             className="nav-link-btn"
             onClick={() => handleNavClick('about')}
           >
-            About
+            {t.about}
           </button>
           <button
             type="button"
             className="nav-link-btn"
             onClick={() => handleNavClick('challenges')}
           >
-            Challenges
+            {t.challenges}
           </button>
           <button
             type="button"
             className="nav-link-btn"
             onClick={() => handleNavClick('timeline')}
           >
-            Timeline
+            {t.timeline}
           </button>
           <button
             type="button"
             className="nav-link-btn"
             onClick={() => handleNavClick('faq')}
           >
-            Rules & FAQ
+            {t.faq}
           </button>
+
+          {/* KANNADA / ENGLISH LANGUAGE SWITCH */}
+          <div className="language-switch" style={{ margin: '0 4px' }}>
+            <button
+              type="button"
+              className={lang === 'en' ? 'active' : ''}
+              onClick={() => {
+                if (setLang) setLang('en');
+                setMenuOpen(false);
+              }}
+              title="Switch to English"
+            >
+              EN
+            </button>
+            <button
+              type="button"
+              className={lang === 'kn' ? 'active' : ''}
+              onClick={() => {
+                if (setLang) setLang('kn');
+                setMenuOpen(false);
+              }}
+              title="ಕನ್ನಡಕ್ಕೆ ಬದಲಾಯಿಸಿ"
+            >
+              ಕ
+            </button>
+          </div>
 
           {/* USER ACTIONS & ROLE PORTALS */}
           {user ? (
@@ -87,7 +142,7 @@ export default function Navbar() {
                   onClick={() => handleNavClick('pitch')}
                   style={{ background: 'var(--green2)', color: '#ffffff' }}
                 >
-                  🌱 My Pitch Workspace
+                  {t.pitch}
                 </button>
               )}
               {user.role === 'panelist' && (
@@ -97,7 +152,7 @@ export default function Navbar() {
                   onClick={() => setMenuOpen(false)}
                   style={{ background: 'var(--ocean)', color: '#ffffff' }}
                 >
-                  ⚖️ Judge Portal
+                  {t.judge}
                 </Link>
               )}
               {user.role === 'admin' && (
@@ -107,7 +162,7 @@ export default function Navbar() {
                   onClick={() => setMenuOpen(false)}
                   style={{ background: '#7e3f12', color: '#ffffff' }}
                 >
-                  👑 Admin Console
+                  {t.admin}
                 </Link>
               )}
 
@@ -122,7 +177,7 @@ export default function Navbar() {
                   marginLeft: '4px',
                 }}
               >
-                Sign Out ({user.name ? user.name.split(' ')[0] : 'User'})
+                {t.signOut} ({user.name ? user.name.split(' ')[0] : 'User'})
               </button>
             </>
           ) : (
@@ -132,7 +187,7 @@ export default function Navbar() {
                 className="nav-cta"
                 onClick={() => handleNavClick('register')}
               >
-                Register Team <ArrowUpRight size={18} />
+                {t.register} <ArrowUpRight size={18} />
               </button>
               <Link
                 href="/login"
@@ -141,11 +196,11 @@ export default function Navbar() {
                 style={{
                   background: 'var(--green-deep)',
                   color: '#ffffff',
-                  marginLeft: '8px',
+                  marginLeft: '4px',
                   border: '1px solid rgba(183, 223, 57, 0.4)',
                 }}
               >
-                Sign In
+                {t.signIn}
               </Link>
             </>
           )}

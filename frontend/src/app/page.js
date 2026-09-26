@@ -497,8 +497,7 @@ const Brand = () => (
 );
 
 function App() {
-  const { user, logout, registerParticipant, showToast } = useAuth();
-  const [lang, setLang] = useState('en');
+  const { user, logout, registerParticipant, showToast, lang, setLang } = useAuth();
   const [menu, setMenu] = useState(false);
   const [active, setActive] = useState(0);
   const [activeSubtopic, setActiveSubtopic] = useState(0);
