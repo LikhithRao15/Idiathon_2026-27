@@ -4,6 +4,26 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { apiRequest } from '../../lib/api';
 import { useRouter } from 'next/navigation';
+import {
+  Users,
+  User,
+  Mail,
+  Phone,
+  Sparkles,
+  CheckCircle2,
+  Lock,
+  ArrowRight,
+  RefreshCw,
+  Lightbulb,
+  FileText,
+  Award,
+  Tag,
+  Calendar,
+  Clock,
+  MapPin,
+  HelpCircle,
+  ShieldCheck,
+} from 'lucide-react';
 
 // Helper function to count words
 function countWords(str) {
@@ -233,7 +253,7 @@ export default function ParticipantPage() {
   };
 
   return (
-    <div className="portal-container">
+    <div className="portal-container participant-portal-wrap">
       {/* HEADER */}
       <div className="portal-header">
         <div>
@@ -243,7 +263,7 @@ export default function ParticipantPage() {
           </p>
         </div>
         <button className="btn btn-secondary btn-sm" onClick={loadData}>
-          🔄 Refresh Status
+          <RefreshCw size={14} /> Refresh Status
         </button>
       </div>
 
@@ -303,21 +323,21 @@ export default function ParticipantPage() {
               Your team has been selected by the Jury as a Grand Finalist. Here are your auditorium presentation slot details:
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px' }}>
-              <div style={{ background: '#ffffff', padding: '8px 12px', borderRadius: '6px', border: '1px solid #fde68a' }}>
-                <strong style={{ fontSize: '10px', color: '#b45309', display: 'block' }}>STAGE / VENUE</strong>
-                <span>{finalistPass.venue || 'Grand Innovation Stage'}</span>
+              <div style={{ background: '#ffffff', padding: '10px 14px', borderRadius: '8px', border: '1px solid #fde68a' }}>
+                <strong style={{ fontSize: '10px', color: '#b45309', display: 'block', marginBottom: '2px' }}>STAGE / VENUE</strong>
+                <span style={{ fontWeight: 600, color: '#78350f' }}>{finalistPass.venue || 'Grand Innovation Stage'}</span>
               </div>
-              <div style={{ background: '#ffffff', padding: '8px 12px', borderRadius: '6px', border: '1px solid #fde68a' }}>
-                <strong style={{ fontSize: '10px', color: '#b45309', display: 'block' }}>SLOT TIME</strong>
-                <span>{finalistPass.startTime || '11:00 AM'} ({finalistPass.presentationDuration || '15 min'})</span>
+              <div style={{ background: '#ffffff', padding: '10px 14px', borderRadius: '8px', border: '1px solid #fde68a' }}>
+                <strong style={{ fontSize: '10px', color: '#b45309', display: 'block', marginBottom: '2px' }}>SLOT TIME</strong>
+                <span style={{ fontWeight: 600, color: '#78350f' }}>{finalistPass.startTime || '11:00 AM'} ({finalistPass.presentationDuration || '15 min'})</span>
               </div>
-              <div style={{ background: '#ffffff', padding: '8px 12px', borderRadius: '6px', border: '1px solid #fde68a' }}>
-                <strong style={{ fontSize: '10px', color: '#b45309', display: 'block' }}>DATE</strong>
-                <span>{finalistPass.eventDate ? new Date(finalistPass.eventDate).toLocaleDateString() : 'Finale Day'}</span>
+              <div style={{ background: '#ffffff', padding: '10px 14px', borderRadius: '8px', border: '1px solid #fde68a' }}>
+                <strong style={{ fontSize: '10px', color: '#b45309', display: 'block', marginBottom: '2px' }}>DATE</strong>
+                <span style={{ fontWeight: 600, color: '#78350f' }}>{finalistPass.eventDate ? new Date(finalistPass.eventDate).toLocaleDateString() : 'Finale Day'}</span>
               </div>
-              <div style={{ background: '#ffffff', padding: '8px 12px', borderRadius: '6px', border: '1px solid #fde68a' }}>
-                <strong style={{ fontSize: '10px', color: '#b45309', display: 'block' }}>INSTRUCTIONS</strong>
-                <span>{finalistPass.instructions || 'Bring working demo hardware'}</span>
+              <div style={{ background: '#ffffff', padding: '10px 14px', borderRadius: '8px', border: '1px solid #fde68a' }}>
+                <strong style={{ fontSize: '10px', color: '#b45309', display: 'block', marginBottom: '2px' }}>INSTRUCTIONS</strong>
+                <span style={{ fontWeight: 600, color: '#78350f' }}>{finalistPass.instructions || 'Bring working demo hardware'}</span>
               </div>
             </div>
           </div>
@@ -341,81 +361,111 @@ export default function ParticipantPage() {
       {activeTab === 'team' && (
         <div>
           {team ? (
-            <div className="light-card">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid var(--border-color)', paddingBottom: '14px' }}>
+            <div className="light-card participant-card">
+              <div className="team-hub-header">
                 <div>
-                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase' }}>
-                    {team.teamId}
-                  </span>
-                  <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '24px', fontWeight: 800 }}>{team.teamName}</h2>
-                  <p style={{ color: 'var(--primary)', fontSize: '13px', fontWeight: 600 }}>
-                    Selected Theme: {team.theme?.name || 'General Innovation'}
-                  </p>
+                  <div className="team-meta-row">
+                    <span className="team-id-badge">{team.teamId}</span>
+                    <span className="team-theme-pill">
+                      <Tag size={12} /> {team.theme?.name || 'General Innovation'}
+                    </span>
+                  </div>
+                  <h2 className="team-hub-title">{team.teamName}</h2>
                 </div>
-                <span className={`badge ${team.finalStatus === 'FINALIST' ? 'FINALIST' : team.round1Status}`}>
-                  {team.finalStatus === 'FINALIST' ? '🏆 FINALIST' : team.round1Status}
+                <span className={`badge ${team.finalStatus === 'FINALIST' ? 'FINALIST' : team.round1Status || 'DRAFT'}`}>
+                  {team.finalStatus === 'FINALIST' ? '🏆 FINALIST' : team.round1Status || 'DRAFT'}
                 </span>
               </div>
 
-              <div className="grid-2">
-                <div>
-                  <h4 style={{ fontSize: '12px', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '8px' }}>
-                    Team Leader (Authenticated)
-                  </h4>
-                  <div style={{ background: 'var(--bg-subtle)', padding: '12px 16px', borderRadius: 'var(--radius-md)' }}>
-                    <strong>{team.leader?.name || user?.name}</strong>
-                    <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{team.leader?.email || user?.email}</div>
-                    <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{team.leader?.phone || user?.phone}</div>
+              <div className="grid-2 participant-roster-grid">
+                <div className="roster-card leader-card">
+                  <div className="roster-card-header">
+                    <span className="roster-badge leader-badge">👑 Team Leader</span>
+                    <span className="roster-auth-tag">Primary Account</span>
+                  </div>
+                  <div className="roster-card-body">
+                    <h3 className="roster-name">{team.leader?.name || user?.name}</h3>
+                    <div className="roster-contact-item">
+                      <Mail size={14} /> <span>{team.leader?.email || user?.email}</span>
+                    </div>
+                    <div className="roster-contact-item">
+                      <Phone size={14} /> <span>{team.leader?.phone || user?.phone || 'Not provided'}</span>
+                    </div>
                   </div>
                 </div>
 
-                <div>
-                  <h4 style={{ fontSize: '12px', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '8px' }}>
-                    Team Members ({team.members?.length || 0})
-                  </h4>
-                  {team.members?.length > 0 ? (
-                    team.members.map((m, i) => (
-                      <div key={i} style={{ background: 'var(--bg-subtle)', padding: '10px 14px', borderRadius: 'var(--radius-md)', marginBottom: '8px' }}>
-                        <strong>{m.name}</strong> <span style={{ fontSize: '11px', color: 'var(--primary)' }}>({m.roleInTeam || 'Member'})</span>
-                        <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{m.email} • {m.phone}</div>
+                <div className="roster-card members-card">
+                  <div className="roster-card-header">
+                    <span className="roster-badge member-badge">👥 Team Members</span>
+                    <span className="roster-count">{team.members?.length || 0} additional</span>
+                  </div>
+                  <div className="roster-card-body">
+                    {team.members?.length > 0 ? (
+                      <div className="members-sublist">
+                        {team.members.map((m, i) => (
+                          <div key={i} className="member-subitem">
+                            <div className="member-subitem-top">
+                              <strong>{m.name}</strong>
+                              {m.roleInTeam && <span className="member-role-tag">{m.roleInTeam}</span>}
+                            </div>
+                            <div className="member-subitem-contact">
+                              <span><Mail size={12} /> {m.email}</span>
+                              {m.phone && <span><Phone size={12} /> {m.phone}</span>}
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    ))
-                  ) : (
-                    <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>Solo submission (Leader only).</p>
-                  )}
+                    ) : (
+                      <div className="solo-leader-note">
+                        <User size={20} />
+                        <div>
+                          <strong>Solo Innovator Submission</strong>
+                          <p>Participating as a 1-person team (Leader only).</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              <div style={{ marginTop: '24px', textAlign: 'right' }}>
+              <div className="team-hub-action-bar">
                 <button className="btn btn-primary" onClick={() => setActiveTab('r1')}>
-                  Proceed to Round 1 Idea Pitch →
+                  Proceed to Round 1 Idea Pitch <ArrowRight size={16} />
                 </button>
               </div>
             </div>
           ) : (
-            <div className="light-card">
-              <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '20px', fontWeight: 800, marginBottom: '6px' }}>
-                Register Your Team
-              </h2>
-              <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '20px' }}>
-                Only the team leader registers this team. Teammates cannot register separate accounts.
-              </p>
+            <div className="light-card participant-card">
+              <div className="team-create-header">
+                <h2 className="pitch-form-title">
+                  👥 Register Your Team
+                </h2>
+                <p className="pitch-form-subtitle">
+                  Only the team leader registers this team. Teammates do not need to register separate accounts.
+                </p>
+              </div>
 
               <form onSubmit={handleCreateTeam}>
-                <div className="grid-2">
-                  <div className="form-group">
-                    <label>Team Name *</label>
+                <div className="grid-2" style={{ marginBottom: '20px' }}>
+                  <div className="form-group pitch-form-group">
+                    <label className="pitch-label">Team Name *</label>
                     <input
                       type="text"
+                      className="pitch-input"
                       placeholder="e.g. EcoTransformers"
                       value={teamName}
                       onChange={(e) => setTeamName(e.target.value)}
                       required
                     />
                   </div>
-                  <div className="form-group">
-                    <label>Select Challenge Theme *</label>
-                    <select value={selectedTheme} onChange={(e) => setSelectedTheme(e.target.value)} required>
+                  <div className="form-group pitch-form-group">
+                    <label className="pitch-label">Select Challenge Theme *</label>
+                    <select
+                      className="pitch-input select-styled"
+                      value={selectedTheme}
+                      onChange={(e) => setSelectedTheme(e.target.value)}
+                      required
+                    >
                       <option value="">Select a Theme...</option>
                       {themes.map((t) => (
                         <option key={t._id} value={t._id}>
@@ -426,16 +476,16 @@ export default function ParticipantPage() {
                   </div>
                 </div>
 
-                <div style={{ marginTop: '20px', marginBottom: '12px' }}>
+                <div style={{ marginTop: '24px', marginBottom: '14px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h4 style={{ fontSize: '14px', fontWeight: 800, margin: 0 }}>
+                    <h4 style={{ fontSize: '14px', fontWeight: 800, margin: 0, color: 'var(--ink)' }}>
                       Teammates (Optional)
                     </h4>
-                    <span style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: 600 }}>
+                    <span style={{ fontSize: '12px', color: 'var(--green2)', fontWeight: 700 }}>
                       Solo innovators (1 person = Leader only) are welcome!
                     </span>
                   </div>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '12px', marginTop: '2px' }}>
+                  <p style={{ color: 'var(--muted)', fontSize: '12.5px', marginTop: '3px' }}>
                     If you are participating alone, you can skip adding teammates and submit directly.
                   </p>
                 </div>
@@ -444,16 +494,16 @@ export default function ParticipantPage() {
                   <div
                     key={idx}
                     style={{
-                      background: 'var(--bg-subtle)',
-                      border: '1px solid var(--border-color)',
-                      padding: '14px',
-                      borderRadius: 'var(--radius-md)',
-                      marginBottom: '12px',
+                      background: 'rgba(12, 91, 53, 0.03)',
+                      border: '1px solid rgba(12, 91, 53, 0.12)',
+                      padding: '16px',
+                      borderRadius: '12px',
+                      marginBottom: '14px',
                       position: 'relative',
                     }}
                   >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                      <strong style={{ fontSize: '12px', color: 'var(--text-main)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                      <strong style={{ fontSize: '13px', color: 'var(--ink)' }}>
                         Teammate #{idx + 1}
                       </strong>
                       <button
@@ -462,8 +512,8 @@ export default function ParticipantPage() {
                           background: '#fee2e2',
                           color: '#b91c1c',
                           border: 'none',
-                          padding: '4px 8px',
-                          borderRadius: '4px',
+                          padding: '4px 10px',
+                          borderRadius: '6px',
                           fontSize: '11px',
                           fontWeight: 700,
                           cursor: 'pointer',
@@ -474,9 +524,10 @@ export default function ParticipantPage() {
                       </button>
                     </div>
 
-                    <div className="grid-2" style={{ gap: '10px' }}>
+                    <div className="grid-2" style={{ gap: '12px' }}>
                       <input
                         type="text"
+                        className="pitch-input"
                         placeholder={`Member ${idx + 1} Full Name *`}
                         value={m.name}
                         onChange={(e) => updateMember(idx, 'name', e.target.value)}
@@ -484,6 +535,7 @@ export default function ParticipantPage() {
                       />
                       <input
                         type="email"
+                        className="pitch-input"
                         placeholder={`Member ${idx + 1} Email *`}
                         value={m.email}
                         onChange={(e) => updateMember(idx, 'email', e.target.value)}
@@ -491,6 +543,7 @@ export default function ParticipantPage() {
                       />
                       <input
                         type="tel"
+                        className="pitch-input"
                         placeholder={`Member ${idx + 1} Phone *`}
                         value={m.phone}
                         onChange={(e) => updateMember(idx, 'phone', e.target.value)}
@@ -498,6 +551,7 @@ export default function ParticipantPage() {
                       />
                       <input
                         type="text"
+                        className="pitch-input"
                         placeholder="Role (e.g. Embedded Developer)"
                         value={m.roleInTeam}
                         onChange={(e) => updateMember(idx, 'roleInTeam', e.target.value)}
@@ -506,21 +560,21 @@ export default function ParticipantPage() {
                   </div>
                 ))}
 
-                <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '16px' }}>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '20px' }}>
                   {members.length < 2 && (
                     <button type="button" className="btn btn-secondary btn-sm" onClick={addMemberRow}>
                       + Add Teammate (Optional)
                     </button>
                   )}
                   {members.length === 0 && (
-                    <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                    <span style={{ fontSize: '12.5px', color: 'var(--muted)' }}>
                       No additional members added (Proceeding as a 1-person team)
                     </span>
                   )}
                 </div>
 
-                <button type="submit" className="btn btn-primary w-full">
-                  Create Team & Unlock Round 1 Pitching →
+                <button type="submit" className="btn btn-primary pitch-submit-btn">
+                  Create Team & Unlock Round 1 Pitching <ArrowRight size={16} />
                 </button>
               </form>
             </div>
@@ -530,14 +584,18 @@ export default function ParticipantPage() {
 
       {/* TAB 2: ROUND 1 PITCH FORM */}
       {activeTab === 'r1' && (
-        <div className="light-card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+        <div className="light-card participant-card">
+          <div className="pitch-form-header">
             <div>
-              <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '20px', fontWeight: 800 }}>
+              <div className="pitch-badge-row">
+                <span className="round-badge">STAGE 01</span>
+                <span className="round-subbadge">Max 400 Total Words</span>
+              </div>
+              <h2 className="pitch-form-title">
                 💡 Round 1: Idea Pitch Proposal
               </h2>
-              <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>
-                Select your theme, define the problem statement (max 150 words), and proposed solution (max 250 words).
+              <p className="pitch-form-subtitle">
+                Select your focus theme, articulate the root problem statement (max 150 words), and detail your proposed intervention (max 250 words).
               </p>
             </div>
             <span className={`badge ${team?.round1Status || (r1Submission ? r1Submission.status : 'NOT_SUBMITTED')}`}>
@@ -546,10 +604,10 @@ export default function ParticipantPage() {
           </div>
 
           {team?.round1Status === 'SELECTED' && (
-            <div style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', color: '#065f46', padding: '14px 18px', borderRadius: 'var(--radius-md)', marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="selected-locked-banner">
               <div>
                 <strong>🔒 Round 1 Proposal Locked & Verified</strong>
-                <p style={{ fontSize: '12.5px', marginTop: '2px', color: '#047857' }}>
+                <p>
                   Congratulations! Your team has been <strong>SELECTED</strong> for Round 2. Your Round 1 Problem Statement and Solution are locked.
                 </p>
               </div>
@@ -563,14 +621,17 @@ export default function ParticipantPage() {
             </div>
           )}
 
-          <form onSubmit={handleR1Submit}>
+          <form onSubmit={handleR1Submit} className="pitch-form">
             {/* 1. THEME SELECTION BEFORE PROBLEM STATEMENT */}
-            <div className="form-group">
-              <label>1. Challenge Theme * {team?.round1Status === 'SELECTED' && '(Locked)'}</label>
+            <div className="form-group pitch-form-group">
+              <label className="pitch-label">
+                1. Challenge Theme * {team?.round1Status === 'SELECTED' && '(Locked)'}
+              </label>
               <select
                 value={r1ThemeId}
                 onChange={(e) => setR1ThemeId(e.target.value)}
                 disabled={team?.round1Status === 'SELECTED'}
+                className="pitch-input select-styled"
                 style={team?.round1Status === 'SELECTED' ? { background: '#f1f5f9', cursor: 'not-allowed', color: '#475569' } : {}}
                 required
               >
@@ -584,16 +645,15 @@ export default function ParticipantPage() {
             </div>
 
             {/* 2. PROBLEM STATEMENT (MAX 150 WORDS) */}
-            <div className="form-group">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <label>2. Problem Statement * (Max 150 words) {team?.round1Status === 'SELECTED' && '(Locked)'}</label>
+            <div className="form-group pitch-form-group">
+              <div className="pitch-label-row">
+                <label className="pitch-label">
+                  2. Problem Statement * {team?.round1Status === 'SELECTED' && '(Locked)'}
+                </label>
                 <span
-                  style={{
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    fontFamily: 'var(--font-mono)',
-                    color: countWords(r1Problem) > 150 ? 'var(--accent-rose)' : countWords(r1Problem) > 130 ? 'var(--accent-amber)' : 'var(--text-muted)',
-                  }}
+                  className={`word-counter-pill ${
+                    countWords(r1Problem) > 150 ? 'exceeded' : countWords(r1Problem) > 130 ? 'warning' : ''
+                  }`}
                 >
                   {countWords(r1Problem)} / 150 words
                 </span>
@@ -605,22 +665,22 @@ export default function ParticipantPage() {
                 onChange={(e) => setR1Problem(e.target.value)}
                 placeholder="State the core problem (up to 150 words)..."
                 disabled={team?.round1Status === 'SELECTED'}
+                className="pitch-textarea"
                 style={team?.round1Status === 'SELECTED' ? { background: '#f8fafc', cursor: 'not-allowed', color: '#334155' } : {}}
                 required
               />
             </div>
 
             {/* 3. PROPOSED SOLUTION (MAX 250 WORDS) */}
-            <div className="form-group">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <label>3. Proposed Technical Solution * (Max 250 words) {team?.round1Status === 'SELECTED' && '(Locked)'}</label>
+            <div className="form-group pitch-form-group">
+              <div className="pitch-label-row">
+                <label className="pitch-label">
+                  3. Proposed Technical Solution * {team?.round1Status === 'SELECTED' && '(Locked)'}
+                </label>
                 <span
-                  style={{
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    fontFamily: 'var(--font-mono)',
-                    color: countWords(r1Solution) > 250 ? 'var(--accent-rose)' : countWords(r1Solution) > 220 ? 'var(--accent-amber)' : 'var(--text-muted)',
-                  }}
+                  className={`word-counter-pill ${
+                    countWords(r1Solution) > 250 ? 'exceeded' : countWords(r1Solution) > 220 ? 'warning' : ''
+                  }`}
                 >
                   {countWords(r1Solution)} / 250 words
                 </span>
@@ -632,6 +692,7 @@ export default function ParticipantPage() {
                 onChange={(e) => setR1Solution(e.target.value)}
                 placeholder="Explain your technical solution (up to 250 words)..."
                 disabled={team?.round1Status === 'SELECTED'}
+                className="pitch-textarea"
                 style={team?.round1Status === 'SELECTED' ? { background: '#f8fafc', cursor: 'not-allowed', color: '#334155' } : {}}
                 required
               />
@@ -640,14 +701,14 @@ export default function ParticipantPage() {
             {team?.round1Status === 'SELECTED' ? (
               <button
                 type="button"
-                className="btn btn-primary w-full"
+                className="btn btn-primary pitch-submit-btn"
                 onClick={() => setActiveTab('r2')}
               >
                 🚀 Proceed to Round 2: Idea Elaboration →
               </button>
             ) : (
-              <button type="submit" className="btn btn-primary w-full">
-                {r1Submission ? 'Update Round 1 Pitch in Database' : 'Submit Round 1 Proposal to Database'}
+              <button type="submit" className="btn btn-primary pitch-submit-btn">
+                {r1Submission ? '💾 Update Round 1 Pitch in Database' : '🚀 Submit Round 1 Proposal to Database'}
               </button>
             )}
           </form>
@@ -658,44 +719,45 @@ export default function ParticipantPage() {
       {activeTab === 'r2' && (
         <div>
           {team?.round1Status !== 'SELECTED' ? (
-            <div className="light-card text-center" style={{ padding: '60px 20px', border: '2px dashed #cbd5e1' }}>
-              <div style={{ fontSize: '48px', marginBottom: '12px' }}>🔒</div>
-              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '22px', fontWeight: 800, marginBottom: '8px' }}>
+            <div className="light-card text-center" style={{ padding: '60px 24px', border: '2px dashed #cbd5e1' }}>
+              <div style={{ fontSize: '48px', marginBottom: '14px' }}>🔒</div>
+              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '22px', fontWeight: 800, marginBottom: '8px', color: 'var(--ink)' }}>
                 Round 2 is Currently Locked
               </h3>
-              <p style={{ color: 'var(--text-muted)', maxWidth: '520px', margin: '0 auto 16px auto' }}>
+              <p style={{ color: 'var(--muted)', maxWidth: '520px', margin: '0 auto 16px auto', fontSize: '14px', lineHeight: 1.6 }}>
                 Round 2 is strictly unlocked after your Round 1 proposal is evaluated and marked as <strong>SELECTED</strong> by the judging panel.
               </p>
-              <div style={{ background: '#ecfdf5', color: '#065f46', padding: '8px 16px', borderRadius: '20px', display: 'inline-block', fontSize: '12px', fontWeight: 600 }}>
+              <div style={{ background: '#ecfdf5', color: '#065f46', padding: '8px 18px', borderRadius: '20px', display: 'inline-block', fontSize: '12.5px', fontWeight: 600 }}>
                 💡 Note: Round 2 will be automatically unlocked once your Round 1 proposal is evaluated and approved.
               </div>
             </div>
           ) : (
-            <div className="light-card">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <div className="light-card participant-card">
+              <div className="pitch-form-header">
                 <div>
-                  <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '20px', fontWeight: 800 }}>
+                  <div className="pitch-badge-row">
+                    <span className="round-badge round-badge-blue">STAGE 02</span>
+                    <span className="round-subbadge">Deep-Dive Dossier</span>
+                  </div>
+                  <h2 className="pitch-form-title">
                     🚀 Round 2: Elaborating Your Idea
                   </h2>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>
+                  <p className="pitch-form-subtitle">
                     Deep-dive on the idea you entered in the first round across the 4 core dimensions.
                   </p>
                 </div>
                 <span className="badge SELECTED">UNLOCKED</span>
               </div>
 
-              <form onSubmit={handleR2Submit}>
+              <form onSubmit={handleR2Submit} className="pitch-form">
                 {/* 1. DETAILED CONCEPT (MAX 1000 WORDS) */}
-                <div className="form-group">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <label>1. Detailed Concept * (Max 1000 words)</label>
+                <div className="form-group pitch-form-group">
+                  <div className="pitch-label-row">
+                    <label className="pitch-label">1. Detailed Concept * (Max 1000 words)</label>
                     <span
-                      style={{
-                        fontSize: '11px',
-                        fontWeight: 700,
-                        fontFamily: 'var(--font-mono)',
-                        color: countWords(r2Data.detailedConcept) > 1000 ? 'var(--accent-rose)' : 'var(--text-muted)',
-                      }}
+                      className={`word-counter-pill ${
+                        countWords(r2Data.detailedConcept) > 1000 ? 'exceeded' : countWords(r2Data.detailedConcept) > 850 ? 'warning' : ''
+                      }`}
                     >
                       {countWords(r2Data.detailedConcept)} / 1000 words
                     </span>
@@ -703,6 +765,7 @@ export default function ParticipantPage() {
                   <p className="form-hint">Comprehensive architectural breakdown, algorithmic components, system diagrams, and data flows.</p>
                   <textarea
                     rows={8}
+                    className="pitch-textarea"
                     value={r2Data.detailedConcept}
                     onChange={(e) => setR2Data({ ...r2Data, detailedConcept: e.target.value })}
                     placeholder="Elaborate your full technical concept and design in depth (up to 1000 words)..."
@@ -711,16 +774,13 @@ export default function ParticipantPage() {
                 </div>
 
                 {/* 2. VALUE PROPOSITION AND CIRCULARITY (MAX 150 WORDS) */}
-                <div className="form-group">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <label>2. Value Proposition and Circularity * (Max 150 words)</label>
+                <div className="form-group pitch-form-group">
+                  <div className="pitch-label-row">
+                    <label className="pitch-label">2. Value Proposition and Circularity * (Max 150 words)</label>
                     <span
-                      style={{
-                        fontSize: '11px',
-                        fontWeight: 700,
-                        fontFamily: 'var(--font-mono)',
-                        color: countWords(r2Data.valuePropositionAndCircularity) > 150 ? 'var(--accent-rose)' : 'var(--text-muted)',
-                      }}
+                      className={`word-counter-pill ${
+                        countWords(r2Data.valuePropositionAndCircularity) > 150 ? 'exceeded' : countWords(r2Data.valuePropositionAndCircularity) > 130 ? 'warning' : ''
+                      }`}
                     >
                       {countWords(r2Data.valuePropositionAndCircularity)} / 150 words
                     </span>
@@ -728,6 +788,7 @@ export default function ParticipantPage() {
                   <p className="form-hint">Core value, circular economy impact, resource efficiency, and competitive differentiation.</p>
                   <textarea
                     rows={4}
+                    className="pitch-textarea"
                     value={r2Data.valuePropositionAndCircularity}
                     onChange={(e) => setR2Data({ ...r2Data, valuePropositionAndCircularity: e.target.value })}
                     placeholder="Explain value proposition and circularity benefits (up to 150 words)..."
@@ -736,16 +797,13 @@ export default function ParticipantPage() {
                 </div>
 
                 {/* 3. 90 DAYS FEASIBILITY PLAN (MAX 200 WORDS) */}
-                <div className="form-group">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <label>3. 90 Days Feasibility Plan * (Max 200 words)</label>
+                <div className="form-group pitch-form-group">
+                  <div className="pitch-label-row">
+                    <label className="pitch-label">3. 90 Days Feasibility Plan * (Max 200 words)</label>
                     <span
-                      style={{
-                        fontSize: '11px',
-                        fontWeight: 700,
-                        fontFamily: 'var(--font-mono)',
-                        color: countWords(r2Data.feasibilityPlan90Days) > 200 ? 'var(--accent-rose)' : 'var(--text-muted)',
-                      }}
+                      className={`word-counter-pill ${
+                        countWords(r2Data.feasibilityPlan90Days) > 200 ? 'exceeded' : countWords(r2Data.feasibilityPlan90Days) > 175 ? 'warning' : ''
+                      }`}
                     >
                       {countWords(r2Data.feasibilityPlan90Days)} / 200 words
                     </span>
@@ -753,6 +811,7 @@ export default function ParticipantPage() {
                   <p className="form-hint">Month 1, Month 2, and Month 3 deliverables, prototype testing, pilot deployment roadmap.</p>
                   <textarea
                     rows={4}
+                    className="pitch-textarea"
                     value={r2Data.feasibilityPlan90Days}
                     onChange={(e) => setR2Data({ ...r2Data, feasibilityPlan90Days: e.target.value })}
                     placeholder="Outline your 90-day implementation roadmap (up to 200 words)..."
@@ -761,16 +820,13 @@ export default function ParticipantPage() {
                 </div>
 
                 {/* 4. RESOURCE REQUIREMENT (MAX 100 WORDS) */}
-                <div className="form-group">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <label>4. Resource Requirement * (Max 100 words)</label>
+                <div className="form-group pitch-form-group">
+                  <div className="pitch-label-row">
+                    <label className="pitch-label">4. Resource Requirement * (Max 100 words)</label>
                     <span
-                      style={{
-                        fontSize: '11px',
-                        fontWeight: 700,
-                        fontFamily: 'var(--font-mono)',
-                        color: countWords(r2Data.resourceRequirements) > 100 ? 'var(--accent-rose)' : 'var(--text-muted)',
-                      }}
+                      className={`word-counter-pill ${
+                        countWords(r2Data.resourceRequirements) > 100 ? 'exceeded' : countWords(r2Data.resourceRequirements) > 85 ? 'warning' : ''
+                      }`}
                     >
                       {countWords(r2Data.resourceRequirements)} / 100 words
                     </span>
@@ -778,6 +834,7 @@ export default function ParticipantPage() {
                   <p className="form-hint">Bill of materials, cloud computing, laboratory equipment, domain expertise, and budget breakdown.</p>
                   <textarea
                     rows={3}
+                    className="pitch-textarea"
                     value={r2Data.resourceRequirements}
                     onChange={(e) => setR2Data({ ...r2Data, resourceRequirements: e.target.value })}
                     placeholder="List needed resources, hardware, and estimated costs (up to 100 words)..."
@@ -785,8 +842,8 @@ export default function ParticipantPage() {
                   />
                 </div>
 
-                <button type="submit" className="btn btn-primary w-full">
-                  {r2Submission ? 'Update Round 2 Dossier in Database' : 'Submit Full Round 2 Dossier to Database'}
+                <button type="submit" className="btn btn-primary pitch-submit-btn">
+                  {r2Submission ? '💾 Update Round 2 Dossier in Database' : '🚀 Submit Full Round 2 Dossier to Database'}
                 </button>
               </form>
             </div>
