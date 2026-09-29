@@ -489,38 +489,97 @@ const updateRoundConfig = async (req, res, next) => {
 };
 
 /**
- * @desc    Assign Panelist to Team
+ * @desc    Assign Panelists to Team
  * @route   POST /api/admin/assign-panelist
  * @access  Private (Admin only)
  */
 const assignPanelist = async (req, res, next) => {
   try {
-    const { panelistId, teamId } = req.body;
+    let { panelistEmails, panelistId, teamId } = req.body;
 
-    const [panelist, team] = await Promise.all([
-      User.findOne({ _id: panelistId, role: 'panelist' }),
-      Team.findById(teamId),
-    ]);
-
-    if (!panelist) {
-      return sendError(res, 'Panelist not found or user is not a panelist.', 404);
+    // Support single panelistId fallback
+    if (!panelistEmails && panelistId) {
+      const p = await User.findOne({ _id: panelistId, role: 'panelist' });
+      if (p) {
+        panelistEmails = [p.email];
+      }
     }
+
+    // Validate panelist emails
+    if (!Array.isArray(panelistEmails) || panelistEmails.length === 0) {
+      return sendError(
+        res,
+        'Please provide at least one panelist email.',
+        400
+      );
+    }
+
+    // Validate team ID
+    if (!teamId) {
+      return sendError(res, 'Team ID is required.', 400);
+    }
+
+    // Find team
+    const team = await Team.findById(teamId);
+
     if (!team) {
       return sendError(res, 'Team not found.', 404);
     }
 
-    if (!team.assignedPanelists) {
+    // Normalize and remove duplicate emails
+    const normalizedEmails = [
+      ...new Set(
+        panelistEmails
+          .map((email) => email.toLowerCase().trim())
+          .filter(Boolean)
+      ),
+    ];
+
+    // Find all panelists using their email addresses
+    const panelists = await User.find({
+      email: { $in: normalizedEmails },
+      role: 'panelist',
+    });
+
+    // Check if every requested panelist exists
+    if (panelists.length !== normalizedEmails.length) {
+      const foundEmails = panelists.map((panelist) =>
+        panelist.email.toLowerCase()
+      );
+
+      const missingEmails = normalizedEmails.filter(
+        (email) => !foundEmails.includes(email)
+      );
+
+      return sendError(
+        res,
+        `Panelist not found or user is not a panelist: ${missingEmails.join(', ')}`,
+        404
+      );
+    }
+
+    // Make sure assignedPanelists is an array
+    if (!Array.isArray(team.assignedPanelists)) {
       team.assignedPanelists = [];
     }
 
-    if (!team.assignedPanelists.includes(panelist._id)) {
-      team.assignedPanelists.push(panelist._id);
-      await team.save();
+    // Add each panelist if not already assigned
+    for (const panelist of panelists) {
+      const alreadyAssigned = team.assignedPanelists.some(
+        (id) => id.toString() === panelist._id.toString()
+      );
+
+      if (!alreadyAssigned) {
+        team.assignedPanelists.push(panelist._id);
+      }
     }
+
+    // Save updated team
+    await team.save();
 
     return sendSuccess(
       res,
-      `Panelist '${panelist.name}' successfully assigned to Team '${team.teamName}'.`,
+      `${panelists.length} panelist(s) successfully assigned to Team '${team.teamName}'.`,
       team
     );
   } catch (error) {

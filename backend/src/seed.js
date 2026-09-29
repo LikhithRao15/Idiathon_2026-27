@@ -154,8 +154,14 @@ const seedDatabase = async () => {
       submissionModel: 'Round1Submission',
       panelistId: panelist1._id,
       round: 1,
-      scores: { problemUnderstanding: 19, innovation: 19, feasibility: 18, expectedImpact: 19, presentation: 17 },
-      totalScore: 92,
+      scores: {
+        problemUnderstanding: 9.5,
+        innovation: 9.5,
+        proposedSolution: 9.0,
+        feasibility: 9.0,
+        expectedImpact: 9.0,
+      },
+      totalScore: 46.0,
       comments: 'Exceptional problem clarity and very well-thought-out computer vision pipeline. Commercial applicability is very high.',
       evaluatedAt: new Date(Date.now() - 12 * 24 * 3600 * 1000),
     });
@@ -166,8 +172,14 @@ const seedDatabase = async () => {
       submissionModel: 'Round1Submission',
       panelistId: panelist2._id,
       round: 1,
-      scores: { problemUnderstanding: 18, innovation: 18, feasibility: 17, expectedImpact: 18, presentation: 17 },
-      totalScore: 88,
+      scores: {
+        problemUnderstanding: 9.0,
+        innovation: 9.0,
+        proposedSolution: 8.5,
+        feasibility: 8.5,
+        expectedImpact: 9.0,
+      },
+      totalScore: 44.0,
       comments: 'Solid technical feasibility and strong alignment with circular economy principles.',
       evaluatedAt: new Date(Date.now() - 11 * 24 * 3600 * 1000),
     });
@@ -178,8 +190,17 @@ const seedDatabase = async () => {
       submissionModel: 'Round2Submission',
       panelistId: panelist1._id,
       round: 2,
-      scores: { conceptClarity: 19, technicalFeasibility: 19, valueProposition: 19, feasibilityPlan: 18, resourcePlanning: 18 },
-      totalScore: 93,
+      scores: {
+        conceptClarity: 9.5,
+        innovation: 9.5,
+        valueProposition: 9.0,
+        technicalFeasibility: 9.0,
+        feasibilityPlan90Days: 9.5,
+        resourcePlanning: 9.0,
+        expectedImpact: 9.5,
+        scalability: 9.0,
+      },
+      totalScore: 74.0,
       comments: 'Impressive 90-day execution roadmap and viable commercial unit economics. Strong contender for 1st place.',
       evaluatedAt: new Date(Date.now() - 3 * 24 * 3600 * 1000),
     });
@@ -227,8 +248,14 @@ const seedDatabase = async () => {
       submissionModel: 'Round1Submission',
       panelistId: panelist1._id,
       round: 1,
-      scores: { problemUnderstanding: 18, innovation: 18, feasibility: 16, expectedImpact: 17, presentation: 15 },
-      totalScore: 84,
+      scores: {
+        problemUnderstanding: 9.0,
+        innovation: 9.0,
+        proposedSolution: 8.0,
+        feasibility: 8.0,
+        expectedImpact: 8.0,
+      },
+      totalScore: 42.0,
       comments: 'Great emphasis on worker safety and automated robotics.',
       evaluatedAt: new Date(Date.now() - 8 * 24 * 3600 * 1000),
     });
@@ -239,8 +266,14 @@ const seedDatabase = async () => {
       submissionModel: 'Round1Submission',
       panelistId: panelist3._id,
       round: 1,
-      scores: { problemUnderstanding: 17, innovation: 17, feasibility: 16, expectedImpact: 16, presentation: 16 },
-      totalScore: 82,
+      scores: {
+        problemUnderstanding: 8.5,
+        innovation: 8.5,
+        proposedSolution: 8.0,
+        feasibility: 8.0,
+        expectedImpact: 8.0,
+      },
+      totalScore: 41.0,
       comments: 'Strong safety impact; needs clearer mechanical durability testing in harsh municipal environments.',
       evaluatedAt: new Date(Date.now() - 7 * 24 * 3600 * 1000),
     });
@@ -287,8 +320,14 @@ const seedDatabase = async () => {
       submissionModel: 'Round1Submission',
       panelistId: panelist3._id,
       round: 1,
-      scores: { problemUnderstanding: 19, innovation: 19, feasibility: 18, expectedImpact: 18, presentation: 15 },
-      totalScore: 89,
+      scores: {
+        problemUnderstanding: 9.5,
+        innovation: 9.5,
+        proposedSolution: 8.5,
+        feasibility: 9.0,
+        expectedImpact: 8.0,
+      },
+      totalScore: 44.5,
       comments: 'Brilliant bio-material application! Highly cost-effective and scalable for MSMEs.',
       evaluatedAt: new Date(Date.now() - 4 * 24 * 3600 * 1000),
     });
@@ -335,8 +374,14 @@ const seedDatabase = async () => {
       submissionModel: 'Round1Submission',
       panelistId: panelist2._id,
       round: 1,
-      scores: { problemUnderstanding: 16, innovation: 16, feasibility: 15, expectedImpact: 16, presentation: 14 },
-      totalScore: 77,
+      scores: {
+        problemUnderstanding: 8.0,
+        innovation: 8.0,
+        proposedSolution: 7.5,
+        feasibility: 7.5,
+        expectedImpact: 7.5,
+      },
+      totalScore: 38.5,
       comments: 'Practical solution with good environmental value. Logistics of mobile units need deeper financial modelling.',
       evaluatedAt: new Date(Date.now() - 5 * 24 * 3600 * 1000),
     });
@@ -417,8 +462,14 @@ const seedDatabase = async () => {
       submissionModel: 'Round1Submission',
       panelistId: panelist2._id,
       round: 1,
-      scores: { problemUnderstanding: 10, innovation: 8, feasibility: 12, expectedImpact: 8, presentation: 10 },
-      totalScore: 48,
+      scores: {
+        problemUnderstanding: 5.0,
+        innovation: 4.0,
+        proposedSolution: 4.0,
+        feasibility: 4.0,
+        expectedImpact: 4.0,
+      },
+      totalScore: 21.0,
       comments: 'Proposal lacks technical novelty and sustainable incentive model for citizen compliance.',
       evaluatedAt: new Date(Date.now() - 13 * 24 * 3600 * 1000),
     });
@@ -457,6 +508,7 @@ const seedDatabase = async () => {
           presentationDuration: '15 minutes',
           eventDate: new Date('2026-12-15'),
           instructions: 'Bring working prototype demonstration and slides on backup USB.',
+          status: 'SCHEDULED',
         },
       ],
     });
@@ -474,12 +526,12 @@ const seedDatabase = async () => {
     console.log(`   3. Email: panelist3@ideathon.org  | Pass: ${defaultPassword} (Dr. Priya Venkatesh)`);
     console.log('------------------------------------------------------------------------');
     console.log('🌱 Participant Team Leaders:');
-    console.log(`   1. maya@greencycle.io   | Pass: ${defaultPassword} | [GreenCycle Innovators] -> Grand Finalist 🏆 (Score: 92)`);
-    console.log(`   2. arjun@ecosort.ai     | Pass: ${defaultPassword} | [EcoSort AI] -> R2 Unlocked (Score: 83)`);
-    console.log(`   3. suresh@aquaterra.in  | Pass: ${defaultPassword} | [AquaTerra Biofilter] -> R1 Submitted (Score: 89)`);
-    console.log(`   4. deepa@bioloop.tech   | Pass: ${defaultPassword} | [BioEnergy Loop] -> R1 Submitted (Score: 77)`);
+    console.log(`   1. maya@greencycle.io   | Pass: ${defaultPassword} | [GreenCycle Innovators] -> Grand Finalist 🏆 (R1: 45.0/50, R2: 74.0/80)`);
+    console.log(`   2. arjun@ecosort.ai     | Pass: ${defaultPassword} | [EcoSort AI] -> R2 Unlocked (R1: 41.5/50)`);
+    console.log(`   3. suresh@aquaterra.in  | Pass: ${defaultPassword} | [AquaTerra Biofilter] -> R1 Submitted (R1: 44.5/50)`);
+    console.log(`   4. deepa@bioloop.tech   | Pass: ${defaultPassword} | [BioEnergy Loop] -> R1 Submitted (R1: 38.5/50)`);
     console.log(`   5. neha@smartwaste.in   | Pass: ${defaultPassword} | [SmartWaste IoT] -> Awaiting Evaluation`);
-    console.log(`   6. vikram@plastix.org   | Pass: ${defaultPassword} | [Plastix Circular] -> Not Selected (Score: 48)`);
+    console.log(`   6. vikram@plastix.org   | Pass: ${defaultPassword} | [Plastix Circular] -> Not Selected (R1: 21.0/50)`);
     console.log('========================================================================\n');
 
     process.exit(0);

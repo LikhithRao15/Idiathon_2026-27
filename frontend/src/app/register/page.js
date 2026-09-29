@@ -10,6 +10,7 @@ export default function RegisterPage() {
     name: '',
     email: '',
     phone: '',
+    city: '',
     password: '',
   });
   const [loading, setLoading] = useState(false);
@@ -68,6 +69,22 @@ export default function RegisterPage() {
               placeholder="+919876500000"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>City *</label>
+            <input
+              type="text"
+              placeholder="e.g. Mangalore"
+              value={formData.city}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  city: e.target.value,
+                })
+              }
               required
             />
           </div>

@@ -159,7 +159,7 @@ class GenericSmsProvider extends BaseSmsProvider {
 
 // Factory to select provider based on SMS_PROVIDER env variable
 const getSmsProvider = () => {
-  const providerType = (env.SMS_PROVIDER || 'fast2sms').toLowerCase();
+  const providerType = (process.env.SMS_PROVIDER || env.SMS_PROVIDER || 'mock').toLowerCase();
   switch (providerType) {
     case 'fast2sms':
       return new Fast2SmsProvider();

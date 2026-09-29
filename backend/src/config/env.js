@@ -1,5 +1,13 @@
 const dotenv = require('dotenv');
 const path = require('path');
+const dns = require('dns');
+
+// Use reliable DNS servers to resolve MongoDB Atlas SRV records on Windows networks
+try {
+  dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
+} catch {
+  // Fallback to default system DNS if setServers is unavailable
+}
 
 // Load environment variables from .env file
 dotenv.config({ path: path.join(__dirname, '../../.env') });

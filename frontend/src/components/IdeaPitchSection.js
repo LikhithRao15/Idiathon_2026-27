@@ -144,8 +144,8 @@ export default function IdeaPitchSection() {
   };
 
   const addMemberRow = () => {
-    if (members.length >= 2) {
-      showToast('Maximum 2 additional teammates allowed (Leader + 2 members)', true);
+    if (members.length >= 3) {
+      showToast('Maximum 3 additional teammates allowed (Leader + 3 members)', true);
       return;
     }
     setMembers([...members, { name: '', email: '', phone: '', roleInTeam: 'Technical / Design' }]);
@@ -170,6 +170,7 @@ export default function IdeaPitchSection() {
 
     const payload = {
       teamName,
+      theme: selectedTheme,
       themeId: selectedTheme,
       members: members.filter((m) => m.name && m.email && m.phone),
     };
@@ -276,11 +277,13 @@ export default function IdeaPitchSection() {
     }
   };
 
-  const isR1Locked = team?.round1Status === 'SELECTED';
+  const isR1Locked =
+    team?.round1Status === 'SUBMITTED' ||
+    team?.round1Status === 'SELECTED';
   const isR2Unlocked = team?.round1Status === 'SELECTED';
 
   return (
-    <section id="pitch" className="section" style={{ background: '#ffffff', borderTop: '2px solid rgba(12, 91, 53, 0.15)' }}>
+    <section id="pitch" className="section snap-section" style={{ background: '#ffffff', borderTop: '2px solid rgba(12, 91, 53, 0.15)' }}>
       <div className="container">
         {/* SECTION HEADER */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px', flexWrap: 'wrap', gap: '16px' }}>
@@ -416,7 +419,7 @@ export default function IdeaPitchSection() {
                   Create Your Team
                 </h3>
                 <p style={{ color: 'var(--muted)', fontSize: '14px', marginBottom: '20px' }}>
-                  Solo participation is supported (1 person). You can optionally add up to 2 teammates.
+                  Solo participation is supported (1 person). You can optionally add up to 3 teammates.
                 </p>
 
                 <div className="form-row">
@@ -452,9 +455,9 @@ export default function IdeaPitchSection() {
                 <div style={{ marginTop: '20px', marginBottom: '20px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                     <label style={{ fontSize: '14px', fontWeight: 700, color: 'var(--ink)' }}>
-                      Optional Team Members ({members.length}/2)
+                      Optional Team Members ({members.length}/3)
                     </label>
-                    {members.length < 2 && (
+                    {members.length < 3 && (
                       <button type="button" className="btn btn-outline btn-sm" onClick={addMemberRow}>
                         <Plus size={14} /> Add Teammate
                       </button>
@@ -518,8 +521,10 @@ export default function IdeaPitchSection() {
               </div>
 
               {isR1Locked && (
-                <div style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', color: '#047857', padding: '8px 16px', borderRadius: '10px', fontSize: '13px', fontWeight: 700 }}>
-                  🔒 SELECTED for Round 2 (Pitch Locked)
+                <div style={{ background: team?.round1Status === 'SELECTED' ? '#ecfdf5' : '#f8fafc', border: `1px solid ${team?.round1Status === 'SELECTED' ? '#a7f3d0' : '#e2e8f0'}`, color: team?.round1Status === 'SELECTED' ? '#047857' : '#475569', padding: '8px 16px', borderRadius: '10px', fontSize: '13px', fontWeight: 700 }}>
+                  {team?.round1Status === 'SELECTED'
+                    ? '🔒 SELECTED for Round 2 (Pitch Locked)'
+                    : '🔒 SUBMITTED (Pitch Under Review / Locked)'}
                 </div>
               )}
             </div>
@@ -583,10 +588,18 @@ export default function IdeaPitchSection() {
                     </button>
                   </div>
                 ) : (
-                  <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '12px', padding: '16px', color: '#065f46', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle size={20} color="#059669" />
+                  <div style={{ background: team?.round1Status === 'SELECTED' ? '#f0fdf4' : '#f8fafc', border: `1px solid ${team?.round1Status === 'SELECTED' ? '#bbf7d0' : '#e2e8f0'}`, borderRadius: '12px', padding: '16px', color: team?.round1Status === 'SELECTED' ? '#065f46' : '#334155', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <CheckCircle size={20} color={team?.round1Status === 'SELECTED' ? '#059669' : '#0284c7'} />
                     <div>
-                      <strong>Congratulations!</strong> Your team was selected in Round 1. Proceed to <strong>Round 2: Deep-Dive Dossier</strong> to submit your 90-day plan.
+                      {team?.round1Status === 'SELECTED' ? (
+                        <>
+                          <strong>Congratulations!</strong> Your team was selected in Round 1. Proceed to <strong>Round 2: Deep-Dive Dossier</strong> to submit your 90-day plan.
+                        </>
+                      ) : (
+                        <>
+                          <strong>Pitch Submitted!</strong> Your Round 1 proposal has been successfully submitted and is locked while being reviewed by the jury.
+                        </>
+                      )}
                     </div>
                   </div>
                 )}

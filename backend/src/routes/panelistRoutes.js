@@ -33,6 +33,6 @@ router.get('/dashboard', panelistController.getPanelistDashboard);
  * @desc    Select team for Round 2
  * @access  Private (Panelist, Admin)
  */
-router.put('/teams/:teamId/select-round1', panelistController.selectTeamForRound2);
+router.put('/teams/:teamId/select-round1', requireRole('admin'), panelistController.selectTeamForRound2);
 
 module.exports = router;

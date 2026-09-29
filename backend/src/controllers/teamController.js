@@ -13,7 +13,8 @@ const env = require('../config/env');
  */
 const createTeam = async (req, res, next) => {
   try {
-    const { teamName, theme: themeId, members = [] } = req.body;
+    const { teamName, members = [] } = req.body;
+    const themeId = req.body.theme || req.body.themeId;
     const leaderId = req.user._id;
 
     // Check if registration is open

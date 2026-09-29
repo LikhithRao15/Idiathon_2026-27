@@ -129,15 +129,19 @@ export default function ParticipantPage() {
 
   const loadFinalistDetails = async (teamId) => {
     const res = await apiRequest(`/finalists/${teamId}`);
-    const d = res.data && res.data.venue ? res.data : (res.data?.finalistDetails || null);
-    if (res.ok && d) {
-      setFinalistPass(d);
+
+    const schedule = res.data?.schedule || null;
+
+    if (res.ok && schedule && schedule.status === 'SCHEDULED') {
+      setFinalistPass(schedule);
+    } else {
+      setFinalistPass(null);
     }
   };
 
   const addMemberRow = () => {
-    if (members.length >= 2) {
-      showToast('Maximum 2 additional teammates allowed (Leader + 2 members)', true);
+    if (members.length >= 3) {
+      showToast('Maximum 3 additional teammates allowed (Leader + 3 members)', true);
       return;
     }
     setMembers([...members, { name: '', email: '', phone: '', roleInTeam: '' }]);
@@ -177,6 +181,17 @@ export default function ParticipantPage() {
   const handleR1Submit = async (e) => {
     e.preventDefault();
 
+    if (
+      team?.round1Status === 'SUBMITTED' ||
+      team?.round1Status === 'SELECTED'
+    ) {
+      showToast(
+        'Round 1 is already submitted and locked for evaluation.',
+        true
+      );
+      return;
+    }
+
     const problemWords = countWords(r1Problem);
     const solutionWords = countWords(r1Solution);
 
@@ -209,6 +224,18 @@ export default function ParticipantPage() {
 
   const handleR2Submit = async (e) => {
     e.preventDefault();
+
+    // Prevent editing after Round 2 has been submitted/evaluated
+    if (
+      ['SUBMITTED', 'UNDER_EVALUATION', 'SELECTED', 'NOT_SELECTED']
+        .includes(team?.round2Status)
+    ) {
+      showToast(
+        'Round 2 is locked and cannot be edited after submission or evaluation.',
+        true
+      );
+      return;
+    }
 
     const conceptWords = countWords(r2Data.detailedConcept);
     const valPropWords = countWords(r2Data.valuePropositionAndCircularity);
@@ -252,6 +279,28 @@ export default function ParticipantPage() {
     }
   };
 
+  const r2IsLocked = [
+    'SUBMITTED',
+    'UNDER_EVALUATION',
+    'SELECTED',
+    'NOT_SELECTED'
+  ].includes(team?.round2Status);
+
+  const r2IsFinalist = team?.round2Status === 'SELECTED';
+
+  const r2IsRejected = team?.round2Status === 'NOT_SELECTED';
+
+  const r2IsUnderEvaluation =
+    team?.round2Status === 'SUBMITTED' ||
+    team?.round2Status === 'UNDER_EVALUATION';
+
+  const isR1Locked =
+    team?.round1Status === 'SUBMITTED' ||
+    team?.round1Status === 'SELECTED';
+
+  const isR2Unlocked =
+    team?.round1Status === 'SELECTED';
+
   return (
     <div className="portal-container participant-portal-wrap">
       {/* HEADER */}
@@ -289,11 +338,33 @@ export default function ParticipantPage() {
 
         <div className={`tracker-connector ${team?.round1Status === 'SELECTED' ? 'done' : ''}`}></div>
 
-        <div className={`tracker-node ${team?.finalStatus === 'FINALIST' ? 'done' : team?.round1Status === 'SELECTED' ? 'current' : ''}`}>
-          <div className="tracker-bubble">{team?.finalStatus === 'FINALIST' ? '✓' : '3'}</div>
+        <div
+          className={`tracker-node ${
+            team?.finalStatus === 'FINALIST'
+              ? 'done'
+              : team?.round1Status === 'SELECTED'
+              ? 'current'
+              : ''
+          }`}
+        >
+          <div className="tracker-bubble">
+            {team?.finalStatus === 'FINALIST' ? '✓' : '3'}
+          </div>
+
           <div className="tracker-info">
             <strong>3. Round 2 Elaboration</strong>
-            <span>{team?.round1Status === 'SELECTED' ? (team?.round2Status === 'SUBMITTED' ? 'Submitted ✓' : 'Unlocked') : 'Locked'}</span>
+
+            <span>
+              {team?.round1Status !== 'SELECTED'
+                ? 'Locked'
+                : r2IsFinalist
+                ? 'Selected ✓'
+                : r2IsRejected
+                ? 'Not Selected'
+                : r2IsUnderEvaluation
+                ? 'Submitted ✓'
+                : 'Unlocked'}
+            </span>
           </div>
         </div>
 
@@ -353,7 +424,7 @@ export default function ParticipantPage() {
           💡 2. Round 1: Idea Pitch
         </button>
         <button className={`tab-btn ${activeTab === 'r2' ? 'active' : ''}`} onClick={() => setActiveTab('r2')}>
-          🔒 3. Round 2: Idea Elaboration
+          {isR2Unlocked ? '💡 3. Round 2: Idea Elaboration' : '🔒 3. Round 2: Idea Elaboration'}
         </button>
       </div>
 
@@ -561,7 +632,7 @@ export default function ParticipantPage() {
                 ))}
 
                 <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '20px' }}>
-                  {members.length < 2 && (
+                  {members.length < 3 && (
                     <button type="button" className="btn btn-secondary btn-sm" onClick={addMemberRow}>
                       + Add Teammate (Optional)
                     </button>
@@ -595,7 +666,9 @@ export default function ParticipantPage() {
                 💡 Round 1: Idea Pitch Proposal
               </h2>
               <p className="pitch-form-subtitle">
-                Select your focus theme, articulate the root problem statement (max 150 words), and detail your proposed intervention (max 250 words).
+                Build your proposal around your selected challenge theme:
+                define the root problem (max 150 words) and detail your proposed
+                technical intervention (max 250 words).
               </p>
             </div>
             <span className={`badge ${team?.round1Status || (r1Submission ? r1Submission.status : 'NOT_SUBMITTED')}`}>
@@ -622,33 +695,38 @@ export default function ParticipantPage() {
           )}
 
           <form onSubmit={handleR1Submit} className="pitch-form">
-            {/* 1. THEME SELECTION BEFORE PROBLEM STATEMENT */}
+            {/* 1. CHALLENGE THEME (READ-ONLY) */}
             <div className="form-group pitch-form-group">
               <label className="pitch-label">
-                1. Challenge Theme * {team?.round1Status === 'SELECTED' && '(Locked)'}
+                1. Challenge Theme
               </label>
-              <select
-                value={r1ThemeId}
-                onChange={(e) => setR1ThemeId(e.target.value)}
-                disabled={team?.round1Status === 'SELECTED'}
-                className="pitch-input select-styled"
-                style={team?.round1Status === 'SELECTED' ? { background: '#f1f5f9', cursor: 'not-allowed', color: '#475569' } : {}}
-                required
+
+              <div
+                className="pitch-input"
+                style={{
+                  background: '#f8fafc',
+                  color: '#334155',
+                  cursor: 'not-allowed',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontWeight: 600,
+                }}
               >
-                <option value="">Select Domain Theme...</option>
-                {themes.map((t) => (
-                  <option key={t._id} value={t._id}>
-                    {t.name}
-                  </option>
-                ))}
-              </select>
+                <Tag size={16} />
+                {team?.theme?.name || 'Theme not available'}
+              </div>
+
+              <p className="form-hint">
+                This is the theme selected when your team was created.
+              </p>
             </div>
 
             {/* 2. PROBLEM STATEMENT (MAX 150 WORDS) */}
             <div className="form-group pitch-form-group">
               <div className="pitch-label-row">
                 <label className="pitch-label">
-                  2. Problem Statement * {team?.round1Status === 'SELECTED' && '(Locked)'}
+                  2. Problem Statement * {isR1Locked && '(Locked)'}
                 </label>
                 <span
                   className={`word-counter-pill ${countWords(r1Problem) > 150 ? 'exceeded' : countWords(r1Problem) > 130 ? 'warning' : ''
@@ -663,9 +741,17 @@ export default function ParticipantPage() {
                 value={r1Problem}
                 onChange={(e) => setR1Problem(e.target.value)}
                 placeholder="State the core problem (up to 150 words)..."
-                disabled={team?.round1Status === 'SELECTED'}
+                disabled={isR1Locked}
                 className="pitch-textarea"
-                style={team?.round1Status === 'SELECTED' ? { background: '#f8fafc', cursor: 'not-allowed', color: '#334155' } : {}}
+                style={
+                  isR1Locked
+                    ? {
+                        background: '#f8fafc',
+                        cursor: 'not-allowed',
+                        color: '#334155',
+                      }
+                    : {}
+                }
                 required
               />
             </div>
@@ -674,7 +760,7 @@ export default function ParticipantPage() {
             <div className="form-group pitch-form-group">
               <div className="pitch-label-row">
                 <label className="pitch-label">
-                  3. Proposed Technical Solution * {team?.round1Status === 'SELECTED' && '(Locked)'}
+                  3. Proposed Technical Solution * {isR1Locked && '(Locked)'}
                 </label>
                 <span
                   className={`word-counter-pill ${countWords(r1Solution) > 250 ? 'exceeded' : countWords(r1Solution) > 220 ? 'warning' : ''
@@ -689,9 +775,17 @@ export default function ParticipantPage() {
                 value={r1Solution}
                 onChange={(e) => setR1Solution(e.target.value)}
                 placeholder="Explain your technical solution (up to 250 words)..."
-                disabled={team?.round1Status === 'SELECTED'}
+                disabled={isR1Locked}
                 className="pitch-textarea"
-                style={team?.round1Status === 'SELECTED' ? { background: '#f8fafc', cursor: 'not-allowed', color: '#334155' } : {}}
+                style={
+                  isR1Locked
+                    ? {
+                        background: '#f8fafc',
+                        cursor: 'not-allowed',
+                        color: '#334155',
+                      }
+                    : {}
+                }
                 required
               />
             </div>
@@ -704,9 +798,35 @@ export default function ParticipantPage() {
               >
                 🚀 Proceed to Round 2: Idea Elaboration →
               </button>
+            ) : team?.round1Status === 'SUBMITTED' ? (
+              <div
+                style={{
+                  background: '#f8fafc',
+                  border: '1px solid #cbd5e1',
+                  borderRadius: '12px',
+                  padding: '16px',
+                  color: '#334155',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                }}
+              >
+                <Lock size={20} />
+
+                <div>
+                  <strong>Round 1 Proposal Submitted</strong>
+                  <p style={{ margin: '4px 0 0', fontSize: '13px' }}>
+                    Your proposal is locked and is currently under jury review.
+                    You cannot edit it unless the submission is reopened by the organizers.
+                  </p>
+                </div>
+              </div>
             ) : (
-              <button type="submit" className="btn btn-primary pitch-submit-btn">
-                {r1Submission ? '💾 Update Round 1 Pitch in Database' : '🚀 Submit Round 1 Proposal to Database'}
+              <button
+                type="submit"
+                className="btn btn-primary pitch-submit-btn"
+              >
+                🚀 Submit Round 1 Proposal to Database
               </button>
             )}
           </form>
@@ -744,8 +864,85 @@ export default function ParticipantPage() {
                     Deep-dive on the idea you entered in the first round across the 4 core dimensions.
                   </p>
                 </div>
-                <span className="badge SELECTED">UNLOCKED</span>
+                <span
+                  className={`badge ${
+                    r2IsFinalist
+                      ? 'SELECTED'
+                      : r2IsRejected
+                      ? 'NOT_SELECTED'
+                      : r2IsLocked
+                      ? 'SUBMITTED'
+                      : 'SELECTED'
+                  }`}
+                >
+                  {r2IsFinalist
+                    ? 'SELECTED (LOCKED)'
+                    : r2IsRejected
+                    ? 'NOT SELECTED'
+                    : r2IsLocked
+                    ? 'SUBMITTED (LOCKED)'
+                    : 'UNLOCKED'}
+                </span>
               </div>
+
+              {r2IsFinalist && (
+                <div
+                  style={{
+                    background: '#ecfdf5',
+                    border: '1px solid #a7f3d0',
+                    color: '#065f46',
+                    padding: '16px 18px',
+                    borderRadius: '10px',
+                    marginBottom: '18px',
+                  }}
+                >
+                  <strong>
+                    🏆 Congratulations! Your Round 2 proposal has been selected for the Grand Finale.
+                  </strong>
+
+                  <div style={{ marginTop: '5px', fontSize: '13px' }}>
+                    Your Round 2 dossier is now locked and cannot be edited.
+                  </div>
+                </div>
+              )}
+
+              {r2IsRejected && (
+                <div
+                  style={{
+                    background: '#fef2f2',
+                    border: '1px solid #fecaca',
+                    color: '#991b1b',
+                    padding: '16px 18px',
+                    borderRadius: '10px',
+                    marginBottom: '18px',
+                  }}
+                >
+                  <strong>Round 2 evaluation is complete.</strong>
+
+                  <div style={{ marginTop: '5px', fontSize: '13px' }}>
+                    Your team was not selected for the Grand Finale. Your submitted dossier is locked.
+                  </div>
+                </div>
+              )}
+
+              {r2IsUnderEvaluation && (
+                <div
+                  style={{
+                    background: '#eff6ff',
+                    border: '1px solid #bfdbfe',
+                    color: '#1e40af',
+                    padding: '16px 18px',
+                    borderRadius: '10px',
+                    marginBottom: '18px',
+                  }}
+                >
+                  <strong>🔒 Round 2 dossier submitted successfully.</strong>
+
+                  <div style={{ marginTop: '5px', fontSize: '13px' }}>
+                    Your submission is locked while it is being evaluated by the judging panel.
+                  </div>
+                </div>
+              )}
 
               <form onSubmit={handleR2Submit} className="pitch-form">
                 {/* 1. DETAILED CONCEPT (MAX 1000 WORDS) */}
@@ -753,8 +950,13 @@ export default function ParticipantPage() {
                   <div className="pitch-label-row">
                     <label className="pitch-label">1. Detailed Concept * (Max 1000 words)</label>
                     <span
-                      className={`word-counter-pill ${countWords(r2Data.detailedConcept) > 1000 ? 'exceeded' : countWords(r2Data.detailedConcept) > 850 ? 'warning' : ''
-                        }`}
+                      className={`word-counter-pill ${
+                        countWords(r2Data.detailedConcept) > 1000
+                          ? 'exceeded'
+                          : countWords(r2Data.detailedConcept) > 850
+                          ? 'warning'
+                          : ''
+                      }`}
                     >
                       {countWords(r2Data.detailedConcept)} / 1000 words
                     </span>
@@ -767,6 +969,16 @@ export default function ParticipantPage() {
                     onChange={(e) => setR2Data({ ...r2Data, detailedConcept: e.target.value })}
                     placeholder="Elaborate your full technical concept and design in depth (up to 1000 words)..."
                     required
+                    disabled={r2IsLocked}
+                    style={
+                      r2IsLocked
+                        ? {
+                            background: '#f8fafc',
+                            cursor: 'not-allowed',
+                            color: '#334155',
+                          }
+                        : {}
+                    }
                   />
                 </div>
 
@@ -775,8 +987,13 @@ export default function ParticipantPage() {
                   <div className="pitch-label-row">
                     <label className="pitch-label">2. Value Proposition and Circularity * (Max 150 words)</label>
                     <span
-                      className={`word-counter-pill ${countWords(r2Data.valuePropositionAndCircularity) > 150 ? 'exceeded' : countWords(r2Data.valuePropositionAndCircularity) > 130 ? 'warning' : ''
-                        }`}
+                      className={`word-counter-pill ${
+                        countWords(r2Data.valuePropositionAndCircularity) > 150
+                          ? 'exceeded'
+                          : countWords(r2Data.valuePropositionAndCircularity) > 130
+                          ? 'warning'
+                          : ''
+                      }`}
                     >
                       {countWords(r2Data.valuePropositionAndCircularity)} / 150 words
                     </span>
@@ -789,6 +1006,16 @@ export default function ParticipantPage() {
                     onChange={(e) => setR2Data({ ...r2Data, valuePropositionAndCircularity: e.target.value })}
                     placeholder="Explain value proposition and circularity benefits (up to 150 words)..."
                     required
+                    disabled={r2IsLocked}
+                    style={
+                      r2IsLocked
+                        ? {
+                            background: '#f8fafc',
+                            cursor: 'not-allowed',
+                            color: '#334155',
+                          }
+                        : {}
+                    }
                   />
                 </div>
 
@@ -797,8 +1024,13 @@ export default function ParticipantPage() {
                   <div className="pitch-label-row">
                     <label className="pitch-label">3. 90 Days Feasibility Plan * (Max 200 words)</label>
                     <span
-                      className={`word-counter-pill ${countWords(r2Data.feasibilityPlan90Days) > 200 ? 'exceeded' : countWords(r2Data.feasibilityPlan90Days) > 175 ? 'warning' : ''
-                        }`}
+                      className={`word-counter-pill ${
+                        countWords(r2Data.feasibilityPlan90Days) > 200
+                          ? 'exceeded'
+                          : countWords(r2Data.feasibilityPlan90Days) > 175
+                          ? 'warning'
+                          : ''
+                      }`}
                     >
                       {countWords(r2Data.feasibilityPlan90Days)} / 200 words
                     </span>
@@ -811,6 +1043,16 @@ export default function ParticipantPage() {
                     onChange={(e) => setR2Data({ ...r2Data, feasibilityPlan90Days: e.target.value })}
                     placeholder="Outline your 90-day implementation roadmap (up to 200 words)..."
                     required
+                    disabled={r2IsLocked}
+                    style={
+                      r2IsLocked
+                        ? {
+                            background: '#f8fafc',
+                            cursor: 'not-allowed',
+                            color: '#334155',
+                          }
+                        : {}
+                    }
                   />
                 </div>
 
@@ -819,8 +1061,13 @@ export default function ParticipantPage() {
                   <div className="pitch-label-row">
                     <label className="pitch-label">4. Resource Requirement * (Max 100 words)</label>
                     <span
-                      className={`word-counter-pill ${countWords(r2Data.resourceRequirements) > 100 ? 'exceeded' : countWords(r2Data.resourceRequirements) > 85 ? 'warning' : ''
-                        }`}
+                      className={`word-counter-pill ${
+                        countWords(r2Data.resourceRequirements) > 100
+                          ? 'exceeded'
+                          : countWords(r2Data.resourceRequirements) > 85
+                          ? 'warning'
+                          : ''
+                      }`}
                     >
                       {countWords(r2Data.resourceRequirements)} / 100 words
                     </span>
@@ -833,12 +1080,69 @@ export default function ParticipantPage() {
                     onChange={(e) => setR2Data({ ...r2Data, resourceRequirements: e.target.value })}
                     placeholder="List needed resources, hardware, and estimated costs (up to 100 words)..."
                     required
+                    disabled={r2IsLocked}
+                    style={
+                      r2IsLocked
+                        ? {
+                            background: '#f8fafc',
+                            cursor: 'not-allowed',
+                            color: '#334155',
+                          }
+                        : {}
+                    }
                   />
                 </div>
 
-                <button type="submit" className="btn btn-primary pitch-submit-btn">
-                  {r2Submission ? '💾 Update Round 2 Dossier in Database' : '🚀 Submit Full Round 2 Dossier to Database'}
-                </button>
+                {team?.round2Status === 'SELECTED' ? (
+                  <div
+                    style={{
+                      background: '#ecfdf5',
+                      border: '1px solid #a7f3d0',
+                      borderRadius: '12px',
+                      padding: '16px',
+                      color: '#065f46',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                    }}
+                  >
+                    <span style={{ fontSize: '20px' }}>🏆</span>
+
+                    <div>
+                      <strong>Selected — Grand Finalist</strong>
+                      <p style={{ margin: '4px 0 0', fontSize: '13px' }}>
+                        Congratulations! Your Round 2 dossier has been selected for the Grand Finale.
+                      </p>
+                    </div>
+                  </div>
+                ) : team?.round2Status === 'SUBMITTED' ? (
+                  <div
+                    style={{
+                      background: '#f8fafc',
+                      border: '1px solid #cbd5e1',
+                      borderRadius: '12px',
+                      padding: '16px',
+                      color: '#334155',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                    }}
+                  >
+                    <Lock size={20} />
+
+                    <div>
+                      <strong>Round 2 Dossier Submitted</strong>
+                      <p style={{ margin: '4px 0 0', fontSize: '13px' }}>
+                        Your dossier is locked and is currently under review.
+                        You cannot edit it unless the submission is reopened by the organizers.
+                      </p>
+                    </div>
+                  </div>
+                ) : !r2IsLocked ? (
+                  <button type="submit" className="btn btn-primary pitch-submit-btn">
+                    {r2Submission ? '💾 Update Round 2 Dossier in Database' : '🚀 Submit Full Round 2 Dossier to Database'}
+                  </button>
+                ) : null}
               </form>
             </div>
           )}

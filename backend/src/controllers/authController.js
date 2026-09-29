@@ -11,7 +11,7 @@ const notificationService = require('../services/notificationService');
  */
 const register = async (req, res, next) => {
   try {
-    const { name, email, phone, password, role } = req.body;
+    const { name, email, phone, city, password, role } = req.body;
 
     // Check duplicate email in registered users
     const existingEmail = await User.findOne({ email: email.toLowerCase() });
@@ -50,6 +50,7 @@ const register = async (req, res, next) => {
       name,
       email: email.toLowerCase(),
       phone,
+      city: city ? city.trim() : undefined,
       password,
       role: userRole,
     });
@@ -72,6 +73,7 @@ const register = async (req, res, next) => {
           name: user.name,
           email: user.email,
           phone: user.phone,
+          city: user.city,
           role: user.role,
           isActive: user.isActive,
         },
@@ -159,6 +161,7 @@ const getMe = async (req, res, next) => {
         name: user.name,
         email: user.email,
         phone: user.phone,
+        city: user.city,
         role: user.role,
         isActive: user.isActive,
         team: userTeam || null,

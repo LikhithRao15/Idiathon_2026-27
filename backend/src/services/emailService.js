@@ -121,20 +121,24 @@ const sendRegistrationEmail = async (user) => {
  */
 const sendRound1SelectedEmail = async (user, team) => {
   const content = `
-    <p>Dear <strong>${user.name}</strong>,</p>
-    <p>Congratulations! Your team <strong>${team.teamName}</strong> (ID: <code>${team.teamId}</code>) has been <span class="badge badge-success">SELECTED</span> in Round 1: Idea Pitching!</p>
-    <p>The panel of judges was deeply impressed by your problem understanding and proposed innovation.</p>
-    <p><strong>Next Steps:</strong></p>
-    <ul>
-      <li>Round 2 (Idea Elaboration) has been unlocked for your team.</li>
-      <li>Please prepare your detailed concept, 90-day feasibility plan, budget, and scalability breakdown.</li>
-      <li>Log in to your dashboard to submit your Round 2 proposal before the deadline.</li>
-    </ul>
+    <p>
+      🎉 CONGRATULATIONS! Team <strong>${team.teamName}</strong>
+      has been SELECTED for Round 2 in Hasiru Samvadha Ideathon 2026!
+    </p>
+
+    <p>
+      Please log in to your participant dashboard to submit your Round 2 elaboration.
+    </p>
   `;
+
   return sendMail({
     to: user.email,
     subject: `🎉 Congratulations! Team ${team.teamName} Selected for Round 2`,
-    html: baseTemplate('Round 1 Results', 'Round 1 Selected! 🚀', content),
+    html: baseTemplate(
+      'Round 1 Results',
+      'Round 1 Selected! 🚀',
+      content
+    ),
   });
 };
 
@@ -176,15 +180,25 @@ const sendRound2OpenedEmail = async (user, team) => {
  */
 const sendRound2SelectedEmail = async (user, team) => {
   const content = `
-    <p>Dear <strong>${user.name}</strong>,</p>
-    <p>Outstanding news! Your team <strong>${team.teamName}</strong> has been <span class="badge badge-success">SELECTED AS A FINALIST</span> after Round 2 evaluations!</p>
-    <p>You have qualified for the Grand Finale of Hasiru Samvadha Ideathon 2026.</p>
-    <p>Final round instructions, slot timings, and venue details will be communicated shortly on your dashboard.</p>
+    <p>
+      🏆 GRAND FINALIST: Team <strong>${team.teamName}</strong>
+      has advanced to the Grand Finale of Hasiru Samvadha Ideathon 2026!
+    </p>
+
+    <p>
+      Please check your participant dashboard for more details about the event,
+      timings, and other important information.
+    </p>
   `;
+
   return sendMail({
     to: user.email,
-    subject: `🏆 Grand Finale Finalist Selection - Team ${team.teamName}`,
-    html: baseTemplate('Finalist Announcement', 'You Are a Grand Finalist! 🏆', content),
+    subject: `🏆 Grand Finalist Selection - Team ${team.teamName}`,
+    html: baseTemplate(
+      'Finalist Announcement',
+      'You Are a Grand Finalist! 🏆',
+      content
+    ),
   });
 };
 

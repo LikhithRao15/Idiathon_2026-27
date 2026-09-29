@@ -9,10 +9,17 @@ const createTeamValidator = [
     .isLength({ min: 3, max: 100 })
     .withMessage('Team name must be between 3 and 100 characters'),
   body('theme')
-    .notEmpty()
-    .withMessage('Theme selection is required')
-    .isMongoId()
-    .withMessage('Invalid theme ID format'),
+    .custom((val, { req }) => {
+      const themeVal = val || req.body.themeId;
+      if (!themeVal) {
+        throw new Error('Theme selection is required');
+      }
+      if (!/^[0-9a-fA-F]{24}$/.test(String(themeVal))) {
+        throw new Error('Invalid theme ID format');
+      }
+      req.body.theme = themeVal;
+      return true;
+    }),
   body('members')
     .optional()
     .isArray()

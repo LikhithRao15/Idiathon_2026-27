@@ -49,9 +49,9 @@ const getAssignedTeams = async (req, res, next) => {
             round2: r2Submission || null,
           },
           myEvaluations: {
-            round1: r1Eval || null,
-            round2: r2Eval || null,
-            finalRound: finalEval || null,
+            round1: r1Eval ? (r1Eval.toObject ? r1Eval.toObject() : r1Eval) : null,
+            round2: r2Eval ? (r2Eval.toObject ? r2Eval.toObject() : r2Eval) : null,
+            finalRound: finalEval ? (finalEval.toObject ? finalEval.toObject() : finalEval) : null,
           },
         };
       })
@@ -138,6 +138,9 @@ const getPanelistDashboard = async (req, res, next) => {
  */
 const selectTeamForRound2 = async (req, res, next) => {
   try {
+    if (req.user.role !== 'admin') {
+      return sendError(res, 'Access denied. Only administrators can advance teams to the next round.', 403);
+    }
     const { teamId } = req.params;
     const panelistId = req.user._id;
 

@@ -3,7 +3,6 @@ import { Fragment, useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
-import IdeaPitchSection from '../components/IdeaPitchSection';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -31,6 +30,10 @@ import {
 } from 'lucide-react';
 import './globals.css';
 
+// 📋 Destination Google Form URL for "Attend a Survey"
+// Replace '#' with your real Google Form URL (e.g. 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform')
+const GOOGLE_FORM_SURVEY_URL = '#';
+
 const data = {
   en: {
     nav: ['About', 'Challenges', 'Timeline', 'FAQ', 'Register'],
@@ -40,6 +43,8 @@ const data = {
     reg: 'Register your team',
     explore: 'Explore challenges',
     posterBtn: 'View Event Poster',
+    surveyBtn: 'Attend a Survey',
+    surveyComingSoon: 'Survey form coming soon!',
     stats: ['members / team', 'age limit', 'key milestones'],
     about: {
       kicker: '01 — THE WHY',
@@ -215,23 +220,43 @@ const data = {
     faqs: [
       [
         'Who can participate in the Reimagine Ideathon?',
-        'Anyone! There is no age limit. Students, professionals, researchers, designers, startups, and community volunteers can form teams of 2 to 4 members.',
+        'Students, innovators, developers, designers, researchers, and aspiring entrepreneurs can participate. Teams can have up to 3 members, with each member’s name, email, and affiliation provided during registration.',
       ],
       [
-        'Do we need a hardware prototype before registering?',
-        'No. At registration (28 Sep 2026) you only need your team details and chosen track. You have until 28 Oct 2026 for Idea Submission and 28 Nov 2026 for the final Pitch.',
+        'Do we need a fully developed prototype before registering?',
+        'No. A fully developed prototype is not required for registration. Your idea should clearly explain the problem, proposed solution, innovation, feasibility, and expected environmental impact.',
       ],
       [
-        'Can our idea combine software, hardware, and community policy?',
-        'Yes! "Smart Intervention" covers digital apps/IoT, low-cost mechanical tools, circular material upcycling, and community behaviour models.',
+        'What kind of ideas can we submit?',
+        'Ideas should address a real-world waste or resource-management problem and demonstrate how the proposed solution can reduce, reuse, recycle, or recover resources. Solutions may involve software, hardware, infrastructure, business models, or community interventions.',
       ],
       [
-        'Can we present our pitch in Kannada or English?',
-        'Both English and Kannada (ಹಸಿರು ಸಂವಾದ) are welcomed for idea discussions and presentations.',
+        'Can our idea combine software, hardware, and community or policy solutions?',
+        'Yes. Interdisciplinary solutions are welcome. Teams can combine technology, physical systems, community participation, and policy mechanisms as long as they directly contribute to solving the identified problem.',
+      ],
+      [
+        'What should we include in the problem statement?',
+        'Clearly explain what the problem is, who experiences it, where it occurs, and why it matters. Wherever possible, support your statement with a relevant dataset, baseline, statistic, or localized metric.',
+      ],
+      [
+        'How detailed should our proposed solution be?',
+        'Focus on the core mechanics of your solution. Explain what you intend to build or implement, how it works, and specifically how it prevents, reduces, reuses, recycles, or recovers the identified waste stream.',
+      ],
+      [
+        'How will the 90-day pilot plan work?',
+        'Your pilot should demonstrate that the idea can realistically be tested within 90 days. Identify the required location or demographic group, datasets or resources needed, implementation requirements, and any immediate technical or operational roadblocks.',
+      ],
+      [
+        'What should we mention under “The Ask”?',
+        'State exactly what support you need from the ideathon sponsors to move your concept toward implementation. This could include funding, testing facilities, technical mentorship, industry support, infrastructure, or access to relevant datasets.',
+      ],
+      [
+        'Can we present our idea in Kannada or English?',
+        'Yes. Teams can present their ideas in Kannada or English. The key requirement is that the problem, solution, impact, and implementation plan are communicated clearly.',
       ],
       [
         'Is there any registration fee?',
-        'Registration is completely open and accessible to encourage grassroots innovation for cleaner communities.',
+        'No. Registration for the Reimagine Ideathon is free. Teams can submit their ideas without paying a registration fee.',
       ],
     ],
     form: {
@@ -265,6 +290,8 @@ const data = {
     reg: 'ನಿಮ್ಮ ತಂಡವನ್ನು ನೋಂದಾಯಿಸಿ',
     explore: 'ಸವಾಲುಗಳನ್ನು ಅನ್ವೇಷಿಸಿ',
     posterBtn: 'ಪೋಸ್ಟರ್ ವೀಕ್ಷಿಸಿ',
+    surveyBtn: 'ಸಮೀಕ್ಷೆಯಲ್ಲಿ ಭಾಗವಹಿಸಿ',
+    surveyComingSoon: 'ಸಮೀಕ್ಷಾ ನಮೂನೆ ಶೀಘ್ರದಲ್ಲೇ ಬರಲಿದೆ!',
     stats: ['ತಂಡದ ಸದಸ್ಯರು', 'ವಯಸ್ಸಿನ ಮಿತಿ ಇಲ್ಲ', 'ಪ್ರಮುಖ ಹಂತಗಳು'],
     about: {
       kicker: '01 — ಏಕೆ',
@@ -439,24 +466,44 @@ const data = {
     ],
     faqs: [
       [
-        'ಈ ಐಡಿಯಾಥಾನ್‌ನಲ್ಲಿ ಯಾರು ಭಾಗವಹಿಸಬಹುದು?',
-        'ಯಾರು ಬೇಕಾದರೂ ಭಾಗವಹಿಸಬಹುದು! ಯಾವುದೇ ವಯಸ್ಸಿನ ಮಿತಿ ಇಲ್ಲ. ವಿದ್ಯಾರ್ಥಿಗಳು, ವೃತ್ತಿಪರರು, ಸಂಶೋಧಕರು ಮತ್ತು ನಾಗರಿಕರು 2 ರಿಂದ 4 ಜನರ ತಂಡವಾಗಿ ಭಾಗವಹಿಸಬಹುದು.',
+        'ಈ ರೀಇಮ್ಯಾಜಿನ್ ಐಡಿಯಾಥಾನ್ನಲ್ಲಿ ಯಾರು ಭಾಗವಹಿಸಬಹುದು?',
+        'ವಿದ್ಯಾರ್ಥಿಗಳು, ನವೋದ್ಯಮಿಗಳು, ಡೆವಲಪರ್ಗಳು, ವಿನ್ಯಾಸಕರು, ಸಂಶೋಧಕರು ಮತ್ತು ಉದ್ಯಮಶೀಲತೆಯಲ್ಲಿ ಆಸಕ್ತಿ ಹೊಂದಿರುವವರು ಭಾಗವಹಿಸಬಹುದು. ಪ್ರತಿ ತಂಡದಲ್ಲಿ ಗರಿಷ್ಠ 3 ಸದಸ್ಯರು ಇರಬಹುದು.',
       ],
       [
-        'ನೋಂದಣಿ ಸಮಯದಲ್ಲಿಯೇ ಪ್ರೊಟೊಟೈಪ್ (ಮಾದರಿ) ಸಿದ್ಧವಿರಬೇಕೇ?',
-        'ಇಲ್ಲ. ಸೆಪ್ಟೆಂಬರ್ 28ರ ನೋಂದಣಿಗೆ ತಂಡದ ವಿವರ ಮತ್ತು ವಿಷಯದ ಆಯ್ಕೆ ಸಾಕು. ಅಕ್ಟೋಬರ್ 28ರೊಳಗೆ ಆಲೋಚನೆ ಸಲ್ಲಿಸಬಹುದು ಮತ್ತು ನವೆಂಬರ್ 28ರಂದು ಅಂತಿಮ ಪ್ರಸ್ತುತಿ ಇರುತ್ತದೆ.',
+        'ನೋಂದಣಿಗೆ ಮುನ್ನ ಸಂಪೂರ್ಣ ಪ್ರೊಟೊಟೈಪ್ ಸಿದ್ಧವಾಗಿರಬೇಕೇ?',
+        'ಇಲ್ಲ. ನೋಂದಣಿಗೆ ಸಂಪೂರ್ಣ ಪ್ರೊಟೊಟೈಪ್ ಅಗತ್ಯವಿಲ್ಲ. ಸಮಸ್ಯೆ, ಪ್ರಸ್ತಾವಿತ ಪರಿಹಾರ, ನವೀನತೆ, ಕಾರ್ಯಸಾಧ್ಯತೆ ಮತ್ತು ನಿರೀಕ್ಷಿತ ಪರಿಸರ ಪರಿಣಾಮವನ್ನು ಸ್ಪಷ್ಟವಾಗಿ ವಿವರಿಸುವುದು ಮುಖ್ಯ.',
       ],
       [
-        'ಯಾವ ರೀತಿಯ ಪರಿಹಾರಗಳನ್ನು ಸಲ್ಲಿಸಬಹುದು?',
-        'ಡಿಜಿಟಲ್ ಆಪ್/IoT, ಕಡಿಮೆ ವೆಚ್ಚದ ಯಂತ್ರಗಳು, ಮರುಬಳಕೆ ವಿಧಾನಗಳು ಅಥವಾ ಸಮುದಾಯ ಆಧಾರಿತ ಜಾಗೃತಿ ಮಾದರಿಗಳನ್ನು ಸಲ್ಲಿಸಬಹುದು.',
+        'ಯಾವ ರೀತಿಯ ಆಲೋಚನೆಗಳನ್ನು ಸಲ್ಲಿಸಬಹುದು?',
+        'ನೈಜ ತ್ಯಾಜ್ಯ ಅಥವಾ ಸಂಪನ್ಮೂಲ ನಿರ್ವಹಣೆಯ ಸಮಸ್ಯೆಗಳನ್ನು ಪರಿಹರಿಸುವ ಆಲೋಚನೆಗಳನ್ನು ಸಲ್ಲಿಸಬಹುದು. ಸಾಫ್ಟ್ವೇರ್, ಹಾರ್ಡ್ವೇರ್, ಮೂಲಸೌಕರ್ಯ, ವ್ಯವಹಾರ ಮಾದರಿ ಅಥವಾ ಸಮುದಾಯ ಆಧಾರಿತ ಪರಿಹಾರಗಳನ್ನು ಒಳಗೊಂಡಿರಬಹುದು.',
       ],
       [
-        'ಕನ್ನಡ ಅಥವಾ ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ ಪ್ರಸ್ತುತಪಡಿಸಬಹುದೇ?',
-        'ಹೌದು, ಕನ್ನಡ ಮತ್ತು ಇಂಗ್ಲಿಷ್ ಎರಡೂ ಭಾಷೆಗಳಲ್ಲಿ ನಿಮ್ಮ ಆಲೋಚನೆಗಳನ್ನು ಮಂಡಿಸಲು ಅವಕಾಶವಿದೆ.',
+        'ನಮ್ಮ ಆಲೋಚನೆಯಲ್ಲಿ ಸಾಫ್ಟ್ವೇರ್, ಹಾರ್ಡ್ವೇರ್ ಮತ್ತು ಸಮುದಾಯ ಅಥವಾ ನೀತಿ ಪರಿಹಾರಗಳನ್ನು ಒಟ್ಟಿಗೆ ಬಳಸಬಹುದೇ?',
+        'ಹೌದು. ತಂತ್ರಜ್ಞಾನ, ಭೌತಿಕ ವ್ಯವಸ್ಥೆಗಳು, ಸಮುದಾಯದ ಭಾಗವಹಿಸುವಿಕೆ ಮತ್ತು ನೀತಿ ಕ್ರಮಗಳನ್ನು ಸಂಯೋಜಿಸುವ ಅಂತರಶಿಸ್ತೀಯ ಪರಿಹಾರಗಳನ್ನು ಸಲ್ಲಿಸಬಹುದು.',
+      ],
+      [
+        'ಸಮಸ್ಯೆಯ ಹೇಳಿಕೆಯಲ್ಲಿ ಏನು ಸೇರಿಸಬೇಕು?',
+        'ಸಮಸ್ಯೆ ಏನು, ಅದನ್ನು ಯಾರು ಎದುರಿಸುತ್ತಿದ್ದಾರೆ, ಅದು ಎಲ್ಲಿ ಸಂಭವಿಸುತ್ತದೆ ಮತ್ತು ಅದು ಏಕೆ ಮುಖ್ಯ ಎಂಬುದನ್ನು ಸ್ಪಷ್ಟವಾಗಿ ವಿವರಿಸಿ. ಸಾಧ್ಯವಾದಲ್ಲಿ ಸಂಬಂಧಿತ ಡೇಟಾ, ಬೇಸ್ಲೈನ್, ಅಂಕಿಅಂಶ ಅಥವಾ ಸ್ಥಳೀಯ ಮಾಹಿತಿಯನ್ನು ಸೇರಿಸಿ.',
+      ],
+      [
+        'ಪ್ರಸ್ತಾವಿತ ಪರಿಹಾರವನ್ನು ಎಷ್ಟು ವಿವರವಾಗಿ ವಿವರಿಸಬೇಕು?',
+        'ನಿಮ್ಮ ಪರಿಹಾರದ ಮುಖ್ಯ ಕಾರ್ಯವಿಧಾನದ ಮೇಲೆ ಗಮನಹರಿಸಿ. ನೀವು ಏನು ನಿರ್ಮಿಸಲು ಅಥವಾ ಜಾರಿಗೆ ತರಲು ಉದ್ದೇಶಿಸಿದ್ದೀರಿ, ಅದು ಹೇಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ ಮತ್ತು ತ್ಯಾಜ್ಯವನ್ನು ಹೇಗೆ ಕಡಿಮೆ, ಮರುಬಳಕೆ, ಮರುಸಂಸ್ಕರಣೆ ಅಥವಾ ಮರುಪಡೆಯುತ್ತದೆ ಎಂಬುದನ್ನು ವಿವರಿಸಿ.',
+      ],
+      [
+        '90 ದಿನಗಳ ಪೈಲಟ್ ಯೋಜನೆ ಹೇಗೆ ನಡೆಯುತ್ತದೆ?',
+        'ನಿಮ್ಮ ಪರಿಹಾರವನ್ನು 90 ದಿನಗಳಲ್ಲಿ ನೈಜ ಪರಿಸ್ಥಿತಿಯಲ್ಲಿ ಪರೀಕ್ಷಿಸಲು ಸಾಧ್ಯವೆಂದು ತೋರಿಸಬೇಕು. ಅಗತ್ಯವಿರುವ ಸ್ಥಳ ಅಥವಾ ಬಳಕೆದಾರರ ಗುಂಪು, ಡೇಟಾ ಅಥವಾ ಸಂಪನ್ಮೂಲಗಳು ಮತ್ತು ತಾಂತ್ರಿಕ ಅಥವಾ ಕಾರ್ಯಾಚರಣಾ ಸವಾಲುಗಳನ್ನು ವಿವರಿಸಿ.',
+      ],
+      [
+        '“The Ask” ವಿಭಾಗದಲ್ಲಿ ಏನು ನಮೂದಿಸಬೇಕು?',
+        'ನಿಮ್ಮ ಪರಿಕಲ್ಪನೆಯನ್ನು ಜಾರಿಗೆ ತರಲು ಐಡಿಯಾಥಾನ್ ಪ್ರಾಯೋಜಕರಿಂದ ಬೇಕಾಗಿರುವ ನಿರ್ದಿಷ್ಟ ಸಹಾಯವನ್ನು ತಿಳಿಸಿ. ಉದಾಹರಣೆಗೆ ಹಣಕಾಸು, ಪರೀಕ್ಷಾ ಸೌಲಭ್ಯ, ತಾಂತ್ರಿಕ ಮಾರ್ಗದರ್ಶನ, ಉದ್ಯಮ ಬೆಂಬಲ ಅಥವಾ ಡೇಟಾಸೆಟ್ ಪ್ರವೇಶ.',
+      ],
+      [
+        'ನಮ್ಮ ಆಲೋಚನೆಯನ್ನು ಕನ್ನಡ ಅಥವಾ ಇಂಗ್ಲಿಷ್ನಲ್ಲಿ ಪ್ರಸ್ತುತಪಡಿಸಬಹುದೇ?',
+        'ಹೌದು. ನಿಮ್ಮ ಆಲೋಚನೆಯನ್ನು ಕನ್ನಡ ಅಥವಾ ಇಂಗ್ಲಿಷ್ನಲ್ಲಿ ಪ್ರಸ್ತುತಪಡಿಸಬಹುದು. ಸಮಸ್ಯೆ, ಪರಿಹಾರ, ಪರಿಣಾಮ ಮತ್ತು ಅನುಷ್ಠಾನ ಯೋಜನೆಯನ್ನು ಸ್ಪಷ್ಟವಾಗಿ ವಿವರಿಸುವುದು ಮುಖ್ಯ.',
       ],
       [
         'ನೋಂದಣಿಗೆ ಯಾವುದೇ ಶುಲ್ಕವಿದೆಯೇ?',
-        'ಇಲ್ಲ, ಸ್ವಚ್ಛ ಸಮುದಾಯಗಳಿಗಾಗಿ ಹೊಸ ಆಲೋಚನೆಗಳನ್ನು ಪ್ರೋತ್ಸಾಹಿಸಲು ನೋಂದಣಿ ಸಂಪೂರ್ಣವಾಗಿ ಮುಕ್ತವಾಗಿದೆ.',
+        'ಇಲ್ಲ. ರೀಇಮ್ಯಾಜಿನ್ ಐಡಿಯಾಥಾನ್ಗೆ ನೋಂದಣಿ ಉಚಿತವಾಗಿದೆ. ಯಾವುದೇ ನೋಂದಣಿ ಶುಲ್ಕವಿಲ್ಲದೆ ತಂಡಗಳು ತಮ್ಮ ಆಲೋಚನೆಗಳನ್ನು ಸಲ್ಲಿಸಬಹುದು.',
       ],
     ],
     form: {
@@ -484,7 +531,7 @@ const data = {
   },
 };
 
-const sectionIds = ['top', 'about', 'challenges', 'why', 'timeline', 'faq', 'pitch'];
+const sectionIds = ['top', 'about', 'challenges', 'why', 'timeline', 'faq'];
 
 const Brand = () => (
   <>
@@ -508,6 +555,31 @@ function App() {
   const [time, setTime] = useState(['--', '--', '--', '--']);
   const [activeSection, setActiveSection] = useState('top');
   const [isScrolled, setIsScrolled] = useState(false);
+  const [surveyNotice, setSurveyNotice] = useState(false);
+  const surveyNoticeTimeoutRef = useRef(null);
+
+  const handleSurveyClick = (e) => {
+    if (GOOGLE_FORM_SURVEY_URL && GOOGLE_FORM_SURVEY_URL !== '#' && GOOGLE_FORM_SURVEY_URL.trim() !== '') {
+      window.open(GOOGLE_FORM_SURVEY_URL, '_blank', 'noopener,noreferrer');
+    } else {
+      if (e) e.preventDefault();
+      setSurveyNotice(true);
+      if (surveyNoticeTimeoutRef.current) {
+        clearTimeout(surveyNoticeTimeoutRef.current);
+      }
+      surveyNoticeTimeoutRef.current = setTimeout(() => {
+        setSurveyNotice(false);
+      }, 3500);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (surveyNoticeTimeoutRef.current) {
+        clearTimeout(surveyNoticeTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const t = data[lang];
 
@@ -521,7 +593,7 @@ function App() {
 
   const selectTrackForRegistration = () => {
     if (user) {
-      scroll('pitch');
+      router.push('/participant');
     } else {
       router.push('/register');
     }
@@ -604,7 +676,6 @@ function App() {
             why: lang === 'en' ? '03 Experience' : '೦೩ ಅನುಭವ',
             timeline: lang === 'en' ? '04 Timeline' : '೦೪ ಕಾಲಪಟ್ಟಿ',
             faq: lang === 'en' ? '05 Rules & FAQ' : '೦೫ ನಿಯಮಗಳು',
-            pitch: lang === 'en' ? '06 Pitch Workspace' : '೦೬ ಆಲೋಚನಾ ವೇದಿಕೆ',
           };
           const label = names[id];
           const isActive = activeSection === id;
@@ -659,24 +730,11 @@ function App() {
                 </h1>
                 <p className="hero-lead">{t.lead}</p>
                 <div className="hero-actions">
-                  {user ? (
-                    <button
-                      className="primary-btn"
-                      onClick={() => scroll('pitch')}
-                      style={{ background: 'linear-gradient(135deg, var(--green), var(--green-deep))' }}
-                    >
-                      🌱 Go to My Idea Pitch Workspace ↓
-                    </button>
-                  ) : (
-                    <Link href="/register" className="primary-btn">
-                      {t.reg} <ArrowRight size={21} />
-                    </Link>
-                  )}
-                  <button className="text-btn" onClick={() => scroll('challenges')}>
-                    <span>{t.explore}</span> <ChevronDown className="explore-arrow" size={19} />
+                  <button className="hero-explore-pill-btn" onClick={() => scroll('challenges')}>
+                    <span>{t.explore}</span> <ChevronDown className="explore-arrow" size={18} />
                   </button>
-                  <button className="poster-pill-btn" onClick={() => setShowPoster(true)}>
-                    <FileText size={16} /> {t.posterBtn}
+                  <button className="hero-poster-pill-btn" onClick={() => setShowPoster(true)}>
+                    <FileText size={16} /> <span>{t.posterBtn}</span>
                   </button>
                 </div>
 
@@ -715,44 +773,84 @@ function App() {
                 </div>
               </div>
 
-              <div className="hero-art">
-                <div className="orbit orbit-a" />
-                <div className="orbit orbit-b" />
-                <div className="earth-card">
-                  <div className="earth-top">
-                    <span>{lang === 'en' ? 'SMART INTERVENTION' : 'ಚುರುಕಾದ ಪರಿಹಾರ'}</span>
-                    <span>2026</span>
-                  </div>
-                  <div className="earth-visual">
-                    <div className="earth">
-                      <div className="land land-a" />
-                      <div className="land land-b" />
-                      <div className="land land-c" />
-                      <div className="cloud cloud-a" />
-                      <div className="cloud cloud-b" />
+              <div className="hero-art-col">
+                <div className="hero-art">
+                  <div className="orbit orbit-a" />
+                  <div className="orbit orbit-b" />
+                  <div className="earth-card">
+                    <div className="earth-top">
+                      <span>{lang === 'en' ? 'SMART INTERVENTION' : 'ಚುರುಕಾದ ಪರಿಹಾರ'}</span>
+                      <span>2026</span>
                     </div>
-                    <div className="earth-shadow" />
-                    <div className="leaf-ring">
-                      <Leaf size={40} fill="currentColor" />
+                    <div className="earth-visual">
+                      <div className="earth">
+                        <div className="land land-a" />
+                        <div className="land land-b" />
+                        <div className="land land-c" />
+                        <div className="cloud cloud-a" />
+                        <div className="cloud cloud-b" />
+                      </div>
+                      <div className="earth-shadow" />
+                      <div className="leaf-ring">
+                        <Leaf size={40} fill="currentColor" />
+                      </div>
+                    </div>
+                    <div className="earth-bottom">
+                      <span>{lang === 'en' ? 'Clean communities' : 'ಸ್ವಚ್ಛ ಸಮುದಾಯಗಳು'}</span>
+                      <span>·</span>
+                      <span>{lang === 'en' ? 'Healthy planet' : 'ಆರೋಗ್ಯಕರ ಭೂಮಿ'}</span>
+                      <span>·</span>
+                      <span>{lang === 'en' ? 'Brighter future' : 'ಉಜ್ವಲ ಭವಿಷ್ಯ'}</span>
                     </div>
                   </div>
-                  <div className="earth-bottom">
-                    <span>{lang === 'en' ? 'Clean communities' : 'ಸ್ವಚ್ಛ ಸಮುದಾಯಗಳು'}</span>
-                    <span>·</span>
-                    <span>{lang === 'en' ? 'Healthy planet' : 'ಆರೋಗ್ಯಕರ ಭೂಮಿ'}</span>
-                    <span>·</span>
-                    <span>{lang === 'en' ? 'Brighter future' : 'ಉಜ್ವಲ ಭವಿಷ್ಯ'}</span>
+                  <div className="floating-card fc-one">
+                    <Lightbulb size={20} />
+                    <span>
+                      <b>{lang === 'en' ? 'Smart' : 'ಚುರುಕಾದ'}</b> {lang === 'en' ? 'intervention' : 'ಪರಿಹಾರ'}
+                    </span>
+                  </div>
+                  <div className="floating-card fc-two">
+                    <Recycle size={20} />
+                    <span>Reduce · Reuse · Recycle · Reimagine</span>
                   </div>
                 </div>
-                <div className="floating-card fc-one">
-                  <Lightbulb size={20} />
-                  <span>
-                    <b>{lang === 'en' ? 'Smart' : 'ಚುರುಕಾದ'}</b> {lang === 'en' ? 'intervention' : 'ಪರಿಹಾರ'}
-                  </span>
-                </div>
-                <div className="floating-card fc-two">
-                  <Recycle size={20} />
-                  <span>Reduce · Reuse · Recycle · Reimagine</span>
+              </div>
+
+              {/* SYNCHRONIZED ROW 2: Register CTA (Left) & Attend Survey CTA (Right) */}
+              <div className="hero-cta-left">
+                {user ? (
+                  <button
+                    className="hero-register-wide-btn"
+                    onClick={() => router.push('/participant')}
+                  >
+                    <span>🌱 Go to Participant Workspace</span> <ArrowRight size={20} />
+                  </button>
+                ) : (
+                  <Link href="/register" className="hero-register-wide-btn">
+                    <span>{t.reg}</span> <ArrowRight size={20} />
+                  </Link>
+                )}
+              </div>
+
+              <div className="hero-cta-right">
+                <div className="hero-survey-wrap">
+                  <a
+                    href={GOOGLE_FORM_SURVEY_URL && GOOGLE_FORM_SURVEY_URL !== '#' ? GOOGLE_FORM_SURVEY_URL : undefined}
+                    target={GOOGLE_FORM_SURVEY_URL && GOOGLE_FORM_SURVEY_URL !== '#' ? '_blank' : undefined}
+                    rel={GOOGLE_FORM_SURVEY_URL && GOOGLE_FORM_SURVEY_URL !== '#' ? 'noopener noreferrer' : undefined}
+                    className="hero-survey-btn"
+                    onClick={handleSurveyClick}
+                  >
+                    <FileText size={18} />
+                    <span>{t.surveyBtn || (lang === 'en' ? 'Attend a Survey' : 'ಸಮೀಕ್ಷೆಯಲ್ಲಿ ಭಾಗವಹಿಸಿ')}</span>
+                    <ArrowRight size={18} />
+                  </a>
+                  {surveyNotice && (
+                    <div className="survey-toast" role="status" aria-live="polite">
+                      <Clock3 size={15} />
+                      <span>{t.surveyComingSoon || (lang === 'en' ? 'Survey form coming soon!' : 'ಸಮೀಕ್ಷಾ ನಮೂನೆ ಶೀಘ್ರದಲ್ಲೇ ಬರಲಿದೆ!')}</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -1127,10 +1225,6 @@ function App() {
           </div>
         </section>
 
-        {/* VIEW 5.5: IDEA PITCH & TEAM SUBMISSION WORKSPACE */}
-        {user ? (
-          <IdeaPitchSection />
-        ) : null}
       </main>
     </div>
   );

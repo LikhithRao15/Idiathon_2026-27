@@ -26,6 +26,11 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
+    city: {
+      type: String,
+      trim: true,
+      maxlength: [100, 'City cannot exceed 100 characters'],
+    },
     password: {
       type: String,
       required: [true, 'Password is required'],

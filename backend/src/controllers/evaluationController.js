@@ -49,16 +49,16 @@ const evaluateRound1 = async (req, res, next) => {
       return sendError(res, 'No Round 1 submission found for this team to evaluate.', 400);
     }
 
-    // Check duplicate evaluation
+    // Check duplicate evaluation (Option 2: strictly locked once submitted)
     const existingEval = await Evaluation.findOne({ teamId, panelistId, round: 1 });
     if (existingEval) {
-      return sendError(res, 'You have already submitted an evaluation for this team in Round 1.', 400);
+      return sendError(res, 'Evaluation for this team is already submitted and locked against further edits.', 400);
     }
 
     // Calculate total score automatically
     const totalScore = calculateTotalScore(scores);
 
-    const evaluation = await Evaluation.create({
+    evaluation = await Evaluation.create({
       teamId,
       submissionId: submission._id,
       submissionModel: 'Round1Submission',
@@ -137,14 +137,16 @@ const evaluateRound2 = async (req, res, next) => {
       return sendError(res, 'No Round 2 submission found for this team to evaluate.', 400);
     }
 
+    // Check duplicate evaluation (Option 2: strictly locked once submitted)
     const existingEval = await Evaluation.findOne({ teamId, panelistId, round: 2 });
     if (existingEval) {
-      return sendError(res, 'You have already submitted a Round 2 evaluation for this team.', 400);
+      return sendError(res, 'Round 2 evaluation for this team is already submitted and locked against further edits.', 400);
     }
 
+    // Calculate total score automatically
     const totalScore = calculateTotalScore(scores);
 
-    const evaluation = await Evaluation.create({
+    evaluation = await Evaluation.create({
       teamId,
       submissionId: submission._id,
       submissionModel: 'Round2Submission',

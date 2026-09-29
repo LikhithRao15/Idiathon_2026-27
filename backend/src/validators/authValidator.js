@@ -20,6 +20,11 @@ const registerValidator = [
     .withMessage('Phone number is required')
     .matches(/^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]{6,15}$/)
     .withMessage('Please provide a valid phone number format (7 to 15 digits)'),
+  body('city')
+    .optional()
+    .trim()
+    .isLength({ max: 100 })
+    .withMessage('City cannot exceed 100 characters'),
   body('password')
     .notEmpty()
     .withMessage('Password is required')

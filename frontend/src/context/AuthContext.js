@@ -85,7 +85,7 @@ export function AuthProvider({ children }) {
       showToast(`Welcome back, ${userData.name}!`);
 
       // Smart redirect
-      if (userData.role === 'participant') router.push('/#pitch');
+      if (userData.role === 'participant') router.push('/participant');
       else if (userData.role === 'panelist') router.push('/panelist');
       else if (userData.role === 'admin') router.push('/admin');
 
@@ -115,7 +115,7 @@ export function AuthProvider({ children }) {
       localStorage.setItem('ideathon_token', authToken);
       localStorage.setItem('ideathon_user', JSON.stringify(userData));
       showToast(`Registration successful! Welcome, ${userData.name}.`);
-      router.push('/#pitch');
+      router.push('/participant');
       return { success: true };
     } else {
       showToast(res.message || 'Registration failed', true);

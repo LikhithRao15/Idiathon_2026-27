@@ -58,6 +58,31 @@ const submitRound2 = async (req, res, next) => {
     const valProp = valuePropositionAndCircularity || valueProposition || '';
 
     let existingSubmission = await Round2Submission.findOne({ teamId: team._id });
+
+    // STRICT LOCK:
+    // Once Round 2 is submitted or evaluated,
+    // the participant cannot modify the dossier.
+    const lockedRound2Statuses = [
+      'SUBMITTED',
+      'UNDER_EVALUATION',
+      'SELECTED',
+      'NOT_SELECTED'
+    ];
+
+    if (
+      lockedRound2Statuses.includes(team.round2Status) ||
+      (
+        existingSubmission &&
+        lockedRound2Statuses.includes(existingSubmission.status)
+      )
+    ) {
+      return sendError(
+        res,
+        'Round 2 is locked and cannot be edited after submission or evaluation.',
+        400
+      );
+    }
+
     const submissionStatus = isDraft === true || isDraft === 'true' ? 'DRAFT' : 'SUBMITTED';
 
     let submission;

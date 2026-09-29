@@ -22,25 +22,26 @@ export default function PanelistPage() {
 
   // Rubric Scoring State
   const [r1Scores, setR1Scores] = useState({
-    problemUnderstanding: 8,
-    innovation: 9,
-    proposedSolution: 8,
-    feasibility: 8,
-    expectedImpact: 9,
+    problemUnderstanding: 0,
+    innovation: 0,
+    proposedSolution: 0,
+    feasibility: 0,
+    expectedImpact: 0,
   });
 
   const [r2Scores, setR2Scores] = useState({
-    conceptClarity: 8,
-    innovation: 9,
-    valueProposition: 8,
-    technicalFeasibility: 8,
-    feasibilityPlan90Days: 8,
-    resourcePlanning: 8,
-    expectedImpact: 9,
-    scalability: 8,
+    conceptClarity: 0,
+    innovation: 0,
+    valueProposition: 0,
+    technicalFeasibility: 0,
+    feasibilityPlan90Days: 0,
+    resourcePlanning: 0,
+    expectedImpact: 0,
+    scalability: 0,
   });
 
   const [comments, setComments] = useState('');
+  const [isEvaluated, setIsEvaluated] = useState(false);
 
   useEffect(() => {
     if (token && user?.role === 'panelist') {
@@ -55,6 +56,70 @@ export default function PanelistPage() {
     setAuthLoading(false);
   };
 
+  const loadTeamEvaluation = (team) => {
+    const evaluation =
+      selectedRound === 1
+        ? team?.myEvaluations?.round1
+        : team?.myEvaluations?.round2;
+
+    const getScore = (scores, key) => {
+      if (!scores) return 0;
+      if (typeof scores.get === 'function') return scores.get(key) ?? 0;
+      return scores[key] ?? 0;
+    };
+
+    if (evaluation) {
+      setIsEvaluated(true);
+      if (selectedRound === 1) {
+        setR1Scores({
+          problemUnderstanding: getScore(evaluation.scores, 'problemUnderstanding'),
+          innovation: getScore(evaluation.scores, 'innovation'),
+          proposedSolution: getScore(evaluation.scores, 'proposedSolution'),
+          feasibility: getScore(evaluation.scores, 'feasibility'),
+          expectedImpact: getScore(evaluation.scores, 'expectedImpact'),
+        });
+      } else {
+        setR2Scores({
+          conceptClarity: getScore(evaluation.scores, 'conceptClarity'),
+          innovation: getScore(evaluation.scores, 'innovation'),
+          valueProposition: getScore(evaluation.scores, 'valueProposition'),
+          technicalFeasibility: getScore(evaluation.scores, 'technicalFeasibility'),
+          feasibilityPlan90Days: getScore(evaluation.scores, 'feasibilityPlan90Days'),
+          resourcePlanning: getScore(evaluation.scores, 'resourcePlanning'),
+          expectedImpact: getScore(evaluation.scores, 'expectedImpact'),
+          scalability: getScore(evaluation.scores, 'scalability'),
+        });
+      }
+
+      setComments(evaluation.comments || '');
+    } else {
+      setIsEvaluated(false);
+      // No evaluation for this team yet: reset to 0
+      if (selectedRound === 1) {
+        setR1Scores({
+          problemUnderstanding: 0,
+          innovation: 0,
+          proposedSolution: 0,
+          feasibility: 0,
+          expectedImpact: 0,
+        });
+      } else {
+        setR2Scores({
+          conceptClarity: 0,
+          innovation: 0,
+          valueProposition: 0,
+          technicalFeasibility: 0,
+          feasibilityPlan90Days: 0,
+          resourcePlanning: 0,
+          expectedImpact: 0,
+          scalability: 0,
+        });
+      }
+
+      setComments('');
+    }
+  };
+
   const loadAssignedTeams = async () => {
     setLoading(true);
     const res = await apiRequest('/panelists/assigned-teams');
@@ -62,11 +127,31 @@ export default function PanelistPage() {
 
     if (res.ok && Array.isArray(teams)) {
       setAssignedTeams(teams);
+
       if (teams.length > 0) {
-        selectTeam(teams[0]._id, teams[0].teamName);
+        const firstTeam = teams[0];
+
+        setSelectedTeam({
+          id: firstTeam._id,
+          name: firstTeam.teamName,
+        });
+
+        loadTeamEvaluation(firstTeam);
+
+        const detailsRes = await apiRequest(`/panelists/assigned-teams/${firstTeam._id}`);
+        if (detailsRes.ok && detailsRes.data) {
+          setSubmissionDetails(detailsRes.data);
+          if (Array.isArray(detailsRes.data.evaluations)) {
+            const ev = detailsRes.data.evaluations.find((e) => e.round === selectedRound);
+            if (ev) {
+              loadTeamEvaluation({ myEvaluations: { [selectedRound === 1 ? 'round1' : 'round2']: ev } });
+            }
+          }
+        }
       } else {
         setSelectedTeam(null);
         setSubmissionDetails(null);
+        loadTeamEvaluation(null);
       }
     }
     setLoading(false);
@@ -74,9 +159,26 @@ export default function PanelistPage() {
 
   const selectTeam = async (teamId, teamName) => {
     setSelectedTeam({ id: teamId, name: teamName });
+
+    // Find the selected team from the assigned teams list
+    const team = assignedTeams.find((t) => t._id === teamId);
+
+    // Load this team's existing evaluation or reset the form
+    loadTeamEvaluation(team);
+
+    // Load submission details
     const res = await apiRequest(`/panelists/assigned-teams/${teamId}`);
+
     if (res.ok && res.data) {
       setSubmissionDetails(res.data);
+      if (Array.isArray(res.data.evaluations)) {
+        const ev = res.data.evaluations.find((e) => e.round === selectedRound);
+        if (ev) {
+          loadTeamEvaluation({ myEvaluations: { [selectedRound === 1 ? 'round1' : 'round2']: ev } });
+        }
+      }
+    } else {
+      setSubmissionDetails(null);
     }
   };
 
@@ -111,34 +213,6 @@ export default function PanelistPage() {
     }
   };
 
-  const handleAdvanceToNextRound = async () => {
-    if (!selectedTeam) {
-      showToast('Select a team to advance!', true);
-      return;
-    }
-
-    if (selectedRound === 1) {
-      const res = await apiRequest(`/panelists/teams/${selectedTeam.id}/select-round1`, {
-        method: 'PUT',
-      });
-      if (res.ok) {
-        showToast(`🎉 Team "${selectedTeam.name}" has been SELECTED for Round 2 in MongoDB! Round 2 is now open for this team.`);
-        loadAssignedTeams();
-      } else {
-        showToast(res.message || 'Failed to select team', true);
-      }
-    } else {
-      const res = await apiRequest(`/admin/teams/${selectedTeam.id}/round2/select`, {
-        method: 'PUT',
-      });
-      if (res.ok) {
-        showToast(`🏆 Team "${selectedTeam.name}" promoted to Grand Finalist in MongoDB!`);
-        loadAssignedTeams();
-      } else {
-        showToast(res.message || 'Failed to promote team', true);
-      }
-    }
-  };
 
   // If not logged in as panelist, show dedicated Judge Login screen
   if (!token || user?.role !== 'panelist') {
@@ -198,7 +272,7 @@ export default function PanelistPage() {
         <div>
           <h1 className="portal-title">⚖️ Jury & Panelist Evaluation Portal</h1>
           <p className="portal-subtitle">
-            Welcome, <strong>{user?.name}</strong>. Inspect submissions, enter weighted rubric scores, and select teams for the next round.
+            Welcome, <strong>{user?.name}</strong>. Inspect submissions, enter weighted rubric scores, and submit your evaluation.
           </p>
         </div>
         <button className="btn btn-secondary btn-sm" onClick={loadAssignedTeams}>
@@ -292,7 +366,7 @@ export default function PanelistPage() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
             <div>
               <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 800, margin: 0 }}>
-                🎯 Rubric & Decision: {selectedTeam?.name || 'Select a Team'}
+                🎯 Rubric Evaluation: {selectedTeam?.name || 'Select a Team'}
               </h3>
               {submissionDetails?.team?.theme && (
                 <div style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: 600, marginTop: '2px' }}>
@@ -300,7 +374,9 @@ export default function PanelistPage() {
                 </div>
               )}
             </div>
-            <span className="badge SELECTED">Active Rubric</span>
+            <span className={`badge ${isEvaluated ? 'SUCCESS' : 'SELECTED'}`}>
+              {isEvaluated ? '🔒 Score Locked' : 'Active Rubric'}
+            </span>
           </div>
 
           {/* SUBMISSION DETAILS INSPECTOR */}
@@ -357,6 +433,13 @@ export default function PanelistPage() {
           )}
 
           {/* RUBRIC FORM */}
+          {isEvaluated && (
+            <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 'var(--radius-md)', padding: '12px 16px', color: '#166534', fontSize: '13px', fontWeight: 600, marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span>🔒</span>
+              <span>This evaluation has been submitted to MongoDB and is locked against further edits.</span>
+            </div>
+          )}
+
           <form onSubmit={handleScoreSubmit}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
               <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-main)' }}>
@@ -380,8 +463,10 @@ export default function PanelistPage() {
                       min="0"
                       max="10"
                       step="0.5"
+                      disabled={isEvaluated}
                       className="rubric-number-input"
                       value={r1Scores.problemUnderstanding}
+                      onFocus={(e) => e.target.select()}
                       onChange={(e) => {
                         const val = Math.min(10, Math.max(0, parseFloat(e.target.value) || 0));
                         setR1Scores({ ...r1Scores, problemUnderstanding: val });
@@ -403,8 +488,10 @@ export default function PanelistPage() {
                       min="0"
                       max="10"
                       step="0.5"
+                      disabled={isEvaluated}
                       className="rubric-number-input"
                       value={r1Scores.innovation}
+                      onFocus={(e) => e.target.select()}
                       onChange={(e) => {
                         const val = Math.min(10, Math.max(0, parseFloat(e.target.value) || 0));
                         setR1Scores({ ...r1Scores, innovation: val });
@@ -426,8 +513,10 @@ export default function PanelistPage() {
                       min="0"
                       max="10"
                       step="0.5"
+                      disabled={isEvaluated}
                       className="rubric-number-input"
                       value={r1Scores.proposedSolution}
+                      onFocus={(e) => e.target.select()}
                       onChange={(e) => {
                         const val = Math.min(10, Math.max(0, parseFloat(e.target.value) || 0));
                         setR1Scores({ ...r1Scores, proposedSolution: val });
@@ -449,8 +538,10 @@ export default function PanelistPage() {
                       min="0"
                       max="10"
                       step="0.5"
+                      disabled={isEvaluated}
                       className="rubric-number-input"
                       value={r1Scores.feasibility}
+                      onFocus={(e) => e.target.select()}
                       onChange={(e) => {
                         const val = Math.min(10, Math.max(0, parseFloat(e.target.value) || 0));
                         setR1Scores({ ...r1Scores, feasibility: val });
@@ -472,8 +563,10 @@ export default function PanelistPage() {
                       min="0"
                       max="10"
                       step="0.5"
+                      disabled={isEvaluated}
                       className="rubric-number-input"
                       value={r1Scores.expectedImpact}
+                      onFocus={(e) => e.target.select()}
                       onChange={(e) => {
                         const val = Math.min(10, Math.max(0, parseFloat(e.target.value) || 0));
                         setR1Scores({ ...r1Scores, expectedImpact: val });
@@ -497,8 +590,10 @@ export default function PanelistPage() {
                       min="0"
                       max="10"
                       step="0.5"
+                      disabled={isEvaluated}
                       className="rubric-number-input"
                       value={r2Scores.conceptClarity}
+                      onFocus={(e) => e.target.select()}
                       onChange={(e) => {
                         const val = Math.min(10, Math.max(0, parseFloat(e.target.value) || 0));
                         setR2Scores({ ...r2Scores, conceptClarity: val });
@@ -520,8 +615,10 @@ export default function PanelistPage() {
                       min="0"
                       max="10"
                       step="0.5"
+                      disabled={isEvaluated}
                       className="rubric-number-input"
                       value={r2Scores.innovation}
+                      onFocus={(e) => e.target.select()}
                       onChange={(e) => {
                         const val = Math.min(10, Math.max(0, parseFloat(e.target.value) || 0));
                         setR2Scores({ ...r2Scores, innovation: val });
@@ -543,8 +640,10 @@ export default function PanelistPage() {
                       min="0"
                       max="10"
                       step="0.5"
+                      disabled={isEvaluated}
                       className="rubric-number-input"
                       value={r2Scores.valueProposition}
+                      onFocus={(e) => e.target.select()}
                       onChange={(e) => {
                         const val = Math.min(10, Math.max(0, parseFloat(e.target.value) || 0));
                         setR2Scores({ ...r2Scores, valueProposition: val });
@@ -566,8 +665,10 @@ export default function PanelistPage() {
                       min="0"
                       max="10"
                       step="0.5"
+                      disabled={isEvaluated}
                       className="rubric-number-input"
                       value={r2Scores.technicalFeasibility}
+                      onFocus={(e) => e.target.select()}
                       onChange={(e) => {
                         const val = Math.min(10, Math.max(0, parseFloat(e.target.value) || 0));
                         setR2Scores({ ...r2Scores, technicalFeasibility: val });
@@ -589,8 +690,10 @@ export default function PanelistPage() {
                       min="0"
                       max="10"
                       step="0.5"
+                      disabled={isEvaluated}
                       className="rubric-number-input"
                       value={r2Scores.feasibilityPlan90Days}
+                      onFocus={(e) => e.target.select()}
                       onChange={(e) => {
                         const val = Math.min(10, Math.max(0, parseFloat(e.target.value) || 0));
                         setR2Scores({ ...r2Scores, feasibilityPlan90Days: val });
@@ -612,8 +715,10 @@ export default function PanelistPage() {
                       min="0"
                       max="10"
                       step="0.5"
+                      disabled={isEvaluated}
                       className="rubric-number-input"
                       value={r2Scores.resourcePlanning}
+                      onFocus={(e) => e.target.select()}
                       onChange={(e) => {
                         const val = Math.min(10, Math.max(0, parseFloat(e.target.value) || 0));
                         setR2Scores({ ...r2Scores, resourcePlanning: val });
@@ -635,8 +740,10 @@ export default function PanelistPage() {
                       min="0"
                       max="10"
                       step="0.5"
+                      disabled={isEvaluated}
                       className="rubric-number-input"
                       value={r2Scores.expectedImpact}
+                      onFocus={(e) => e.target.select()}
                       onChange={(e) => {
                         const val = Math.min(10, Math.max(0, parseFloat(e.target.value) || 0));
                         setR2Scores({ ...r2Scores, expectedImpact: val });
@@ -658,8 +765,10 @@ export default function PanelistPage() {
                       min="0"
                       max="10"
                       step="0.5"
+                      disabled={isEvaluated}
                       className="rubric-number-input"
                       value={r2Scores.scalability}
+                      onFocus={(e) => e.target.select()}
                       onChange={(e) => {
                         const val = Math.min(10, Math.max(0, parseFloat(e.target.value) || 0));
                         setR2Scores({ ...r2Scores, scalability: val });
@@ -684,21 +793,33 @@ export default function PanelistPage() {
                 placeholder="Remarks, strengths, and areas for improvement..."
                 value={comments}
                 onChange={(e) => setComments(e.target.value)}
+                disabled={isEvaluated}
+                style={isEvaluated ? { background: '#f8fafc', cursor: 'not-allowed', color: '#475569' } : {}}
                 required
               />
             </div>
 
-            <div className="grid-2 mt-4">
-              <button type="submit" className="btn btn-secondary w-full">
-                💾 Save Score Record
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary w-full"
-                onClick={handleAdvanceToNextRound}
-              >
-                {selectedRound === 1 ? '🚀 Select for Round 2' : '🏆 Select as Finalist'}
-              </button>
+            <div className="mt-4">
+              {isEvaluated ? (
+                <button
+                  type="button"
+                  className="btn btn-secondary w-full"
+                  disabled
+                  style={{
+                    background: '#e2e8f0',
+                    color: '#64748b',
+                    cursor: 'not-allowed',
+                    border: '1px solid #cbd5e1',
+                    fontWeight: 700,
+                  }}
+                >
+                  🔒 Score Submitted (Locked)
+                </button>
+              ) : (
+                <button type="submit" className="btn btn-secondary w-full">
+                  💾 Save Score Record
+                </button>
+              )}
             </div>
           </form>
         </div>

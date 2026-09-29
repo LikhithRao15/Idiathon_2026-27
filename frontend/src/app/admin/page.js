@@ -245,7 +245,7 @@ export default function AdminPage() {
   const [sortBy, setSortBy] = useState('score_r1_desc'); // 'score_r1_desc' | 'score_r2_desc' | 'score_r1_asc' | 'newest' | 'name_asc'
 
   // Score Cutoff & Batch Selection State
-  const [minCutoff, setMinCutoff] = useState(70);
+  const [minCutoff, setMinCutoff] = useState(35);
   const [selectedTeamIds, setSelectedTeamIds] = useState([]);
   const [batchActionLoading, setBatchActionLoading] = useState(false);
 
@@ -843,7 +843,7 @@ export default function AdminPage() {
                 <input
                   type="number"
                   min="0"
-                  max="100"
+                  max="50"
                   value={minCutoff}
                   onChange={(e) => setMinCutoff(e.target.value)}
                   style={{ width: '68px', padding: '4px 8px', fontSize: '13px', borderRadius: '6px' }}
@@ -1007,48 +1007,44 @@ export default function AdminPage() {
                     const isSelected = selectedTeamIds.includes(team._id);
 
                     // Score pill color calculation
-                    const getScoreBadge = (score, count) => {
+                    const getScoreBadge = (score, count, maxScore) => {
                       if (score === null || score === undefined) {
-                        return (
-                          <span style={{ fontSize: '11px', color: 'var(--muted)', fontStyle: 'italic' }}>
-                            Pending review
-                          </span>
-                        );
+                        return <span style={{ color: 'var(--muted)' }}>—</span>;
                       }
-                      let bg = '#ecfdf5';
-                      let color = '#047857';
-                      let border = '#a7f3d0';
 
-                      if (score < 50) {
-                        bg = '#fff1f2';
-                        color = '#be123c';
-                        border = '#fecdd3';
-                      } else if (score < 70) {
-                        bg = '#fffbeb';
-                        color = '#b45309';
-                        border = '#fde68a';
+                      const percentage = (score / maxScore) * 100;
+
+                      let background = '#dcfce7';
+                      let color = '#166534';
+
+                      if (percentage < 50) {
+                        background = '#fee2e2';
+                        color = '#991b1b';
+                      } else if (percentage < 70) {
+                        background = '#fef3c7';
+                        color = '#92400e';
                       }
 
                       return (
-                        <div style={{ display: 'inline-flex', flexDirection: 'column', gap: '2px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
                           <span
                             style={{
-                              background: bg,
-                              color: color,
-                              border: `1px solid ${border}`,
-                              padding: '2px 8px',
-                              borderRadius: '999px',
-                              fontSize: '12px',
-                              fontWeight: 800,
                               display: 'inline-flex',
                               alignItems: 'center',
-                              gap: '4px',
+                              justifyContent: 'center',
+                              padding: '4px 8px',
+                              borderRadius: '8px',
+                              background,
+                              color,
+                              fontWeight: 800,
+                              fontSize: '12px',
                             }}
                           >
-                            ⭐ {score} <small style={{ opacity: 0.8 }}>/100</small>
+                            ⭐ {score} / {maxScore}
                           </span>
+
                           <span style={{ fontSize: '10px', color: 'var(--muted)' }}>
-                            {count || 1} {count === 1 ? 'judge' : 'judges'}
+                            {count || 0} judge{count === 1 ? '' : 's'}
                           </span>
                         </div>
                       );
@@ -1109,8 +1105,8 @@ export default function AdminPage() {
                             </div>
                           )}
                         </td>
-                        <td>{getScoreBadge(team.r1AvgScore, team.r1EvaluationsCount)}</td>
-                        <td>{getScoreBadge(team.r2AvgScore, team.r2EvaluationsCount)}</td>
+                        <td>{getScoreBadge(team.r1AvgScore, team.r1EvaluationsCount, 50)}</td>
+                        <td>{getScoreBadge(team.r2AvgScore, team.r2EvaluationsCount, 80)}</td>
                         <td>
                           <span className={`badge ${team.round1Status}`}>{team.round1Status}</span>
                         </td>
@@ -1718,7 +1714,7 @@ export default function AdminPage() {
                     Round 1 Avg Score
                   </div>
                   <div style={{ fontSize: '22px', fontWeight: 800, color: 'var(--green)', marginTop: '2px' }}>
-                    {inspectTeam.r1AvgScore !== null ? `⭐ ${inspectTeam.r1AvgScore}/100` : '—'}
+                    {inspectTeam.r1AvgScore !== null ? `⭐ ${inspectTeam.r1AvgScore}/50` : '—'}
                   </div>
                   <div style={{ fontSize: '11px', color: 'var(--muted)' }}>
                     {inspectTeam.r1EvaluationsCount || 0} Jury Evaluations
@@ -1730,7 +1726,7 @@ export default function AdminPage() {
                     Round 2 Avg Score
                   </div>
                   <div style={{ fontSize: '22px', fontWeight: 800, color: '#0284c7', marginTop: '2px' }}>
-                    {inspectTeam.r2AvgScore !== null ? `⭐ ${inspectTeam.r2AvgScore}/100` : '—'}
+                    {inspectTeam.r2AvgScore !== null ? `⭐ ${inspectTeam.r2AvgScore}/80` : '—'}
                   </div>
                   <div style={{ fontSize: '11px', color: 'var(--muted)' }}>
                     {inspectTeam.r2EvaluationsCount || 0} Jury Evaluations
@@ -1793,7 +1789,7 @@ export default function AdminPage() {
                               border: '1px solid #a7f3d0',
                             }}
                           >
-                            ⭐ {ev.totalScore} / 100
+                            ⭐ {ev.totalScore} / {ev.round === 1 ? 50 : 80}
                           </span>
                         </div>
 

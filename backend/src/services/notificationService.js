@@ -49,7 +49,6 @@ class NotificationService {
    */
   async notifyRegistration(user) {
     try {
-      // 1. In-app notification
       await this.createInAppNotification({
         userId: user._id,
         title: 'Welcome to Ideathon 2026!',
@@ -57,17 +56,6 @@ class NotificationService {
         type: 'REGISTRATION',
         channel: 'ALL',
       });
-
-      // 2. Email notification
-      await emailService.sendRegistrationEmail(user);
-
-      // 3. SMS for registration
-      if (user.phone) {
-        await smsService.sendSMS(
-          user.phone,
-          `Welcome to Hasiru Samvadha Ideathon 2026, ${user.name}! Your registration is confirmed. Team creation is now open.`
-        );
-      }
     } catch (error) {
       console.error(`[Notification Service Error on Registration]: ${error.message}`);
     }
@@ -96,12 +84,13 @@ class NotificationService {
       // 2. Email
       await emailService.sendRound1SelectedEmail(user, team);
 
-      // 3. SMS to Leader & All Team Members
-      const phoneNumbers = this._extractTeamPhones(user, team);
-      const smsMessage = `🎉 CONGRATULATIONS! Team ${team.teamName} has been SELECTED for Round 2 in Hasiru Samvadha Ideathon 2026! Log in to your portal to submit Round 2 elaboration.`;
+      // 3. SMS to Team Leader only
+      if (user?.phone) {
+        const smsMessage =
+          `🎉 CONGRATULATIONS! Team ${team.teamName} has been SELECTED for Round 2 in Hasiru Samvadha Ideathon 2026! ` +
+          `Please log in to your participant dashboard to submit your Round 2 elaboration.`;
 
-      for (const phone of phoneNumbers) {
-        await smsService.sendSMS(phone, smsMessage);
+        await smsService.sendSMS(user.phone, smsMessage);
       }
     } catch (error) {
       console.error(`[Notification Error on Round 1 Selection]: ${error.message}`);
@@ -130,14 +119,6 @@ class NotificationService {
 
       // 2. Email
       await emailService.sendRound1RejectedEmail(user, team);
-
-      // 3. SMS to Leader & All Team Members
-      const phoneNumbers = this._extractTeamPhones(user, team);
-      const smsMessage = `Hasiru Samvadha Ideathon 2026: Team ${team.teamName} Round 1 results have been published. Check your dashboard for feedback. Thank you for participating!`;
-
-      for (const phone of phoneNumbers) {
-        await smsService.sendSMS(phone, smsMessage);
-      }
     } catch (error) {
       console.error(`[Notification Error on Round 1 Rejection]: ${error.message}`);
     }
@@ -166,12 +147,14 @@ class NotificationService {
       // 2. Email
       await emailService.sendRound2SelectedEmail(user, team);
 
-      // 3. SMS to Leader & All Team Members
-      const phoneNumbers = this._extractTeamPhones(user, team);
-      const smsMessage = `🏆 GRAND FINALIST: Team ${team.teamName} has advanced to the Grand Finale of Hasiru Samvadha Ideathon 2026! Check dashboard for your schedule & venue details.`;
+      // 3. SMS to Team Leader only
+      if (user?.phone) {
+        const smsMessage =
+          `🏆 GRAND FINALIST: Team ${team.teamName} has advanced to the Grand Finale ` +
+          `of Hasiru Samvadha Ideathon 2026! Please check your participant dashboard ` +
+          `for more details about the event, timings, and other important information.`;
 
-      for (const phone of phoneNumbers) {
-        await smsService.sendSMS(phone, smsMessage);
+        await smsService.sendSMS(user.phone, smsMessage);
       }
     } catch (error) {
       console.error(`[Notification Error on Finalist Selection]: ${error.message}`);
@@ -195,13 +178,6 @@ class NotificationService {
           type: 'ROUND2_REJECTED',
           channel: 'ALL',
         });
-      }
-
-      const phoneNumbers = this._extractTeamPhones(user, team);
-      const smsMessage = `Hasiru Samvadha Ideathon 2026: Team ${team.teamName} Round 2 evaluation results are published. Thank you for your innovative submission!`;
-
-      for (const phone of phoneNumbers) {
-        await smsService.sendSMS(phone, smsMessage);
       }
     } catch (error) {
       console.error(`[Notification Error on Round 2 Rejection]: ${error.message}`);
@@ -228,17 +204,6 @@ class NotificationService {
           channel: 'ALL',
         });
       }
-
-      // 2. Email
-      await emailService.sendFinalistEmail(user, team, eventSchedule);
-
-      // 3. SMS to Leader & All Team Members
-      const phoneNumbers = this._extractTeamPhones(user, team);
-      const smsMessage = `Ideathon Finale Presentation for Team ${team.teamName}: Date ${formattedDate}, Time ${eventSchedule.startTime} at ${eventSchedule.venue}.`;
-
-      for (const phone of phoneNumbers) {
-        await smsService.sendSMS(phone, smsMessage);
-      }
     } catch (error) {
       console.error(`[Notification Error on Finalist Schedule]: ${error.message}`);
     }
@@ -261,15 +226,6 @@ class NotificationService {
           type: 'RESULT_PUBLISHED',
           channel: 'ALL',
         });
-      }
-
-      await emailService.sendResultEmail(user, team, standing);
-
-      const phoneNumbers = this._extractTeamPhones(user, team);
-      const smsMessage = `🏆 Hasiru Samvadha Ideathon Final Results: Team ${team.teamName} has secured ${standing}! Congratulations on your performance.`;
-
-      for (const phone of phoneNumbers) {
-        await smsService.sendSMS(phone, smsMessage);
       }
     } catch (error) {
       console.error(`[Notification Error on Final Result]: ${error.message}`);
