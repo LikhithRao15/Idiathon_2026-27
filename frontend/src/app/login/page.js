@@ -4,8 +4,46 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '../../context/AuthContext';
 
+const translations = {
+  en: {
+    title: 'Team Leader Sign In',
+    subtitle: 'Access your team workspace, pitch submissions, and round progress',
+
+    email: 'Leader Email Address *',
+    emailPlaceholder: 'e.g. leader@domain.com',
+
+    password: 'Password *',
+    passwordPlaceholder: '••••••••',
+
+    signingIn: 'Signing In...',
+    signIn: 'Sign In to Workspace →',
+
+    notRegistered: "Haven't registered your team yet?",
+    register: 'Register as Team Leader',
+  },
+
+  kn: {
+    title: 'ತಂಡದ ನಾಯಕನಾಗಿ ಸೈನ್ ಇನ್ ಮಾಡಿ',
+    subtitle: 'ನಿಮ್ಮ ತಂಡದ ಕಾರ್ಯಕ್ಷೇತ್ರ, ಪಿಚ್ ಸಲ್ಲಿಕೆಗಳು ಮತ್ತು ಸುತ್ತಿನ ಪ್ರಗತಿಯನ್ನು ಪ್ರವೇಶಿಸಿ',
+
+    email: 'ತಂಡದ ನಾಯಕನ ಇಮೇಲ್ ವಿಳಾಸ *',
+    emailPlaceholder: 'ಉದಾ. leader@domain.com',
+
+    password: 'ಪಾಸ್ವರ್ಡ್ *',
+    passwordPlaceholder: '••••••••',
+
+    signingIn: 'ಸೈನ್ ಇನ್ ಮಾಡಲಾಗುತ್ತಿದೆ...',
+    signIn: 'ಕಾರ್ಯಕ್ಷೇತ್ರಕ್ಕೆ ಸೈನ್ ಇನ್ ಮಾಡಿ →',
+
+    notRegistered: 'ಇನ್ನೂ ನಿಮ್ಮ ತಂಡವನ್ನು ನೋಂದಾಯಿಸಿಲ್ಲವೇ?',
+    register: 'ತಂಡದ ನಾಯಕನಾಗಿ ನೋಂದಾಯಿಸಿ',
+  },
+};
+
 export default function LoginPage() {
-  const { login } = useAuth();
+  const { login, lang } = useAuth();
+  const t = translations[lang] || translations.en;
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -23,45 +61,45 @@ export default function LoginPage() {
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>
           <div style={{ fontSize: '36px', marginBottom: '8px' }}>🌱</div>
           <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '24px', fontWeight: 800 }}>
-            Team Leader Sign In
+            {t.title}
           </h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginTop: '4px' }}>
-            Access your team workspace, pitch submissions, and round progress
+            {t.subtitle}
           </p>
         </div>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Leader Email Address *</label>
+            <label>{t.email}</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="e.g. leader@domain.com"
+              placeholder={t.emailPlaceholder}
               required
             />
           </div>
 
           <div className="form-group">
-            <label>Password *</label>
+            <label>{t.password}</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
+              placeholder={t.passwordPlaceholder}
               required
             />
           </div>
 
           <button type="submit" className="btn btn-primary w-full mt-2" disabled={loading}>
-            {loading ? 'Signing In...' : 'Sign In to Workspace →'}
+            {loading ? t.signingIn : t.signIn}
           </button>
         </form>
 
         <div style={{ textAlign: 'center', marginTop: '24px', paddingTop: '16px', borderTop: '1px solid var(--border-color)', fontSize: '13px', color: 'var(--text-muted)' }}>
-          Haven't registered your team yet?{' '}
+          {t.notRegistered}{' '}
           <Link href="/register" style={{ color: 'var(--primary)', fontWeight: 700, textDecoration: 'none' }}>
-            Register as Team Leader
+            {t.register}
           </Link>
         </div>
       </div>
