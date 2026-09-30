@@ -281,7 +281,20 @@ export default function PanelistPage() {
       </div>
 
       {/* ROUND SELECTOR BAR */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#ffffff', padding: '12px 20px', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)', marginBottom: '24px', boxShadow: 'var(--shadow-sm)' }}>
+      <div
+        className="panelist-round-selector"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          background: '#ffffff',
+          padding: '12px 20px',
+          borderRadius: 'var(--radius-lg)',
+          border: '1px solid var(--border-color)',
+          marginBottom: '24px',
+          boxShadow: 'var(--shadow-sm)',
+        }}
+      >
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <span style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-main)' }}>Select Evaluation Stage:</span>
           <button
@@ -304,7 +317,17 @@ export default function PanelistPage() {
       <div className="grid-2">
         {/* LEFT COLUMN: ASSIGNED TEAMS LIST */}
         <div className="light-card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', borderBottom: '1px solid var(--border-color)', paddingBottom: '8px' }}>
+          <div
+            className="panelist-submission-header"
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '14px',
+              borderBottom: '1px solid var(--border-color)',
+              paddingBottom: '8px',
+            }}
+          >
             <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 800, margin: 0 }}>
               📋 Submissions for Round {selectedRound} ({assignedTeams.length})
             </h3>

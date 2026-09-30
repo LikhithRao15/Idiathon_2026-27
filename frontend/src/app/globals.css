@@ -4090,3 +4090,538 @@ input:focus, select:focus, textarea:focus {
     min-width: 100%;
   }
 }
+
+/* =========================================================
+   PORTAL MOBILE RESPONSIVE FIXES
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   TABLET / SMALL LAPTOP
+   --------------------------------------------------------- */
+@media (max-width: 992px) {
+
+  /* Portal container */
+  .portal-container,
+  .portal-container.admin-portal {
+    width: calc(100% - 32px);
+    max-width: none;
+    padding-top: 24px;
+    padding-bottom: 48px;
+  }
+
+  /* Header */
+  .portal-header {
+    padding: 20px 22px;
+    gap: 18px;
+  }
+
+  /* Admin 4-stat grid */
+  .grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  /* Participant roster */
+  .participant-roster-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Finalist pass */
+  .finalist-pass {
+    align-items: flex-start;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   PHONE
+   --------------------------------------------------------- */
+@media (max-width: 768px) {
+
+  /* =======================================================
+     GLOBAL PORTAL
+     ======================================================= */
+
+  .portal-container,
+  .portal-container.admin-portal {
+    width: calc(100% - 24px);
+    max-width: none;
+    padding: 16px 0 40px;
+  }
+
+  .portal-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    padding: 18px;
+    margin-bottom: 16px;
+    border-radius: 16px;
+  }
+
+  .portal-header > div {
+    min-width: 0;
+  }
+
+  .portal-title {
+    font-size: 20px;
+    line-height: 1.25;
+    word-break: normal;
+  }
+
+  .portal-subtitle {
+    font-size: 12px;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+  }
+
+  .portal-header > button {
+    width: 100%;
+    min-height: 42px;
+  }
+
+
+  /* =======================================================
+     CARDS
+     ======================================================= */
+
+  .light-card,
+  .card {
+    padding: 20px 16px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+  }
+
+
+  /* =======================================================
+     GENERAL GRIDS
+     ======================================================= */
+
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
+
+  .form-row,
+  .form-row.three-col {
+    grid-template-columns: 1fr !important;
+    gap: 0;
+  }
+
+
+  /* =======================================================
+     PARTICIPANT — PROGRESS TRACKER
+     ======================================================= */
+
+  .tracker-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+  }
+
+  .tracker-node {
+    min-width: 0;
+    width: 100%;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 10px;
+    border-radius: 12px;
+    background: rgba(12, 91, 53, 0.035);
+  }
+
+  .tracker-bubble {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    flex-shrink: 0;
+    font-size: 12px;
+  }
+
+  .tracker-info {
+    min-width: 0;
+  }
+
+  .tracker-info strong {
+    font-size: 11.5px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  .tracker-info span {
+    display: block;
+    font-size: 10px;
+    line-height: 1.35;
+    margin-top: 2px;
+    overflow-wrap: anywhere;
+  }
+
+  /* Hide desktop connector lines on phone */
+  .tracker-connector {
+    display: none;
+  }
+
+
+  /* =======================================================
+     PARTICIPANT — TABS
+     ======================================================= */
+
+  .tab-bar {
+    overflow-x: auto;
+    overflow-y: hidden;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: 6px;
+    padding: 5px;
+    margin-bottom: 16px;
+
+    /* Keep scrollbar unobtrusive */
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-btn {
+    flex: 0 0 auto;
+    min-width: max-content;
+    white-space: nowrap;
+    padding: 10px 14px;
+    font-size: 12px;
+  }
+
+
+  /* =======================================================
+     PARTICIPANT — TEAM HUB
+     ======================================================= */
+
+  .team-hub-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+  }
+
+  .team-hub-title {
+    font-size: 21px;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+
+  .team-meta-row {
+    flex-wrap: wrap;
+  }
+
+  .participant-card {
+    padding: 20px 16px;
+  }
+
+  .team-hub-action-bar {
+    justify-content: stretch;
+  }
+
+  .team-hub-action-bar .btn {
+    width: 100%;
+  }
+
+
+  /* =======================================================
+     PARTICIPANT — ROSTER
+     ======================================================= */
+
+  .participant-roster-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+
+  .roster-card {
+    padding: 16px;
+  }
+
+  .roster-name {
+    font-size: 16px;
+  }
+
+  .member-subitem-contact {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+
+  /* =======================================================
+     PARTICIPANT — PITCH FORMS
+     ======================================================= */
+
+  .pitch-form-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+  }
+
+  .pitch-form-header h2,
+  .pitch-form-header h3 {
+    font-size: 20px;
+    line-height: 1.3;
+  }
+
+
+  /* =======================================================
+     PARTICIPANT — FINALIST PASS
+     ======================================================= */
+
+  .finalist-pass {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .pass-icon {
+    align-self: flex-start;
+    font-size: 36px;
+    padding: 10px 14px;
+  }
+
+
+  /* =======================================================
+     ADMIN — STAT CARDS
+     ======================================================= */
+
+  .admin-stat-card {
+    padding: 16px;
+    gap: 12px;
+    border-radius: 14px;
+  }
+
+  .stat-icon-wrap {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    font-size: 20px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    line-height: 1.3;
+  }
+
+  .stat-value {
+    font-size: 23px;
+  }
+
+
+  /* =======================================================
+     ADMIN — TABS
+     ======================================================= */
+
+  .admin-nav-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 6px;
+    padding: 5px;
+    margin-bottom: 16px;
+
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .admin-nav-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .admin-tab {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 9px 13px;
+    font-size: 12px;
+  }
+
+
+  /* =======================================================
+     ADMIN — FILTER BAR
+     ======================================================= */
+
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .filter-input-wrap,
+  .filter-select {
+    width: 100%;
+    min-width: 0;
+  }
+
+
+  /* =======================================================
+     ADMIN / GENERAL TABLES
+     ======================================================= */
+
+  .table-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+  }
+
+  .light-table {
+    min-width: 900px;
+  }
+
+
+  /* =======================================================
+     PANELIST — ROUND SELECTOR
+     ======================================================= */
+
+  .panelist-round-selector {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    padding: 12px !important;
+  }
+
+  .panelist-round-selector > div {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+  }
+
+  .panelist-round-selector .btn {
+    width: 100%;
+    min-height: 40px;
+  }
+
+  .panelist-round-selector > .badge {
+    align-self: flex-start;
+  }
+
+
+  /* =======================================================
+     PANELIST — SUBMISSION HEADER
+     ======================================================= */
+
+  .panelist-submission-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+
+
+  /* =======================================================
+     TOAST
+     ======================================================= */
+
+  .toast-container {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .toast-card {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    font-size: 12px;
+  }
+
+
+  /* =======================================================
+     BUTTONS
+     ======================================================= */
+
+  .btn {
+    min-height: 40px;
+  }
+
+  .btn-sm {
+    min-height: 38px;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   SMALL PHONES
+   --------------------------------------------------------- */
+@media (max-width: 480px) {
+
+  .portal-container,
+  .portal-container.admin-portal {
+    width: calc(100% - 16px);
+    padding-top: 12px;
+  }
+
+  .portal-header {
+    padding: 15px;
+  }
+
+  .portal-title {
+    font-size: 18px;
+  }
+
+  .portal-subtitle {
+    font-size: 11.5px;
+  }
+
+
+  /* Participant tracker becomes one column on very narrow phones */
+  .tracker-box {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .tracker-node {
+    padding: 9px;
+  }
+
+
+  /* Smaller cards */
+  .light-card,
+  .card {
+    padding: 16px 13px;
+  }
+
+  .participant-card {
+    padding: 16px 13px;
+  }
+
+
+  /* Admin stats */
+  .admin-stat-card {
+    padding: 14px;
+  }
+
+  .stat-icon-wrap {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+  }
+
+  .stat-value {
+    font-size: 21px;
+  }
+
+
+  /* Form controls */
+  input,
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"],
+  input[type="date"],
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
