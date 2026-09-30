@@ -1,7 +1,7 @@
 /**
  * API Client for Ideathon Backend
  */
-const API_BASE = 'http://localhost:5001/api';
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api').replace(/\/+$/, '');
 
 export async function apiRequest(endpoint, options = {}, token = null) {
   const authToken = token || (typeof window !== 'undefined' ? localStorage.getItem('ideathon_token') : null);
