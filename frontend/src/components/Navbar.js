@@ -128,7 +128,7 @@ export default function Navbar() {
               }}
               title="ಕನ್ನಡಕ್ಕೆ ಬದಲಾಯಿಸಿ"
             >
-              ಕ
+              ಕನ್ನಡ
             </button>
           </div>
 

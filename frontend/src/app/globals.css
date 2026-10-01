@@ -4692,3 +4692,318 @@ textarea:focus {
     font-size: 16px;
   }
 }
+
+/* =========================================================
+   MOBILE HOMEPAGE UI POLISH
+   Keeps existing design — only improves spacing/hierarchy
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+  /* ---------------------------------------------------------
+     1. HERO — tighter vertical spacing
+     --------------------------------------------------------- */
+
+  .hero {
+    padding-top: 78px !important;
+    padding-bottom: 28px !important;
+  }
+
+  .hero-main {
+    padding-bottom: 0 !important;
+  }
+
+  .hero-grid {
+    gap: 12px !important;
+  }
+
+  .hero-copy {
+    padding-bottom: 0 !important;
+  }
+
+  .eyebrow {
+    margin-bottom: 8px !important;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(48px, 14vw, 68px) !important;
+    line-height: 0.91 !important;
+    letter-spacing: -0.065em !important;
+    margin: 14px 0 20px !important;
+  }
+
+  .hero-lead {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+    margin-bottom: 0 !important;
+    max-width: 100% !important;
+  }
+
+
+  /* ---------------------------------------------------------
+     2. HERO BUTTONS — closer together
+     --------------------------------------------------------- */
+
+  .hero-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    margin-top: 20px !important;
+  }
+
+  .hero-explore-pill-btn,
+  .hero-poster-pill-btn {
+    width: 100% !important;
+    min-height: 54px !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+  }
+
+
+  /* ---------------------------------------------------------
+     3. STATS + COUNTDOWN — reduce excessive gap
+     --------------------------------------------------------- */
+
+  .hero-stats-row {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    margin-top: 18px !important;
+  }
+
+  .micro-stats {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    padding: 12px 14px !important;
+    border-radius: 16px !important;
+  }
+
+  .micro-stats > div {
+    min-width: 0 !important;
+    flex: 1 !important;
+  }
+
+  .micro-stats strong {
+    font-size: 23px !important;
+  }
+
+  .micro-stats span {
+    font-size: 11px !important;
+    line-height: 1.25 !important;
+  }
+
+
+  /* ---------------------------------------------------------
+     4. COUNTDOWN — keep current visual style
+     --------------------------------------------------------- */
+
+  .hero-countdown {
+    width: fit-content !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 10px 15px !important;
+    border-radius: 16px !important;
+    gap: 4px !important;
+    align-self: flex-start !important;
+  }
+
+  .hero-countdown-label {
+    white-space: nowrap !important;
+    font-size: 10px !important;
+    letter-spacing: 0.12em !important;
+  }
+
+  .hero-countdown-grid {
+    white-space: nowrap !important;
+  }
+
+  .cd-box b {
+    font-size: 24px !important;
+  }
+
+  .cd-box small {
+    font-size: 8px !important;
+  }
+
+  .cd-sep {
+    font-size: 17px !important;
+  }
+
+
+  /* ---------------------------------------------------------
+     5. REGISTER BUTTON — make it completely visible
+     --------------------------------------------------------- */
+
+  .hero-register-row,
+  .hero-cta-left {
+    width: 100% !important;
+    max-width: none !important;
+    margin-top: 12px !important;
+  }
+
+  .hero-register-wide-btn {
+    width: 100% !important;
+    min-height: 54px !important;
+    padding: 14px 18px !important;
+    box-sizing: border-box !important;
+    font-size: 15px !important;
+  }
+
+
+  /* ---------------------------------------------------------
+     6. SURVEY BUTTON — keep consistent if present
+     --------------------------------------------------------- */
+
+  .hero-cta-right {
+    width: 100% !important;
+    margin-top: 0 !important;
+  }
+
+  .hero-survey-btn {
+    width: 100% !important;
+    min-height: 54px !important;
+    box-sizing: border-box !important;
+  }
+
+
+  /* ---------------------------------------------------------
+     7. HERO ART — don't let it create unnecessary spacing
+     --------------------------------------------------------- */
+
+  .hero-art-col {
+    margin-top: 4px !important;
+  }
+
+
+  /* ---------------------------------------------------------
+     8. MOBILE NAV MENU — more compact
+     --------------------------------------------------------- */
+
+  .nav-links {
+    top: 72px !important;
+    left: 14px !important;
+    right: 14px !important;
+
+    padding: 14px !important;
+    gap: 6px !important;
+
+    border-radius: 20px !important;
+
+    background: rgba(248, 252, 244, 0.97) !important;
+    backdrop-filter: blur(22px) !important;
+    -webkit-backdrop-filter: blur(22px) !important;
+
+    box-shadow:
+      0 24px 55px rgba(0, 0, 0, 0.18),
+      0 4px 16px rgba(12, 91, 53, 0.10) !important;
+  }
+
+  .nav-links button,
+  .nav-links a {
+    min-height: 46px !important;
+    padding: 9px 14px !important;
+    font-size: 15px !important;
+    border-radius: 12px !important;
+  }
+
+
+  /* ---------------------------------------------------------
+     9. LANGUAGE SWITCH
+     --------------------------------------------------------- */
+
+  .language-switch {
+    width: 100% !important;
+    margin: 8px 0 !important;
+    padding: 3px !important;
+    box-sizing: border-box !important;
+  }
+
+  .language-switch button {
+    min-height: 42px !important;
+    padding: 8px 12px !important;
+    font-size: 13px !important;
+  }
+
+
+  /* ---------------------------------------------------------
+     10. REGISTER = PRIMARY MENU ACTION
+     --------------------------------------------------------- */
+
+  .nav-links .nav-cta {
+    min-height: 52px !important;
+    justify-content: center !important;
+    background: var(--green) !important;
+    color: #fff !important;
+    border-color: var(--green) !important;
+    font-weight: 800 !important;
+    box-shadow: 0 8px 20px rgba(12, 91, 53, 0.18) !important;
+  }
+
+
+  /* ---------------------------------------------------------
+     11. MENU ITEMS — slightly cleaner
+     --------------------------------------------------------- */
+
+  .nav-links > button:not(.nav-cta),
+  .nav-links > a:not(.nav-cta) {
+    background: transparent !important;
+    color: var(--ink) !important;
+  }
+
+  .nav-links > button:not(.nav-cta):active,
+  .nav-links > a:not(.nav-cta):active {
+    background: rgba(12, 91, 53, 0.07) !important;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 390px) {
+
+  .hero {
+    padding-top: 72px !important;
+  }
+
+  .hero-copy h1 {
+    font-size: 46px !important;
+  }
+
+  .hero-lead {
+    font-size: 14px !important;
+  }
+
+  .micro-stats {
+    padding: 11px 10px !important;
+  }
+
+  .micro-stats strong {
+    font-size: 21px !important;
+  }
+
+  .micro-stats span {
+    font-size: 10px !important;
+  }
+
+  .hero-countdown {
+    width: 100% !important;
+    align-self: stretch !important;
+  }
+
+  .hero-countdown-label {
+    font-size: 9px !important;
+  }
+
+  .cd-box b {
+    font-size: 22px !important;
+  }
+
+  .hero-register-wide-btn {
+    font-size: 14px !important;
+  }
+}
