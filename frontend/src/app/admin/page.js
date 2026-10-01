@@ -661,10 +661,12 @@ export default function AdminPage() {
 
           <form onSubmit={handleAdminLogin}>
             <div className="form-group">
-              <label>Administrator Email *</label>
+              <label>Administrator ID / Email *</label>
               <input
-                type="email"
-                placeholder="admin@ideathon.org"
+                type="text"
+                autoCapitalize="none"
+                autoCorrect="off"
+                placeholder="admin@123"
                 value={adminEmail}
                 onChange={(e) => setAdminEmail(e.target.value)}
                 required

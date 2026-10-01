@@ -25,6 +25,12 @@ const env = {
   MAX_TEAM_SIZE: parseInt(process.env.MAX_TEAM_SIZE, 10) || 4,
   MIN_TEAM_SIZE: parseInt(process.env.MIN_TEAM_SIZE, 10) || 1,
   
+  // Admin credentials (configurable via environment variables)
+  ADMIN_EMAIL: process.env.ADMIN_EMAIL || 'admin@123',
+  ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || 'admin_123',
+  ADMIN_NAME: process.env.ADMIN_NAME || 'Ideathon Administrator',
+  ADMIN_PHONE: process.env.ADMIN_PHONE || '+919876543210',
+  
   // Email config
   SMTP_HOST: process.env.SMTP_HOST || 'smtp.gmail.com',
   SMTP_PORT: parseInt(process.env.SMTP_PORT, 10) || 587,

@@ -1,11 +1,15 @@
 const app = require('./src/app');
 const { connectDB } = require('./src/config/db');
+const { initBaseline } = require('./src/config/initApp');
 const env = require('./src/config/env');
 
 const startServer = async () => {
   try {
     // Connect to MongoDB
     await connectDB();
+
+    // Auto-initialize baseline configuration and primary admin if needed
+    await initBaseline();
 
     // Start Express listener
     const server = app.listen(env.PORT, () => {

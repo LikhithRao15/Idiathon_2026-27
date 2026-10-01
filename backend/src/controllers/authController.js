@@ -5,7 +5,7 @@ const { sendSuccess, sendError } = require('../utils/response');
 const notificationService = require('../services/notificationService');
 
 /**
- * @desc    Register a new participant (or panelist/admin via seed/registration)
+ * @desc    Register a new participant
  * @route   POST /api/auth/register
  * @access  Public
  */
@@ -93,9 +93,16 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+    const cleanIdentifier = (email || '').trim().toLowerCase();
 
-    // Find user with password
-    const user = await User.findOne({ email: email.toLowerCase() }).select('+password');
+    // Find user with password - support exact match or admin aliases
+    const user = await User.findOne({
+      $or: [
+        { email: cleanIdentifier },
+        ...(cleanIdentifier === 'admin' ? [{ email: 'admin@123' }] : []),
+        ...(cleanIdentifier === 'admin@123' ? [{ email: 'admin' }] : []),
+      ],
+    }).select('+password');
     if (!user) {
       return sendError(res, 'Invalid email or password credentials.', 401);
     }

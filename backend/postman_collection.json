@@ -50,7 +50,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"admin@ideathon.org\",\n  \"password\": \"Password@123\"\n}"
+              "raw": "{\n  \"email\": \"admin@123\",\n  \"password\": \"admin_123\"\n}"
             },
             "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
           }

@@ -84,12 +84,12 @@ NEXT_PUBLIC_API_URL=http://localhost:5001/api
 
 ---
 
-### 4. Seed Database with Official Data
-Populate MongoDB Atlas with official themes, timeline rounds, admin, panelists, and sample teams:
-```bash
-cd backend
-npm run seed
-```
+---
+
+### 4. Admin Access & Initial Setup
+The system automatically initializes baseline event configuration, themes, and the primary administrator on server startup:
+- Default Admin ID / Email: `admin@123` (or configured via `ADMIN_EMAIL` environment variable)
+- Default Admin Password: `admin_123` (or configured via `ADMIN_PASSWORD` environment variable)
 
 ---
 
@@ -107,16 +107,13 @@ npm run dev
 
 ---
 
-## 🔑 Pre-Seeded Test Credentials
+## 🔑 Administrative Access
 
-| Role | Email | Password | Access & Capabilities |
+| Role | Identifier / Email | Password | Access & Capabilities |
 |---|---|---|---|
-| **Admin** | `admin@ideathon.org` | `Password@123` | Full administrative console (`/admin`), round reviews, finalist passes |
-| **Panelist 1** | `panelist1@ideathon.org` | `Password@123` | Jury evaluation dashboard (`/panelist`) |
-| **Panelist 2** | `panelist2@ideathon.org` | `Password@123` | Jury evaluation dashboard (`/panelist`) |
-| **Participant 1** | `rohan@example.com` | `Password@123` | Leader of **EcoTransformers** (Round 1 Submitted) |
-| **Participant 2** | `priya@example.com` | `Password@123` | Leader of **HealthAI Diagnostics** (Round 1 Selected, Round 2 Dossier) |
-| **Participant 3** | `kavya@example.com` | `Password@123` | Leader of **AgriVision IoT** (Grand Finalist with Stage Pass) |
+| **Admin** | `admin@123` | `admin_123` | Full administrative console (`/admin`), team approvals, panelist assignment, finalist passes |
+| **Panelist** | *Created by Admin* | *Issued by Admin* | Jury evaluation dashboard (`/panelist`) |
+| **Participant** | *Self-registered* | *Self-created* | Participant workspace, team management, pitch submissions |
 
 ---
 
@@ -157,8 +154,7 @@ Idiathon_2026-27/
 │   │   ├── services/             # Fast2SMS, Email, and multi-recipient notification
 │   │   ├── utils/                # Token generation, team IDs, responses
 │   │   ├── validators/           # Express-validator schemas & word counts
-│   │   ├── app.js                # Express app setup & CORS
-│   │   └── seed.js               # Database population script
+│   │   └── app.js                # Express app setup & CORS
 │   ├── server.js                 # HTTP Server entrypoint
 │   └── package.json
 │

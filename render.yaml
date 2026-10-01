@@ -23,6 +23,10 @@ services:
         value: 7d
       - key: CLIENT_URL
         sync: false
+      - key: ADMIN_EMAIL
+        value: admin@123
+      - key: ADMIN_PASSWORD
+        value: admin_123
 
   # Frontend Service (Next.js)
   - type: web

@@ -40,10 +40,7 @@ const loginValidator = [
   body('email')
     .trim()
     .notEmpty()
-    .withMessage('Email is required')
-    .isEmail()
-    .withMessage('Please provide a valid email address')
-    .normalizeEmail(),
+    .withMessage('Email or username is required'),
   body('password').notEmpty().withMessage('Password is required'),
 ];
 

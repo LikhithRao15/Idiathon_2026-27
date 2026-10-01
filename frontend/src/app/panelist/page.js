@@ -235,10 +235,12 @@ export default function PanelistPage() {
 
           <form onSubmit={handleJudgeLogin}>
             <div className="form-group">
-              <label>Judge Email Address *</label>
+              <label>Judge ID / Email Address *</label>
               <input
-                type="email"
-                placeholder="e.g. panelist@ideathon.org"
+                type="text"
+                autoCapitalize="none"
+                autoCorrect="off"
+                placeholder="e.g. panelist1 or judge@domain.com"
                 value={judgeEmail}
                 onChange={(e) => setJudgeEmail(e.target.value)}
                 required

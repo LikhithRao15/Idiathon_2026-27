@@ -14,12 +14,11 @@ A production-ready, highly secure, modular RESTful backend engineered in **Node.
 7. [Notification System](#-notification-system)
 8. [Installation & Setup](#-installation--setup)
 9. [Environment Variables](#-environment-variables)
-10. [Database Seeding](#-database-seeding)
+10. [System Baseline Initialization](#-system-baseline-initialization)
 11. [Running the Application](#-running-the-application)
-12. [Running Automated Tests](#-running-automated-tests)
-13. [API Documentation & Endpoints](#-api-documentation--endpoints)
-14. [Sample API Requests & Responses](#-sample-api-requests--responses)
-15. [Test Credentials for Development](#-test-credentials-for-development)
+12. [API Documentation & Endpoints](#-api-documentation--endpoints)
+13. [Sample API Requests & Responses](#-sample-api-requests--responses)
+14. [Administrative Access](#-administrative-access)
 
 ---
 
@@ -119,12 +118,8 @@ backend/
 │   │   ├── round2Validator.js
 │   │   ├── evaluationValidator.js
 │   │   └── themeValidator.js
-│   │
-│   ├── seed.js                       # Comprehensive database seed script
 │   └── app.js                        # Express app assembly & middleware
 │
-├── tests/
-│   └── ideathon.test.js              # Automated integration tests
 ├── server.js                         # Application entrypoint & HTTP server
 ├── postman_collection.json           # Postman collection for all API routes
 ├── .env.example
@@ -257,17 +252,12 @@ SMS_SENDER_ID=IDEATHON
 
 ---
 
-## 🌾 Database Seeding
+## ⚙️ System Baseline Initialization
 
-Run the seed script to automatically create:
-- **1 Admin Account**
-- **2 Panelist Accounts**
-- **3 Competition Themes**
-- **Sample Participants, Teams, and Submissions across all 3 rounds**
-
-```bash
-npm run seed
-```
+On server startup, the application automatically verifies and initializes baseline configuration if not present:
+- **Global Event Singleton**: Active status, deadlines, and registration state
+- **3 Official Themes**: "Waste Management", "Handling Waste", "Waste Disposal"
+- **Primary Administrator**: Configured via `ADMIN_EMAIL` and `ADMIN_PASSWORD` (defaults: `admin@123` / `admin_123`)
 
 ---
 
@@ -285,15 +275,6 @@ npm start
 
 Default Server Address: **`http://localhost:5000`**  
 API Prefix: **`/api`**
-
----
-
-## 🧪 Running Automated Tests
-
-Run the comprehensive test suite with in-memory MongoDB:
-```bash
-npm test
-```
 
 ---
 
@@ -468,18 +449,15 @@ npm test
 
 ---
 
-## 🔑 Test Credentials for Development
+## 🔑 Administrative Access
 
-Once seeded via `npm run seed`, the following accounts are ready for testing:
+Baseline configuration (Themes, Event singleton, and Primary Administrator) is automatically initialized on server boot:
 
-| Role | Email | Password | Details / Assigned State |
+| Role | Identifier / Email | Password | Details / Assigned State |
 |---|---|---|---|
-| **Admin** | `admin@ideathon.org` | `Password@123` | Full administrative powers |
-| **Panelist 1** | `panelist1@ideathon.org` | `Password@123` | Assigned to EcoTransformers & HealthAI |
-| **Panelist 2** | `panelist2@ideathon.org` | `Password@123` | Assigned to HealthAI & AgriVision |
-| **Participant 1** | `rohan@example.com` | `Password@123` | Leader of **EcoTransformers** (R1 Submitted) |
-| **Participant 2** | `priya@example.com` | `Password@123` | Leader of **HealthAI Diagnostics** (R1 Selected, R2 Submitted) |
-| **Participant 3** | `kavya@example.com` | `Password@123` | Leader of **AgriVision IoT** (Grand Finalist) |
+| **Admin** | `admin@123` *(or ADMIN_EMAIL env)* | `admin_123` *(or ADMIN_PASSWORD env)* | Full administrative powers |
+| **Panelist** | *Created by Admin* | *Issued by Admin* | Assigned to specific submissions |
+| **Participant** | *Self-registered* | *Self-created* | Participant portal & pitch submissions |
 
 ---
 
