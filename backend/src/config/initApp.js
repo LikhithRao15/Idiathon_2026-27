@@ -39,22 +39,22 @@ const initBaseline = async () => {
       console.log('[System Init] Themes initialized.');
     }
 
-    // 3. Ensure Admin user exists
+    // 3. Retrieve and synchronize Admin user from environment variables (Render Dashboard)
     const adminEmail = (process.env.ADMIN_EMAIL || 'admin@123').trim().toLowerCase();
     const adminPassword = process.env.ADMIN_PASSWORD || 'admin_123';
     const adminName = process.env.ADMIN_NAME || 'Ideathon Administrator';
     const adminPhone = process.env.ADMIN_PHONE || '+919876543210';
 
-    const existingAdmin = await User.findOne({
+    let admin = await User.findOne({
       $or: [
         { role: 'admin' },
         { email: adminEmail },
       ],
-    });
+    }).select('+password');
 
-    if (!existingAdmin) {
-      console.log(`[System Init] No admin found. Creating primary admin (${adminEmail})...`);
-      await User.create({
+    if (!admin) {
+      console.log(`[System Init] No admin found. Creating primary admin from Render environment (${adminEmail})...`);
+      admin = await User.create({
         name: adminName,
         email: adminEmail,
         phone: adminPhone,
@@ -65,6 +65,41 @@ const initBaseline = async () => {
         isPhoneVerified: true,
       });
       console.log('[System Init] Primary admin created successfully.');
+    } else {
+      // Synchronize existing admin with Render Dashboard environment variables
+      let modified = false;
+
+      if (admin.email !== adminEmail) {
+        console.log(`[System Init] Updating admin identifier to Render environment value: ${adminEmail}`);
+        admin.email = adminEmail;
+        modified = true;
+      }
+
+      if (process.env.ADMIN_PASSWORD) {
+        const isMatch = await admin.comparePassword(adminPassword);
+        if (!isMatch) {
+          console.log('[System Init] Updating admin password to match Render environment variable...');
+          admin.password = adminPassword;
+          modified = true;
+        }
+      }
+
+      if (admin.role !== 'admin') {
+        admin.role = 'admin';
+        modified = true;
+      }
+
+      if (!admin.isActive) {
+        admin.isActive = true;
+        modified = true;
+      }
+
+      if (modified) {
+        await admin.save();
+        console.log('[System Init] Admin credentials successfully synchronized from Render environment.');
+      } else {
+        console.log(`[System Init] Admin account active and up to date (${admin.email}).`);
+      }
     }
   } catch (error) {
     console.error('[System Init Warning] Error checking or initializing baseline:', error.message);
