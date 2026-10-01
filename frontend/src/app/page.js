@@ -34,10 +34,54 @@ import './globals.css';
 // Replace '#' with your real Google Form URL (e.g. 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform')
 const GOOGLE_FORM_SURVEY_URL = '#';
 
+// ============================================================
+// EVENT SCHEDULE — SINGLE SOURCE OF TRUTH
+// ============================================================
+const EVENT_SCHEDULE = {
+  registration: {
+    end: '2026-09-28T23:59:59+05:30',
+  },
+
+  round1: {
+    start: '2026-10-02T00:00:00+05:30',
+    end: '2026-11-01T23:59:59+05:30',
+    date: {
+      en: '02 OCT – 01 NOV 2026',
+      kn: '೦೨ ಅಕ್ಟೋಬರ್ – ೦೧ ನವೆಂಬರ್ ೨೦೨೬',
+    },
+  },
+
+  round2: {
+    start: '2026-11-02T00:00:00+05:30',
+    end: '2026-12-01T23:59:59+05:30',
+    date: {
+      en: '02 NOV – 01 DEC 2026',
+      kn: '೦೨ ನವೆಂಬರ್ – ೦೧ ಡಿಸೆಂಬರ್ ೨೦೨೬',
+    },
+  },
+
+  finale: {
+    start: '2026-12-15T00:00:00+05:30',
+    date: {
+      en: '15 DEC 2026',
+      kn: '೧೫ ಡಿಸೆಂಬರ್ ೨೦೨೬',
+    },
+  },
+};
+
 const data = {
   en: {
     nav: ['About', 'Challenges', 'Timeline', 'FAQ', 'Register'],
     eye: 'IDEATHON 2026 · OPEN FOR IDEAS',
+    h1: (
+      <>
+        Reimagine
+        <br />
+        <em className="h1-accent">Waste.</em>
+        <br />
+        <strong>Shape Tomorrow.</strong>
+      </>
+    ),
     end: 'Shape Tomorrow.',
     lead: 'A sustainability ideathon for bold minds ready to turn waste-management challenges into smart, practical interventions.',
     reg: 'Register your team',
@@ -196,21 +240,24 @@ const data = {
     ],
     timeline: [
       {
-        date: '02 OCT – 01 NOV 2026',
+        id: 'round1',
+        date: EVENT_SCHEDULE.round1.date,
         title: 'Round 1: Idea Pitching',
         copy: 'Submit your team registration, problem root-cause brief, and initial proposed technical solution.',
         color: 'green',
         items: ['Team of 1–4 members', 'Choose 1 of 3 focus tracks', 'Problem & solution submission'],
       },
       {
-        date: '02 NOV – 01 DEC 2026',
+        id: 'round2',
+        date: EVENT_SCHEDULE.round2.date,
         title: 'Round 2: Idea Elaboration',
         copy: 'Unlocked exclusively for teams selected in Round 1: Submit detailed concept, 90-day plan, budget, and circularity model.',
         color: 'blue',
         items: ['Feasibility & 90-day execution plan', 'Value proposition & resource needs', 'Jury intermediate screening'],
       },
       {
-        date: '15 DEC 2026',
+        id: 'finale',
+        date: EVENT_SCHEDULE.finale.date,
         title: 'Round 3: Grand Finale',
         copy: 'Top finalist teams present live before the Grand Jury with prototypes, hardware demos, and stage pitches.',
         color: 'purple',
@@ -277,7 +324,7 @@ const data = {
       ideaPh: 'In 1–2 sentences, what waste challenge does your team want to reimagine?',
       submit: 'Complete Team Registration',
       successTitle: 'Team Slot Reserved!',
-      successMsg: 'Your team has been registered for Reimagine — Waste Management Ideathon 2026. Keep building toward the 28 October Idea Submission!',
+      successMsg: 'Your team has been registered for Reimagine — Waste Management Ideathon 2026. Keep building toward the Round 1 submission deadline!',
       reset: 'Register Another Team',
     },
     footer: 'Ideas for a cleaner, greener tomorrow.',
@@ -285,7 +332,16 @@ const data = {
   kn: {
     nav: ['ಪರಿಚಯ', 'ಸವಾಲುಗಳು', 'ಕಾಲಪಟ್ಟಿ', 'ಮಾಹಿತಿ', 'ನೋಂದಣಿ'],
     eye: 'ಐಡಿಯಾಥಾನ್ 2026 · ಆಲೋಚನೆಗಳಿಗೆ ಮುಕ್ತ ಆಹ್ವಾನ',
-    end: 'ನಾಳೆಯನ್ನು ರೂಪಿಸಿ.',
+    h1: (
+      <>
+        ತ್ಯಜ್ಯದ
+        <br />
+        <em className="h1-accent">ಮರು ಕಲ್ಪನೆ ಇಂದ</em>
+        <br />
+        <strong>ನಾಲೆಯನ್ನು ರೂಪಿಸಿ.</strong>
+      </>
+    ),
+    end: 'ನಾಲೆಯನ್ನು ರೂಪಿಸಿ.',
     lead: 'ತ್ಯಾಜ್ಯ ನಿರ್ವಹಣೆಯ ಸವಾಲುಗಳನ್ನು ಚುರುಕಾದ, ಪ್ರಾಯೋಗಿಕ ಪರಿಹಾರಗಳಾಗಿ ರೂಪಿಸಲು ಸಿದ್ಧವಾಗಿರುವ ಧೈರ್ಯಶಾಲಿ ಮನಸ್ಸುಗಳಿಗಾಗಿ ಸುಸ್ಥಿರತೆಯ ಐಡಿಯಾಥಾನ್.',
     reg: 'ನಿಮ್ಮ ತಂಡವನ್ನು ನೋಂದಾಯಿಸಿ',
     explore: 'ಸವಾಲುಗಳನ್ನು ಅನ್ವೇಷಿಸಿ',
@@ -443,21 +499,24 @@ const data = {
     ],
     timeline: [
       {
-        date: '೦೨ ಅಕ್ಟೋಬರ್ – ೦೧ ನವೆಂಬರ್ ೨೦೨೬',
+        id: 'round1',
+        date: EVENT_SCHEDULE.round1.date,
         title: 'ಹಂತ ೧: ಆಲೋಚನೆ ಸಲ್ಲಿಕೆ (Pitch)',
         copy: 'ನಿಮ್ಮ ತಂಡವನ್ನು ನೋಂದಾಯಿಸಿ, ಸಮಸ್ಯೆಯ ವಿವರಣೆ ಮತ್ತು ತಾಂತ್ರಿಕ ಪರಿಹಾರವನ್ನು ಸಲ್ಲಿಸಿ.',
         color: 'green',
         items: ['೧–೪ ಸದಸ್ಯರ ತಂಡ ನೋಂದಣಿ', '೩ ವಿಷಯಗಳಲ್ಲಿ ಒಂದರ ಆಯ್ಕೆ', 'ಸಮಸ್ಯೆ ಮತ್ತು ಪರಿಹಾರದ ಸಲ್ಲಿಕೆ'],
       },
       {
-        date: '೦೨ ನವೆಂಬರ್ – ೦೧ ಡಿಸೆಂಬರ್ ೨೦೨೬',
+        id: 'round2',
+        date: EVENT_SCHEDULE.round2.date,
         title: 'ಹಂತ ೨: ವಿವರವಾದ ಯೋಜನೆ (Elaboration)',
         copy: 'ಹಂತ ೧ ರಲ್ಲಿ ಆಯ್ಕೆಯಾದ ತಂಡಗಳಿಗೆ ಮಾತ್ರ: ವಿವರವಾದ ಪರಿಕಲ್ಪನೆ, ೯೦ ದಿನಗಳ ಯೋಜನೆ ಮತ್ತು ಬಜೆಟ್ ಸಲ್ಲಿಸಿ.',
         color: 'blue',
         items: ['ಪ್ರಾಯೋಗಿಕತೆ ಮತ್ತು ೯೦ ದಿನಗಳ ಯೋಜನೆ', 'ಮೌಲ್ಯ ಮತ್ತು ಸಂಪನ್ಮೂಲಗಳ ಅಗತ್ಯತೆ', 'ತೀರ್ಪುಗಾರರ ಮೌಲ್ಯಮಾಪನ'],
       },
       {
-        date: '೧೫ ಡಿಸೆಂಬರ್ ೨೦೨೬',
+        id: 'finale',
+        date: EVENT_SCHEDULE.finale.date,
         title: 'ಹಂತ ೩: ಗ್ರ್ಯಾಂಡ್ ಫಿನಾಲೆ (Grand Finale)',
         copy: 'ಅಂತಿಮ ಹಂತಕ್ಕೆ ಆಯ್ಕೆಯಾದ ತಂಡಗಳು ತೀರ್ಪುಗಾರರ ಎದುರು ವೇದಿಕೆಯಲ್ಲಿ ಲೈವ್ ಪ್ರಸ್ತುತಿ ಮತ್ತು ಪ್ರಾತ್ಯಕ್ಷಿಕೆ ನೀಡುತ್ತವೆ.',
         color: 'purple',
@@ -524,7 +583,7 @@ const data = {
       ideaPh: 'ನಿಮ್ಮ ತಂಡವು ಯಾವ ತ್ಯಾಜ್ಯ ಸಮಸ್ಯೆಗೆ ಪರಿಹಾರ ರೂಪಿಸಲು ಬಯಸುತ್ತದೆ?',
       submit: 'ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ',
       successTitle: 'ನಿಮ್ಮ ತಂಡದ ನೋಂದಣಿ ಯಶಸ್ವಿಯಾಗಿದೆ!',
-      successMsg: 'ಹಸಿರು ಸಂವಾದ — Reimagine Ideathon 2026ಕ್ಕೆ ನಿಮ್ಮ ತಂಡ ನೋಂದಣಿಯಾಗಿದೆ. ಅಕ್ಟೋಬರ್ 28ರ ಆಲೋಚನೆ ಸಲ್ಲಿಕೆಗೆ ಸಿದ್ಧರಾಗಿ!',
+      successMsg: 'ಹಸಿರು ಸಂವಾದ — Reimagine Ideathon 2026ಕ್ಕೆ ನಿಮ್ಮ ತಂಡ ನೋಂದಣಿಯಾಗಿದೆ. ರೌಂಡ್ 1 ಸಲ್ಲಿಕೆ ಅಂತಿಮ ದಿನಾಂಕಕ್ಕೆ ಸಿದ್ಧರಾಗಿ!',
       reset: 'ಮತ್ತೊಂದು ತಂಡವನ್ನು ನೋಂದಾಯಿಸಿ',
     },
     footer: 'ಸ್ವಚ್ಛ, ಹಸಿರು ನಾಳೆಗಾಗಿ ಆಲೋಚನೆಗಳು.',
@@ -553,6 +612,7 @@ function App() {
   const [openFaq, setOpenFaq] = useState(0);
   const [showPoster, setShowPoster] = useState(false);
   const [time, setTime] = useState(['--', '--', '--', '--']);
+  const [countdownLabel, setCountdownLabel] = useState('REGISTRATION');
   const [activeSection, setActiveSection] = useState('top');
   const [isScrolled, setIsScrolled] = useState(false);
   const [surveyNotice, setSurveyNotice] = useState(false);
@@ -605,14 +665,86 @@ function App() {
     setActiveSubtopic(0);
   };
 
-  // Countdown timer
+  // ============================================================
+  // DYNAMIC EVENT COUNTDOWN
+  // ============================================================
   useEffect(() => {
-    const tick = () => {
-      let d = Math.max(0, new Date('2026-11-01T23:59:59+05:30') - Date.now());
-      setTime([d / 864e5, (d / 36e5) % 24, (d / 6e4) % 60, (d / 1e3) % 60].map((n) => String(Math.floor(n)).padStart(2, '0')));
+    const getCountdownState = () => {
+      const now = Date.now();
+
+      const registrationEnd = new Date(EVENT_SCHEDULE.registration.end).getTime();
+      const round1Start = new Date(EVENT_SCHEDULE.round1.start).getTime();
+      const round1End = new Date(EVENT_SCHEDULE.round1.end).getTime();
+      const round2Start = new Date(EVENT_SCHEDULE.round2.start).getTime();
+      const round2End = new Date(EVENT_SCHEDULE.round2.end).getTime();
+      const finaleStart = new Date(EVENT_SCHEDULE.finale.start).getTime();
+
+      let target;
+      let label;
+
+      // Registration is still open
+      if (now < registrationEnd) {
+        target = registrationEnd;
+        label = 'REGISTRATION';
+      }
+
+      // Registration closed, Round 1 has not started yet
+      else if (now < round1Start) {
+        target = round1Start;
+        label = 'ROUND 1 · IDEA PITCHING';
+      }
+
+      // Round 1 is active
+      else if (now <= round1End) {
+        target = round1End;
+        label = 'ROUND 1 · IDEA PITCHING';
+      }
+
+      // Round 1 ended, Round 2 has not started yet
+      else if (now < round2Start) {
+        target = round2Start;
+        label = 'ROUND 2 · IDEA ELABORATION';
+      }
+
+      // Round 2 is active
+      else if (now <= round2End) {
+        target = round2End;
+        label = 'ROUND 2 · IDEA ELABORATION';
+      }
+
+      // Round 2 ended, waiting for Grand Finale
+      else if (now < finaleStart) {
+        target = finaleStart;
+        label = 'GRAND FINALE';
+      }
+
+      // Grand Finale day
+      else {
+        target = finaleStart;
+        label = 'GRAND FINALE';
+      }
+
+      const remaining = Math.max(0, target - now);
+
+      const days = Math.floor(remaining / 86400000);
+      const hours = Math.floor((remaining / 3600000) % 24);
+      const minutes = Math.floor((remaining / 60000) % 60);
+      const seconds = Math.floor((remaining / 1000) % 60);
+
+      setTime([
+        String(days).padStart(2, '0'),
+        String(hours).padStart(2, '0'),
+        String(minutes).padStart(2, '0'),
+        String(seconds).padStart(2, '0'),
+      ]);
+
+      setCountdownLabel(label);
     };
-    tick();
-    let id = setInterval(tick, 1000);
+
+    getCountdownState();
+
+    const id = setInterval(getCountdownState, 1000);
+
     return () => clearInterval(id);
   }, []);
 
@@ -722,11 +854,7 @@ function App() {
                   {t.eye}
                 </div>
                 <h1>
-                  Reimagine
-                  <br />
-                  <em className="h1-accent">Waste.</em>
-                  <br />
-                  <strong>{t.end}</strong>
+                  {t.h1}
                 </h1>
                 <p className="hero-lead">{t.lead}</p>
                 <div className="hero-actions">
@@ -756,7 +884,7 @@ function App() {
 
                   <div className="hero-countdown">
                     <span className="hero-countdown-label">
-                      <Clock3 size={13} /> {lang === 'en' ? 'CLOSES 28 SEP' : '28 ಸೆಪ್ಟೆಂಬರ್ ಕೊನೆಯ ದಿನ'}
+                      <Clock3 size={13} /> {countdownLabel}
                     </span>
                     <div className="hero-countdown-grid">
                       {['D', 'H', 'M', 'S'].map((unit, idx) => (
@@ -1111,7 +1239,8 @@ function App() {
                 </h2>
               </div>
               <div className="countdown">
-                <span>{lang === 'en' ? 'REGISTRATION CLOSES IN' : 'ನೋಂದಣಿ ಮುಕ್ತಾಯವಾಗಲು ಬಾಕಿ'}</span>
+                <span>{countdownLabel}</span>
+
                 <div>
                   {time.map((x, i) => (
                     <Fragment key={i}>
@@ -1120,17 +1249,22 @@ function App() {
                     </Fragment>
                   ))}
                 </div>
-                <small>{lang === 'en' ? 'days · hours · mins · secs' : 'ದಿನ · ಗಂಟೆ · ನಿಮಿಷ · ಸೆಕೆಂಡ್'}</small>
+
+                <small>
+                  {lang === 'en'
+                    ? 'days · hours · mins · secs'
+                    : 'ದಿನ · ಗಂಟೆ · ನಿಮಿಷ · ಸೆಕೆಂಡ್'}
+                </small>
               </div>
             </div>
 
             <div className="timeline-cards">
               {t.timeline.map((step, i) => (
-                <article className={`timeline-card step-${step.color}`} key={step.date}>
+                <article className={`timeline-card step-${step.color}`} key={step.id}>
                   <div className="timeline-card-ribbon">
                     <span className="step-badge">STAGE 0{i + 1}</span>
                     <span className="step-date">
-                      <CalendarDays size={15} /> {step.date}
+                      <CalendarDays size={15} /> {step.date[lang]}
                     </span>
                   </div>
                   <div className="timeline-card-body">
