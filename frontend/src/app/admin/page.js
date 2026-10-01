@@ -666,7 +666,7 @@ export default function AdminPage() {
                 type="text"
                 autoCapitalize="none"
                 autoCorrect="off"
-                placeholder="admin@123"
+                placeholder="Enter administrator ID or email"
                 value={adminEmail}
                 onChange={(e) => setAdminEmail(e.target.value)}
                 required
