@@ -89,7 +89,7 @@ const data = {
     posterBtn: 'View Event Poster',
     surveyBtn: 'Attend a Survey',
     surveyComingSoon: 'Survey form coming soon!',
-    stats: ['members / team', 'age limit', 'key milestones'],
+    stats: ['members / team', 'age limit', 'Prize Pool'],
     about: {
       kicker: '01 — THE WHY',
       title: (
@@ -877,7 +877,7 @@ function App() {
                       <span>{t.stats[1]}</span>
                     </div>
                     <div>
-                      <strong>03</strong>
+                      <strong>100008</strong>
                       <span>{t.stats[2]}</span>
                     </div>
                   </div>
