@@ -28,6 +28,7 @@ import {
   X,
   Zap,
 } from 'lucide-react';
+import OurPartners from '../components/OurPartners';
 import './globals.css';
 
 // 📋 Destination Google Form URL for "Attend a Survey"
@@ -1022,6 +1023,9 @@ function App() {
             </div>
           </div>
         </section>
+
+        {/* OUR PARTNERS SECTION — DYNAMIC FADE & RANDOM CONSTELLATION */}
+        <OurPartners lang={lang} />
 
         {/* VIEW 1: INTRO / THE WHY (BENTO IMPACT GRID) */}
         <section className="section intro snap-section" id="about">
