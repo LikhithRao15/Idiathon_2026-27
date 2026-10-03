@@ -770,6 +770,7 @@ h1 {
   font: 800 24px Manrope, sans-serif;
   color: var(--green);
   line-height: 1.1;
+  white-space: nowrap;
 }
 
 .micro-stats span {
@@ -4783,16 +4784,19 @@ textarea:focus {
 
   .micro-stats > div {
     min-width: 0 !important;
-    flex: 1 !important;
+    flex: 1 1 auto !important;
   }
 
   .micro-stats strong {
-    font-size: 23px !important;
+    font-size: clamp(16px, 4.3vw, 22px) !important;
+    white-space: nowrap !important;
+    letter-spacing: -0.01em !important;
   }
 
   .micro-stats span {
     font-size: 11px !important;
     line-height: 1.25 !important;
+    white-space: nowrap !important;
   }
 
 
@@ -4979,15 +4983,19 @@ textarea:focus {
   }
 
   .micro-stats {
-    padding: 11px 10px !important;
+    padding: 10px 10px !important;
+    gap: 6px !important;
   }
 
   .micro-stats strong {
-    font-size: 21px !important;
+    font-size: clamp(14px, 4.1vw, 18px) !important;
+    white-space: nowrap !important;
+    letter-spacing: -0.02em !important;
   }
 
   .micro-stats span {
     font-size: 10px !important;
+    white-space: nowrap !important;
   }
 
   .hero-countdown {
