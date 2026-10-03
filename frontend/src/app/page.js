@@ -878,7 +878,7 @@ function App() {
                       <span>{t.stats[1]}</span>
                     </div>
                     <div>
-                      <strong>100008</strong>
+                      <strong>₹ 100008</strong>
                       <span>{t.stats[2]}</span>
                     </div>
                   </div>
