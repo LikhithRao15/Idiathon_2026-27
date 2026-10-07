@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
-import { Leaf, Phone, Mail, HelpCircle, ShieldCheck } from 'lucide-react';
+import { Leaf, Phone, HelpCircle, ShieldCheck } from 'lucide-react';
 
 const footerTranslations = {
   en: {
@@ -15,6 +15,7 @@ const footerTranslations = {
     h1Title: 'Helpdesk 1 · General & Registration',
     h2Title: 'Helpdesk 2 · Technical & Pitch Support',
     h3Title: 'Helpdesk 3 · Mentorship & Rounds Desk',
+    h4Title: 'Helpdesk 4 · Regional & General Support',
     emailTitle: 'Official Inquiries & Help Email',
     quickLinks: 'Quick Links',
     portals: 'Portals',
@@ -38,6 +39,7 @@ const footerTranslations = {
     h1Title: 'ಸಹಾಯವಾಣಿ ೧ · ಸಾಮಾನ್ಯ & ನೋಂದಣಿ ಮಾಹಿತಿ',
     h2Title: 'ಸಹಾಯವಾಣಿ ೨ · ತಾಂತ್ರಿಕ & ಸಲ್ಲಿಕೆ ಸಹಾಯ',
     h3Title: 'ಸಹಾಯವಾಣಿ ೩ · ಮಾರ್ಗದರ್ಶನ & ಹಂತಗಳ ಡೆಸ್ಕ್',
+    h4Title: 'ಸಹಾಯವಾಣಿ ೪ · ಪ್ರಾದೇಶಿಕ & ಸಾಮಾನ್ಯ ಸಹಾಯ',
     emailTitle: 'ಅಧಿಕೃತ ವಿಚಾರಣೆ & ಸಹಾಯ ಇಮೇಲ್',
     quickLinks: 'ಮುಖ್ಯ ಲಿಂಕ್‌ಗಳು',
     portals: 'ಪೋರ್ಟಲ್‌ಗಳು',
@@ -111,35 +113,34 @@ export default function Footer() {
             </a>
 
             <a href="tel:+919008935599" className="helpline-card">
-              <a href="tel:+919008935599" className="helpline-card">
-                <div className="helpline-icon">
-                  <Phone size={15} />
-                </div>
-                <div className="helpline-info">
-                  <span className="helpline-title">{t.h2Title}</span>
-                  <span className="helpline-num">+91 9008935599</span>
-                </div>
-              </a>
+              <div className="helpline-icon">
+                <Phone size={15} />
+              </div>
+              <div className="helpline-info">
+                <span className="helpline-title">{t.h2Title}</span>
+                <span className="helpline-num">+91 9008935599</span>
+              </div>
+            </a>
 
-              <a href="tel:+919959723509" className="helpline-card">
-                <div className="helpline-icon">
-                  <Phone size={15} />
-                </div>
-                <div className="helpline-info">
-                  <span className="helpline-title">{t.h3Title}</span>
-                  <span className="helpline-num">+91 9959723509</span>
-                </div>
-              </a>
+            <a href="tel:+919959723509" className="helpline-card">
+              <div className="helpline-icon">
+                <Phone size={15} />
+              </div>
+              <div className="helpline-info">
+                <span className="helpline-title">{t.h3Title}</span>
+                <span className="helpline-num">+91 9959723509</span>
+              </div>
+            </a>
 
-              <a href="tel:+919916488990" className="helpline-card">
-                <div className="helpline-icon">
-                  <Phone size={15} />
-                </div>
-                <div className="helpline-info">
-                  <span className="helpline-title">{t.h3Title}</span>
-                  <span className="helpline-num">+91 9916488990</span>
-                </div>
-              </a> */}
+            <a href="tel:+919916488990" className="helpline-card">
+              <div className="helpline-icon">
+                <Phone size={15} />
+              </div>
+              <div className="helpline-info">
+                <span className="helpline-title">{t.h4Title}</span>
+                <span className="helpline-num">+91 9916488990</span>
+              </div>
+            </a>
           </div>
         </div>
 

@@ -133,10 +133,29 @@ const login = async (req, res, next) => {
       phoneVariants.push(`+91${cleanDigits}`);
     }
 
-    // Find user with password - support phone variants, email, or admin aliases
+    // Disallow admin login via phone number
+    const adminWithThisPhone = await User.findOne({
+      phone: { $in: phoneVariants },
+      role: 'admin',
+    });
+
+    if (
+      adminWithThisPhone &&
+      cleanLower !== adminWithThisPhone.email?.toLowerCase() &&
+      cleanLower !== 'admin' &&
+      cleanLower !== 'admin@123'
+    ) {
+      return sendError(
+        res,
+        'Administrators cannot log in using phone number. Please use your Admin Email / ID.',
+        403
+      );
+    }
+
+    // Find user with password - phone login is strictly for non-admin accounts
     const user = await User.findOne({
       $or: [
-        { phone: { $in: phoneVariants } },
+        { phone: { $in: phoneVariants }, role: { $ne: 'admin' } },
         { email: cleanLower },
         ...(cleanLower === 'admin' ? [{ email: 'admin@123' }] : []),
         ...(cleanLower === 'admin@123' ? [{ email: 'admin' }] : []),

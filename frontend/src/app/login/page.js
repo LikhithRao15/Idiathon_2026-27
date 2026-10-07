@@ -10,7 +10,7 @@ const translations = {
     subtitle: 'Access your team workspace, pitch submissions, and round progress',
 
     phone: 'Phone Number *',
-    phonePlaceholder: 'e.g. 9876543210 (or email / admin ID)',
+    phonePlaceholder: 'e.g. 9876543210 (or admin@123)',
 
     password: 'Password *',
     passwordPlaceholder: '••••••••',
@@ -27,7 +27,7 @@ const translations = {
     subtitle: 'ನಿಮ್ಮ ತಂಡದ ಕಾರ್ಯಕ್ಷೇತ್ರ, ಪಿಚ್ ಸಲ್ಲಿಕೆಗಳು ಮತ್ತು ಸುತ್ತಿನ ಪ್ರಗತಿಯನ್ನು ಪ್ರವೇಶಿಸಿ',
 
     phone: 'ದೂರವಾಣಿ ಸಂಖ್ಯೆ *',
-    phonePlaceholder: 'ಉದಾ. 9876543210 (ಅಥವಾ ಇಮೇಲ್/ಅಡ್ಮಿನ್ ಐಡಿ)',
+    phonePlaceholder: 'ಉದಾ. 9876543210 (ಅಥವಾ admin@123)',
 
     password: 'ಪಾಸ್ವರ್ಡ್ *',
     passwordPlaceholder: '••••••••',
