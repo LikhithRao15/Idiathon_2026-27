@@ -28,6 +28,7 @@ import {
   X,
   Zap,
 } from 'lucide-react';
+import OurPartners from '../components/OurPartners';
 import './globals.css';
 
 // 📋 Destination Google Form URL for "Attend a Survey"
@@ -89,7 +90,7 @@ const data = {
     posterBtn: 'View Event Poster',
     surveyBtn: 'Attend a Survey',
     surveyComingSoon: 'Survey form coming soon!',
-    stats: ['members / team', 'age limit', 'key milestones'],
+    stats: ['members / team', 'age limit', 'Prize Pool'],
     about: {
       kicker: '01 — THE WHY',
       title: (
@@ -334,14 +335,14 @@ const data = {
     eye: 'ಐಡಿಯಾಥಾನ್ 2026 · ಆಲೋಚನೆಗಳಿಗೆ ಮುಕ್ತ ಆಹ್ವಾನ',
     h1: (
       <>
-        ತ್ಯಜ್ಯದ
+        ತ್ಯಾಜ್ಯದ
         <br />
         <em className="h1-accent">ಮರು ಕಲ್ಪನೆ ಇಂದ</em>
         <br />
-        <strong>ನಾಲೆಯನ್ನು ರೂಪಿಸಿ.</strong>
+        <strong>ನಾಳೆಯನ್ನು ರೂಪಿಸಿ.</strong>
       </>
     ),
-    end: 'ನಾಲೆಯನ್ನು ರೂಪಿಸಿ.',
+    end: 'ನಾಳೆಯನ್ನು ರೂಪಿಸಿ.',
     lead: 'ತ್ಯಾಜ್ಯ ನಿರ್ವಹಣೆಯ ಸವಾಲುಗಳನ್ನು ಚುರುಕಾದ, ಪ್ರಾಯೋಗಿಕ ಪರಿಹಾರಗಳಾಗಿ ರೂಪಿಸಲು ಸಿದ್ಧವಾಗಿರುವ ಧೈರ್ಯಶಾಲಿ ಮನಸ್ಸುಗಳಿಗಾಗಿ ಸುಸ್ಥಿರತೆಯ ಐಡಿಯಾಥಾನ್.',
     reg: 'ನಿಮ್ಮ ತಂಡವನ್ನು ನೋಂದಾಯಿಸಿ',
     explore: 'ಸವಾಲುಗಳನ್ನು ಅನ್ವೇಷಿಸಿ',
@@ -877,7 +878,7 @@ function App() {
                       <span>{t.stats[1]}</span>
                     </div>
                     <div>
-                      <strong>03</strong>
+                      <strong>₹&nbsp;100008</strong>
                       <span>{t.stats[2]}</span>
                     </div>
                   </div>
@@ -1022,6 +1023,9 @@ function App() {
             </div>
           </div>
         </section>
+
+        {/* OUR PARTNERS SECTION — DYNAMIC FADE & RANDOM CONSTELLATION */}
+        <OurPartners lang={lang} />
 
         {/* VIEW 1: INTRO / THE WHY (BENTO IMPACT GRID) */}
         <section className="section intro snap-section" id="about">

@@ -111,34 +111,35 @@ export default function Footer() {
             </a>
 
             <a href="tel:+919008935599" className="helpline-card">
-              <div className="helpline-icon">
-                <Phone size={15} />
-              </div>
-              <div className="helpline-info">
-                <span className="helpline-title">{t.h2Title}</span>
-                <span className="helpline-num">+91 9008935599</span>
-              </div>
-            </a>
+              <a href="tel:+919008935599" className="helpline-card">
+                <div className="helpline-icon">
+                  <Phone size={15} />
+                </div>
+                <div className="helpline-info">
+                  <span className="helpline-title">{t.h2Title}</span>
+                  <span className="helpline-num">+91 9008935599</span>
+                </div>
+              </a>
 
-            <a href="tel:+919959723509" className="helpline-card">
-              <div className="helpline-icon">
-                <Phone size={15} />
-              </div>
-              <div className="helpline-info">
-                <span className="helpline-title">{t.h3Title}</span>
-                <span className="helpline-num">+91 9959723509</span>
-              </div>
-            </a>
+              <a href="tel:+919959723509" className="helpline-card">
+                <div className="helpline-icon">
+                  <Phone size={15} />
+                </div>
+                <div className="helpline-info">
+                  <span className="helpline-title">{t.h3Title}</span>
+                  <span className="helpline-num">+91 9959723509</span>
+                </div>
+              </a>
 
-            <a href="tel:+919916488990" className="helpline-card">
-              <div className="helpline-icon">
-                <Phone size={15} />
-              </div>
-              <div className="helpline-info">
-                <span className="helpline-title">{t.h3Title}</span>
-                <span className="helpline-num">+91 9916488990</span>
-              </div>
-            </a>
+              <a href="tel:+919916488990" className="helpline-card">
+                <div className="helpline-icon">
+                  <Phone size={15} />
+                </div>
+                <div className="helpline-info">
+                  <span className="helpline-title">{t.h3Title}</span>
+                  <span className="helpline-num">+91 9916488990</span>
+                </div>
+              </a> */}
           </div>
         </div>
 
