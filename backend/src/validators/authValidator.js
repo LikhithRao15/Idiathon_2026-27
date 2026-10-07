@@ -8,9 +8,8 @@ const registerValidator = [
     .isLength({ min: 2, max: 100 })
     .withMessage('Name must be between 2 and 100 characters'),
   body('email')
+    .optional({ checkFalsy: true })
     .trim()
-    .notEmpty()
-    .withMessage('Email is required')
     .isEmail()
     .withMessage('Please provide a valid email address')
     .normalizeEmail(),
@@ -37,10 +36,13 @@ const registerValidator = [
 ];
 
 const loginValidator = [
-  body('email')
-    .trim()
-    .notEmpty()
-    .withMessage('Email or username is required'),
+  body().custom((val, { req }) => {
+    const identifier = req.body.phone || req.body.email || req.body.identifier;
+    if (!identifier || !String(identifier).trim()) {
+      throw new Error('Phone number is required');
+    }
+    return true;
+  }),
   body('password').notEmpty().withMessage('Password is required'),
 ];
 

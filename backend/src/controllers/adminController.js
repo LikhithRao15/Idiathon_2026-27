@@ -5,6 +5,8 @@ const Round1Submission = require('../models/Round1Submission');
 const Round2Submission = require('../models/Round2Submission');
 const Evaluation = require('../models/Evaluation');
 const Event = require('../models/Event');
+const Notification = require('../models/Notification');
+const mongoose = require('mongoose');
 const notificationService = require('../services/notificationService');
 const { sendSuccess, sendError } = require('../utils/response');
 
@@ -697,6 +699,48 @@ const deletePanelist = async (req, res, next) => {
   }
 };
 
+/**
+ * @desc    Delete a Team and its associated submissions/evaluations/notifications from database
+ * @route   DELETE /api/admin/teams/:id
+ * @access  Private (Admin only)
+ */
+const deleteTeam = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    let team = null;
+
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      team = await Team.findById(id);
+    }
+    if (!team) {
+      team = await Team.findOne({ teamId: id });
+    }
+
+    if (!team) {
+      return sendError(res, 'Team not found.', 404);
+    }
+
+    const teamObjectId = team._id;
+
+    // Cascade delete related records
+    await Promise.all([
+      Round1Submission.deleteMany({ teamId: teamObjectId }),
+      Round2Submission.deleteMany({ teamId: teamObjectId }),
+      Evaluation.deleteMany({ teamId: teamObjectId }),
+      Notification.deleteMany({ teamId: teamObjectId }),
+      Team.findByIdAndDelete(teamObjectId),
+    ]);
+
+    return sendSuccess(
+      res,
+      `Team '${team.teamName}' (${team.teamId}) deleted successfully from database.`,
+      { deletedTeamId: team.teamId }
+    );
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getDashboardStats,
   selectRound1Team,
@@ -714,4 +758,5 @@ module.exports = {
   createPanelist,
   updatePanelist,
   deletePanelist,
+  deleteTeam,
 };

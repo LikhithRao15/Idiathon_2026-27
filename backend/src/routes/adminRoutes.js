@@ -57,6 +57,13 @@ router.put('/teams/:teamId/round2/select', adminController.selectRound2Team);
 router.put('/teams/:teamId/round2/reject', adminController.rejectRound2Team);
 
 /**
+ * @route   DELETE /api/admin/teams/:id
+ * @desc    Delete a team and its submissions from database
+ * @access  Private (Admin only)
+ */
+router.delete('/teams/:id', adminController.deleteTeam);
+
+/**
  * @route   POST /api/admin/finalists
  * @desc    Schedule presentation details for a finalist
  * @access  Private (Admin only)

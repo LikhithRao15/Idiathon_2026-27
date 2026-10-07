@@ -39,6 +39,22 @@ const initBaseline = async () => {
       console.log('[System Init] Themes initialized.');
     }
 
+    // Ensure User collection email index is sparse to support optional emails without uniqueness collisions
+    try {
+      const userIndexes = await User.collection.indexes();
+      const emailIdx = userIndexes.find(
+        (idx) => idx.name === 'email_1' || (idx.key && idx.key.email)
+      );
+      if (emailIdx && !emailIdx.sparse) {
+        console.log('[System Init] Updating email index to sparse...');
+        await User.collection.dropIndex(emailIdx.name);
+        await User.collection.createIndex({ email: 1 }, { unique: true, sparse: true });
+        console.log('[System Init] Sparse email index created.');
+      }
+    } catch (idxErr) {
+      // Ignore index drop error if already dropped or handled
+    }
+
     // 3. Retrieve and synchronize Admin user from environment variables (Render Dashboard)
     const adminEmail = (process.env.ADMIN_EMAIL || 'admin@123').trim().toLowerCase();
     const adminPassword = process.env.ADMIN_PASSWORD || 'admin_123';

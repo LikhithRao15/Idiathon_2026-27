@@ -16,8 +16,8 @@ const translations = {
     leaderName: 'Leader Full Name *',
     leaderNamePlaceholder: 'e.g. Maya Shankar',
 
-    email: 'Email Address *',
-    emailPlaceholder: 'maya@example.com',
+    email: 'Email Address (Optional)',
+    emailPlaceholder: 'maya@example.com (optional)',
 
     phone: 'Phone Number *',
     phonePlaceholder: '+919876500000',
@@ -45,8 +45,8 @@ const translations = {
     leaderName: 'ತಂಡದ ನಾಯಕನ ಪೂರ್ಣ ಹೆಸರು *',
     leaderNamePlaceholder: 'ಉದಾ. ಮಾಯಾ ಶಂಕರ್',
 
-    email: 'ಇಮೇಲ್ ವಿಳಾಸ *',
-    emailPlaceholder: 'maya@example.com',
+    email: 'ಇಮೇಲ್ ವಿಳಾಸ (ಐಚ್ಛಿಕ)',
+    emailPlaceholder: 'maya@example.com (ಐಚ್ಛಿಕ)',
 
     phone: 'ದೂರವಾಣಿ ಸಂಖ್ಯೆ *',
     phonePlaceholder: '+919876500000',
@@ -120,7 +120,6 @@ export default function RegisterPage() {
               placeholder={t.emailPlaceholder}
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              required
             />
           </div>
 

@@ -9,7 +9,7 @@ const memberSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, 'Member email is required'],
+      required: false,
       lowercase: true,
       trim: true,
     },

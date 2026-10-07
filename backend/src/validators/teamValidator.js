@@ -38,10 +38,8 @@ const createTeamValidator = [
     .notEmpty()
     .withMessage('Member name is required'),
   body('members.*.email')
-    .if(body('members').exists())
+    .optional({ checkFalsy: true })
     .trim()
-    .notEmpty()
-    .withMessage('Member email is required')
     .isEmail()
     .withMessage('Member email must be a valid email address')
     .normalizeEmail(),

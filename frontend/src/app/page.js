@@ -129,8 +129,8 @@ const data = {
         {
           badge: 'OPEN TO ALL MINDS',
           title: 'Inclusive & Multidisciplinary',
-          desc: 'No age barrier. Bring engineers, designers, policy thinkers, students, or local changemakers in teams of 2–4.',
-          metric: '2–4 Per Team',
+          desc: 'No age barrier. Bring engineers, designers, policy thinkers, students, or local changemakers in teams of 1–4.',
+          metric: '1–4 Per Team',
         },
       ],
     },
@@ -227,7 +227,7 @@ const data = {
     ],
     benefits: [
       ['Think beyond the bin', 'Turn an everyday waste problem into a practical, scalable intervention that works on the ground.'],
-      ['Build with a team', 'Bring 2–4 people together and combine engineering, design, policy, and community perspectives.'],
+      ['Build with a team', 'Bring 1–4 people together and combine engineering, design, policy, and community perspectives.'],
       ['Pitch your solution', 'Present the problem root-cause, your smart intervention, and the path from concept to action.'],
       ['Create lasting impact', 'Focus on cleaner communities, healthier ecosystems, and a brighter circular future.'],
     ],
@@ -267,7 +267,7 @@ const data = {
     faqs: [
       [
         'Who can participate in the Reimagine Ideathon?',
-        'Students, innovators, developers, designers, researchers, and aspiring entrepreneurs can participate. Teams can have up to 3 members, with each member’s name, email, and affiliation provided during registration.',
+        'Students, innovators, developers, designers, researchers, and aspiring entrepreneurs can participate. Teams can have 1 to 4 members (leader + up to 3 teammates), with each member’s name, email, and affiliation provided during registration.',
       ],
       [
         'Do we need a fully developed prototype before registering?',
@@ -388,8 +388,8 @@ const data = {
         {
           badge: 'ಎಲ್ಲರಿಗೂ ಮುಕ್ತ ಅವಕಾಶ',
           title: 'ವಯಸ್ಸಿನ ಮಿತಿ ಇಲ್ಲ',
-          desc: 'ವಿದ್ಯಾರ್ಥಿಗಳು, ಇಂಜಿನಿಯರ್‌ಗಳು, ವಿನ್ಯಾಸಕರು ಮತ್ತು ನಾಗರಿಕರು 2–4 ಸದಸ್ಯರ ತಂಡವಾಗಿ ಭಾಗವಹಿಸಬಹುದು.',
-          metric: '2–4 ಸದಸ್ಯರು',
+          desc: 'ವಿದ್ಯಾರ್ಥಿಗಳು, ಇಂಜಿನಿಯರ್‌ಗಳು, ವಿನ್ಯಾಸಕರು ಮತ್ತು ನಾಗರಿಕರು 1–4 ಸದಸ್ಯರ ತಂಡವಾಗಿ ಭಾಗವಹಿಸಬಹುದು.',
+          metric: '1–4 ಸದಸ್ಯರು',
         },
       ],
     },
@@ -486,7 +486,7 @@ const data = {
     ],
     benefits: [
       ['ಡಬ್ಬಿಯ ಆಚೆ ಯೋಚಿಸಿ', 'ದಿನನಿತ್ಯದ ತ್ಯಾಜ್ಯ ಸಮಸ್ಯೆಯನ್ನು ಪ್ರಾಯೋಗಿಕ, ವಿಸ್ತರಿಸಬಹುದಾದ ಆಲೋಚನೆಯಾಗಿ ರೂಪಿಸಿ.'],
-      ['ತಂಡದೊಂದಿಗೆ ರೂಪಿಸಿ', '2–4 ಜನರನ್ನು ಒಟ್ಟುಗೂಡಿಸಿ ವಿಭಿನ್ನ ದೃಷ್ಟಿಕೋನಗಳನ್ನು ಸಂಯೋಜಿಸಿ.'],
+      ['ತಂಡದೊಂದಿಗೆ ರೂಪಿಸಿ', '1–4 ಜನರನ್ನು ಒಟ್ಟುಗೂಡಿಸಿ ವಿಭಿನ್ನ ದೃಷ್ಟಿಕೋನಗಳನ್ನು ಸಂಯೋಜಿಸಿ.'],
       ['ನಿಮ್ಮ ಪರಿಹಾರವನ್ನು ಪ್ರಸ್ತುತಪಡಿಸಿ', 'ಆಲೋಚನೆ, ಪರಿಣಾಮ ಮತ್ತು ಕ್ರಿಯೆಯತ್ತ ಸಾಗುವ ಮಾರ್ಗವನ್ನು ವಿವರಿಸಿ.'],
       ['ಶಾಶ್ವತ ಪರಿಣಾಮ ಸೃಷ್ಟಿಸಿ', 'ಸ್ವಚ್ಛ ಸಮುದಾಯಗಳು, ಆರೋಗ್ಯಕರ ಸ್ಥಳಗಳು ಮತ್ತು ಉಜ್ವಲ ಭವಿಷ್ಯದ ಮೇಲೆ ಗಮನವಿರಿಸಿ.'],
     ],
@@ -526,7 +526,7 @@ const data = {
     faqs: [
       [
         'ಈ ರೀಇಮ್ಯಾಜಿನ್ ಐಡಿಯಾಥಾನ್ನಲ್ಲಿ ಯಾರು ಭಾಗವಹಿಸಬಹುದು?',
-        'ವಿದ್ಯಾರ್ಥಿಗಳು, ನವೋದ್ಯಮಿಗಳು, ಡೆವಲಪರ್ಗಳು, ವಿನ್ಯಾಸಕರು, ಸಂಶೋಧಕರು ಮತ್ತು ಉದ್ಯಮಶೀಲತೆಯಲ್ಲಿ ಆಸಕ್ತಿ ಹೊಂದಿರುವವರು ಭಾಗವಹಿಸಬಹುದು. ಪ್ರತಿ ತಂಡದಲ್ಲಿ ಗರಿಷ್ಠ 3 ಸದಸ್ಯರು ಇರಬಹುದು.',
+        'ವಿದ್ಯಾರ್ಥಿಗಳು, ನವೋದ್ಯಮಿಗಳು, ಡೆವಲಪರ್ಗಳು, ವಿನ್ಯಾಸಕರು, ಸಂಶೋಧಕರು ಮತ್ತು ಉದ್ಯಮಶೀಲತೆಯಲ್ಲಿ ಆಸಕ್ತಿ ಹೊಂದಿರುವವರು ಭಾಗವಹಿಸಬಹುದು. ಪ್ರತಿ ತಂಡದಲ್ಲಿ 1 ರಿಂದ 4 ಸದಸ್ಯರು ಇರಬಹುದು.',
       ],
       [
         'ನೋಂದಣಿಗೆ ಮುನ್ನ ಸಂಪೂರ್ಣ ಪ್ರೊಟೊಟೈಪ್ ಸಿದ್ಧವಾಗಿರಬೇಕೇ?',
@@ -869,7 +869,7 @@ function App() {
                 <div className="hero-stats-row">
                   <div className="micro-stats">
                     <div>
-                      <strong>2–4</strong>
+                      <strong>1–4</strong>
                       <span>{t.stats[0]}</span>
                     </div>
                     <div>
@@ -1312,7 +1312,7 @@ function App() {
 
               <div className="rule-tiles">
                 {[
-                  [Users, lang === 'en' ? 'TEAM SIZE' : 'ತಂಡದ ಗಾತ್ರ', lang === 'en' ? '2–4 Members' : '2–4 ಜನರು'],
+                  [Users, lang === 'en' ? 'TEAM SIZE' : 'ತಂಡದ ಗಾತ್ರ', lang === 'en' ? '1–4 Members' : '1–4 ಜನರು'],
                   [Clock3, lang === 'en' ? 'AGE LIMIT' : 'ವಯಸ್ಸಿನ ಮಿತಿ', lang === 'en' ? 'No Age Limit' : 'ವಯಸ್ಸಿನ ಮಿತಿ ಇಲ್ಲ'],
                   [Trophy, lang === 'en' ? 'FORMAT' : 'ಸ್ವರೂಪ', lang === 'en' ? 'Idea Presentation' : 'ನವೀನ ಆಲೋಚನೆ ಪ್ರಸ್ತುತಿ'],
                   [Check, lang === 'en' ? 'THE MINDSET' : 'ಮನೋಭಾವ', lang === 'en' ? 'Curious · Practical · Bold' : 'ಕುತೂಹಲ · ಪ್ರಾಯೋಗಿಕ'],

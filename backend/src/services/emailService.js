@@ -42,6 +42,9 @@ const transporter = createTransporter();
  */
 const sendMail = async ({ to, subject, html, text }) => {
   try {
+    if (!to || typeof to !== 'string' || !to.trim()) {
+      return { success: true, skipped: true, reason: 'No email address provided' };
+    }
     const mailOptions = {
       from: `"${env.EMAIL_FROM_NAME}" <${env.EMAIL_FROM_ADDRESS}>`,
       to,

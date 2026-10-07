@@ -128,6 +128,8 @@ const translations = {
       themeUnavailable: "Theme not available",
       themeNote:
         "This is the theme selected when your team was created.",
+      coastalFocusNotice:
+        "The identified problem statements and solutions should focus on the challenges faced by coastal areas.",
       problem: "2. Problem Statement *",
       locked: "Locked",
       words: "words",
@@ -328,6 +330,8 @@ const translations = {
       themeUnavailable: "ಥೀಮ್ ಲಭ್ಯವಿಲ್ಲ",
       themeNote:
         "ನಿಮ್ಮ ತಂಡವನ್ನು ರಚಿಸುವಾಗ ಆಯ್ಕೆ ಮಾಡಿದ ಥೀಮ್ ಇದು.",
+      coastalFocusNotice:
+        "ಗುರುತಿಸಲಾದ ಸಮಸ್ಯೆಯ ಹೇಳಿಕೆಗಳು ಮತ್ತು ಪರಿಹಾರಗಳು ಕರಾವಳಿ ಪ್ರದೇಶಗಳ ಸಮಸ್ಯೆಗಳ ಮೇಲೆ ಕೇಂದ್ರೀಕರಿಸಿರಬೇಕು.",
       problem: "2. ಸಮಸ್ಯೆಯ ಹೇಳಿಕೆ *",
       locked: "ಲಾಕ್ ಮಾಡಲಾಗಿದೆ",
       words: "ಪದಗಳು",
@@ -1114,6 +1118,47 @@ export default function ParticipantPage() {
               <p className="form-hint">
                 {tx.round1.themeNote}
               </p>
+            </div>
+
+            {/* Coastal Areas Focus Guideline Notice */}
+            <div
+              style={{
+                background: 'linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%)',
+                border: '1.5px solid #6ee7b7',
+                borderRadius: '12px',
+                padding: '14px 18px',
+                marginBottom: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                boxShadow: '0 2px 6px rgba(16, 185, 129, 0.08)',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '22px',
+                  background: '#d1fae5',
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                🌊
+              </div>
+              <div
+                style={{
+                  fontSize: '13.5px',
+                  fontWeight: 700,
+                  color: '#065f46',
+                  lineHeight: 1.5,
+                }}
+              >
+                {tx.round1.coastalFocusNotice}
+              </div>
             </div>
 
             {/* 2. PROBLEM STATEMENT (MAX 150 WORDS) */}

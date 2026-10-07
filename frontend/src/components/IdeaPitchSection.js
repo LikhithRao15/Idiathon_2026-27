@@ -27,7 +27,7 @@ function countWords(str) {
 }
 
 export default function IdeaPitchSection() {
-  const { user, token, showToast } = useAuth();
+  const { user, token, showToast, lang = 'en' } = useAuth();
 
   const [activeTab, setActiveTab] = useState('round1');
   const [team, setTeam] = useState(null);
@@ -538,6 +538,49 @@ export default function IdeaPitchSection() {
               </div>
             ) : (
               <div>
+                {/* Coastal Areas Focus Guideline Banner */}
+                <div
+                  style={{
+                    background: 'linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%)',
+                    border: '1.5px solid #6ee7b7',
+                    borderRadius: '12px',
+                    padding: '12px 16px',
+                    marginBottom: '20px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    boxShadow: '0 2px 6px rgba(16, 185, 129, 0.08)',
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: '20px',
+                      background: '#d1fae5',
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                    }}
+                  >
+                    🌊
+                  </div>
+                  <div
+                    style={{
+                      fontSize: '13.5px',
+                      fontWeight: 700,
+                      color: '#065f46',
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    {lang === 'kn'
+                      ? 'ಗುರುತಿಸಲಾದ ಸಮಸ್ಯೆಯ ಹೇಳಿಕೆಗಳು ಮತ್ತು ಪರಿಹಾರಗಳು ಕರಾವಳಿ ಪ್ರದೇಶಗಳ ಸಮಸ್ಯೆಗಳ ಮೇಲೆ ಕೇಂದ್ರೀಕರಿಸಿರಬೇಕು.'
+                      : 'The identified problem statements and solutions should focus on the challenges faced by coastal areas.'}
+                  </div>
+                </div>
+
                 {/* 1. Problem Statement */}
                 <div className="form-group" style={{ marginBottom: '24px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>

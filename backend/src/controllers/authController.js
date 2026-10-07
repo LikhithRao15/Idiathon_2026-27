@@ -11,30 +11,46 @@ const notificationService = require('../services/notificationService');
  */
 const register = async (req, res, next) => {
   try {
-    const { name, email, phone, city, password, role } = req.body;
+    const { name, email, phone, city, password } = req.body;
+    const cleanEmail = email && typeof email === 'string' && email.trim() ? email.trim().toLowerCase() : undefined;
+    const cleanPhone = (phone || '').trim();
 
-    // Check duplicate email in registered users
-    const existingEmail = await User.findOne({ email: email.toLowerCase() });
-    if (existingEmail) {
-      return sendError(
-        res,
-        'A user with this email address already exists. Please login.',
-        400
-      );
+    if (!cleanPhone) {
+      return sendError(res, 'Phone number is required.', 400);
     }
 
-    // Check if this email is already listed as a member in a team created by a leader
-    const existingMemberTeam = await Team.findOne({ 'members.email': email.toLowerCase() });
-    if (existingMemberTeam) {
-      return sendError(
-        res,
-        `This email is already registered as a team member in team '${existingMemberTeam.teamName}'. Only the team leader can register and manage submissions.`,
-        400
-      );
+    // Check duplicate email in registered users only if email is provided
+    if (cleanEmail) {
+      const existingEmail = await User.findOne({ email: cleanEmail });
+      if (existingEmail) {
+        return sendError(
+          res,
+          'A user with this email address already exists. Please login.',
+          400
+        );
+      }
+
+      // Check if this email is already listed as a member in a team created by a leader
+      const existingMemberTeam = await Team.findOne({ 'members.email': cleanEmail });
+      if (existingMemberTeam) {
+        return sendError(
+          res,
+          `This email is already registered as a team member in team '${existingMemberTeam.teamName}'. Only the team leader can register and manage submissions.`,
+          400
+        );
+      }
     }
 
-    // Check duplicate phone
-    const existingPhone = await User.findOne({ phone });
+    // Check duplicate phone with variant normalization
+    const cleanDigits = cleanPhone.replace(/[\s\-\(\)]/g, '');
+    const phoneVariants = [cleanPhone, cleanDigits];
+    if (cleanDigits.startsWith('+91') && cleanDigits.length === 13) {
+      phoneVariants.push(cleanDigits.slice(3));
+    } else if (cleanDigits.length === 10) {
+      phoneVariants.push(`+91${cleanDigits}`);
+    }
+
+    const existingPhone = await User.findOne({ phone: { $in: phoneVariants } });
     if (existingPhone) {
       return sendError(
         res,
@@ -43,13 +59,23 @@ const register = async (req, res, next) => {
       );
     }
 
-    // Public registration is restricted to participants (Panelists are created exclusively by Admin)
+    // Check if this phone number is already listed as a member in another team
+    const existingMemberByPhone = await Team.findOne({ 'members.phone': { $in: phoneVariants } });
+    if (existingMemberByPhone) {
+      return sendError(
+        res,
+        `This phone number is already registered as a team member in team '${existingMemberByPhone.teamName}'.`,
+        400
+      );
+    }
+
+    // Public registration is restricted to participants
     const userRole = 'participant';
 
     const user = await User.create({
       name,
-      email: email.toLowerCase(),
-      phone,
+      email: cleanEmail || undefined,
+      phone: cleanPhone,
       city: city ? city.trim() : undefined,
       password,
       role: userRole,
@@ -86,25 +112,39 @@ const register = async (req, res, next) => {
 };
 
 /**
- * @desc    Authenticate user & get JWT token
+ * @desc    Authenticate user & get JWT token (by Phone Number or Email)
  * @route   POST /api/auth/login
  * @access  Public
  */
 const login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    const cleanIdentifier = (email || '').trim().toLowerCase();
+    const { email, phone, identifier: rawId, password } = req.body;
+    const rawIdentifier = (phone || email || rawId || '').trim();
+    if (!rawIdentifier) {
+      return sendError(res, 'Phone number is required.', 400);
+    }
 
-    // Find user with password - support exact match or admin aliases
+    const cleanLower = rawIdentifier.toLowerCase();
+    const cleanDigits = rawIdentifier.replace(/[\s\-\(\)]/g, '');
+    const phoneVariants = [rawIdentifier, cleanDigits];
+    if (cleanDigits.startsWith('+91') && cleanDigits.length === 13) {
+      phoneVariants.push(cleanDigits.slice(3));
+    } else if (cleanDigits.length === 10) {
+      phoneVariants.push(`+91${cleanDigits}`);
+    }
+
+    // Find user with password - support phone variants, email, or admin aliases
     const user = await User.findOne({
       $or: [
-        { email: cleanIdentifier },
-        ...(cleanIdentifier === 'admin' ? [{ email: 'admin@123' }] : []),
-        ...(cleanIdentifier === 'admin@123' ? [{ email: 'admin' }] : []),
+        { phone: { $in: phoneVariants } },
+        { email: cleanLower },
+        ...(cleanLower === 'admin' ? [{ email: 'admin@123' }] : []),
+        ...(cleanLower === 'admin@123' ? [{ email: 'admin' }] : []),
       ],
     }).select('+password');
+
     if (!user) {
-      return sendError(res, 'Invalid email or password credentials.', 401);
+      return sendError(res, 'Invalid phone number or password credentials.', 401);
     }
 
     if (!user.isActive) {
@@ -118,15 +158,22 @@ const login = async (req, res, next) => {
     // Verify password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return sendError(res, 'Invalid email or password credentials.', 401);
+      return sendError(res, 'Invalid phone number or password credentials.', 401);
     }
 
     // Generate JWT
     const token = generateToken(user);
 
     // Check team membership
+    const teamOrConditions = [{ leader: user._id }];
+    if (user.email) teamOrConditions.push({ 'members.email': user.email });
+    if (user.phone) {
+      const uPhoneDigits = user.phone.replace(/[\s\-\(\)]/g, '');
+      teamOrConditions.push({ 'members.phone': { $in: [user.phone, uPhoneDigits] } });
+    }
+
     const userTeam = await Team.findOne({
-      $or: [{ leader: user._id }, { 'members.email': user.email }],
+      $or: teamOrConditions,
     }).select('teamId teamName round1Status round2Status finalStatus');
 
     return sendSuccess(res, 'Login successful.', {
@@ -158,8 +205,15 @@ const getMe = async (req, res, next) => {
       return sendError(res, 'User not found.', 404);
     }
 
+    const teamOrConditions = [{ leader: user._id }];
+    if (user.email) teamOrConditions.push({ 'members.email': user.email });
+    if (user.phone) {
+      const uPhoneDigits = user.phone.replace(/[\s\-\(\)]/g, '');
+      teamOrConditions.push({ 'members.phone': { $in: [user.phone, uPhoneDigits] } });
+    }
+
     const userTeam = await Team.findOne({
-      $or: [{ leader: user._id }, { 'members.email': user.email }],
+      $or: teamOrConditions,
     }).populate('theme', 'name description');
 
     return sendSuccess(res, 'User details retrieved successfully.', {

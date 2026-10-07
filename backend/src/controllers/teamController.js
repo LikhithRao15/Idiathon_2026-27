@@ -24,12 +24,12 @@ const createTeam = async (req, res, next) => {
     }
 
     // Check if leader is already leading or part of an existing team
+    const leaderTeamQueries = [{ leader: leaderId }, { createdBy: leaderId }];
+    if (req.user.email) leaderTeamQueries.push({ 'members.email': req.user.email.toLowerCase() });
+    if (req.user.phone) leaderTeamQueries.push({ 'members.phone': req.user.phone });
+
     const existingLeaderTeam = await Team.findOne({
-      $or: [
-        { leader: leaderId },
-        { createdBy: leaderId },
-        { 'members.email': req.user.email },
-      ],
+      $or: leaderTeamQueries,
     });
 
     if (existingLeaderTeam) {
@@ -72,47 +72,62 @@ const createTeam = async (req, res, next) => {
     const memberPhones = new Set();
 
     // Include leader's own contact in check
-    memberEmails.add(req.user.email.toLowerCase());
-    memberPhones.add(req.user.phone);
+    if (req.user.email) {
+      memberEmails.add(req.user.email.toLowerCase());
+    }
+    if (req.user.phone) {
+      memberPhones.add(req.user.phone);
+    }
 
     for (const member of members) {
-      const email = member.email.toLowerCase();
-      const phone = member.phone;
+      const email = member.email ? member.email.toLowerCase().trim() : null;
+      const phone = member.phone ? member.phone.trim() : null;
 
-      if (memberEmails.has(email)) {
-        return sendError(
-          res,
-          `Duplicate member email '${email}' detected in team submission.`,
-          400
-        );
+      if (email) {
+        if (memberEmails.has(email)) {
+          return sendError(
+            res,
+            `Duplicate member email '${email}' detected in team submission.`,
+            400
+          );
+        }
+        memberEmails.add(email);
       }
-      if (memberPhones.has(phone)) {
-        return sendError(
-          res,
-          `Duplicate member phone '${phone}' detected in team submission.`,
-          400
-        );
+
+      if (phone) {
+        if (memberPhones.has(phone)) {
+          return sendError(
+            res,
+            `Duplicate member phone '${phone}' detected in team submission.`,
+            400
+          );
+        }
+        memberPhones.add(phone);
       }
 
       // Check if this member is already in another team in database
-      const memberInOtherTeam = await Team.findOne({
-        $or: [
-          { 'members.email': email },
-          { 'members.phone': phone },
-          { leader: await User.findOne({ email }).select('_id') },
-        ],
-      });
-
-      if (memberInOtherTeam) {
-        return sendError(
-          res,
-          `Member with email ${email} or phone ${phone} is already registered in team '${memberInOtherTeam.teamName}'.`,
-          400
-        );
+      const memberOrQuery = [];
+      if (phone) memberOrQuery.push({ 'members.phone': phone });
+      if (email) {
+        memberOrQuery.push({ 'members.email': email });
+        const leaderUser = await User.findOne({ email }).select('_id');
+        if (leaderUser) memberOrQuery.push({ leader: leaderUser._id });
+      }
+      if (phone) {
+        const leaderUserByPhone = await User.findOne({ phone }).select('_id');
+        if (leaderUserByPhone) memberOrQuery.push({ leader: leaderUserByPhone._id });
       }
 
-      memberEmails.add(email);
-      memberPhones.add(phone);
+      if (memberOrQuery.length > 0) {
+        const memberInOtherTeam = await Team.findOne({ $or: memberOrQuery });
+        if (memberInOtherTeam) {
+          return sendError(
+            res,
+            `Member with ${email ? 'email ' + email + ' or ' : ''}phone ${phone} is already registered in team '${memberInOtherTeam.teamName}'.`,
+            400
+          );
+        }
+      }
     }
 
     // Generate unique formatted Team ID (e.g. TEAM-2026-001)
@@ -152,8 +167,12 @@ const createTeam = async (req, res, next) => {
  */
 const getMyTeam = async (req, res, next) => {
   try {
+    const teamFindQueries = [{ leader: req.user._id }];
+    if (req.user.email) teamFindQueries.push({ 'members.email': req.user.email });
+    if (req.user.phone) teamFindQueries.push({ 'members.phone': req.user.phone });
+
     const team = await Team.findOne({
-      $or: [{ leader: req.user._id }, { 'members.email': req.user.email }],
+      $or: teamFindQueries,
     })
       .populate('leader', 'name email phone role')
       .populate('theme', 'name description')

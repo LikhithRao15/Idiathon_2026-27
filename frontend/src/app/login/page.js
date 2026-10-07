@@ -9,8 +9,8 @@ const translations = {
     title: 'Team Leader Sign In',
     subtitle: 'Access your team workspace, pitch submissions, and round progress',
 
-    email: 'Leader Email Address *',
-    emailPlaceholder: 'e.g. leader@domain.com',
+    phone: 'Phone Number *',
+    phonePlaceholder: 'e.g. 9876543210 (or email / admin ID)',
 
     password: 'Password *',
     passwordPlaceholder: '••••••••',
@@ -26,8 +26,8 @@ const translations = {
     title: 'ತಂಡದ ನಾಯಕನಾಗಿ ಸೈನ್ ಇನ್ ಮಾಡಿ',
     subtitle: 'ನಿಮ್ಮ ತಂಡದ ಕಾರ್ಯಕ್ಷೇತ್ರ, ಪಿಚ್ ಸಲ್ಲಿಕೆಗಳು ಮತ್ತು ಸುತ್ತಿನ ಪ್ರಗತಿಯನ್ನು ಪ್ರವೇಶಿಸಿ',
 
-    email: 'ತಂಡದ ನಾಯಕನ ಇಮೇಲ್ ವಿಳಾಸ *',
-    emailPlaceholder: 'ಉದಾ. leader@domain.com',
+    phone: 'ದೂರವಾಣಿ ಸಂಖ್ಯೆ *',
+    phonePlaceholder: 'ಉದಾ. 9876543210 (ಅಥವಾ ಇಮೇಲ್/ಅಡ್ಮಿನ್ ಐಡಿ)',
 
     password: 'ಪಾಸ್ವರ್ಡ್ *',
     passwordPlaceholder: '••••••••',
@@ -44,14 +44,14 @@ export default function LoginPage() {
   const { login, lang } = useAuth();
   const t = translations[lang] || translations.en;
 
-  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await login(email, password);
+    await login(phone, password);
     setLoading(false);
   };
 
@@ -70,14 +70,14 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>{t.email}</label>
+            <label>{t.phone}</label>
             <input
               type="text"
               autoCapitalize="none"
               autoCorrect="off"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={t.emailPlaceholder}
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder={t.phonePlaceholder}
               required
             />
           </div>

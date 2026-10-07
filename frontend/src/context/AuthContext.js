@@ -58,7 +58,7 @@ export function AuthProvider({ children }) {
     const payload = res.data || {};
     const userData = payload.user || payload;
 
-    if (res.ok && userData && userData.email) {
+    if (res.ok && userData && (userData.id || userData._id || userData.phone || userData.email)) {
       setUser(userData);
       localStorage.setItem('ideathon_user', JSON.stringify(userData));
     } else {
@@ -67,10 +67,16 @@ export function AuthProvider({ children }) {
     setLoading(false);
   };
 
-  const login = async (email, password) => {
+  const login = async (identifier, password) => {
+    const cleanId = String(identifier || '').trim();
     const res = await apiRequest('/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({
+        email: cleanId,
+        phone: cleanId,
+        identifier: cleanId,
+        password,
+      }),
     });
 
     const payload = res.data || {};

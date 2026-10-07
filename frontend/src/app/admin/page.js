@@ -89,6 +89,8 @@ const adminTranslations = {
     selectR1Btn: '✓ Select R1',
     finalistBtn: '🏆 Finalist',
     rejectBtn: '✗ Reject',
+    deleteTeamBtn: 'Delete',
+    deleteTeamModal: '🗑️ Delete Team from DB',
     inspectBtn: '👁️ Inspect & Scores',
     evalBreakdownTitle: 'Team Pitch & Jury Evaluation Scorecard',
     closeModal: 'Close',
@@ -182,6 +184,8 @@ const adminTranslations = {
     selectR1Btn: '✓ ಹಂತ ೧ ಆಯ್ಕೆ',
     finalistBtn: '🏆 ಫೈನಲಿಸ್ಟ್',
     rejectBtn: '✗ ತಿರಸ್ಕರಿಸಿ',
+    deleteTeamBtn: 'ಅಳಿಸಿ',
+    deleteTeamModal: '🗑️ ತಂಡವನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಅಳಿಸಿ',
     inspectBtn: '👁️ ಅಂಕ ವಿವರ ವೀಕ್ಷಿಸಿ',
     evalBreakdownTitle: 'ತಂಡದ ಯೋಜನೆ ಮತ್ತು ತೀರ್ಪುಗಾರರ ಮೌಲ್ಯಮಾಪನ ವಿವರ',
     closeModal: 'ಮುಚ್ಚಿ',
@@ -426,6 +430,35 @@ export default function AdminPage() {
       }
     } else {
       showToast(res.message || 'Rejection failed', true);
+    }
+  };
+
+  const handleDeleteTeam = async (team) => {
+    if (!team) return;
+    const confirmMsg =
+      lang === 'en'
+        ? `Are you sure you want to permanently delete team "${team.teamName}" (${team.teamId || team._id}) from the database? All related proposals and scores will be removed.`
+        : `ಖಚಿತವಾಗಿ ನೀವು "${team.teamName}" (${team.teamId || team._id}) ತಂಡವನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಶಾಶ್ವತವಾಗಿ ಅಳಿಸಲು ಬಯಸುವಿರಾ? ಈ ತಂಡದ ಎಲ್ಲಾ ದಾಖಲೆಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.`;
+
+    if (!confirm(confirmMsg)) return;
+
+    const res = await apiRequest(`/admin/teams/${team._id}`, {
+      method: 'DELETE',
+    });
+
+    if (res.ok) {
+      showToast(
+        lang === 'en'
+          ? `Team "${team.teamName}" permanently deleted from database!`
+          : `"${team.teamName}" ತಂಡವನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಯಶಸ್ವಿಯಾಗಿ ಅಳಿಸಲಾಗಿದೆ!`
+      );
+      if (inspectTeam && inspectTeam._id === team._id) {
+        closeInspectModal();
+      }
+      loadTeams();
+      loadStats();
+    } else {
+      showToast(res.message || 'Failed to delete team', true);
     }
   };
 
@@ -1198,6 +1231,24 @@ export default function AdminPage() {
                                 {t.rejectBtn}
                               </button>
                             )}
+
+                            <button
+                              className="btn btn-sm"
+                              style={{
+                                background: '#fef2f2',
+                                color: '#b91c1c',
+                                border: '1px solid #fecaca',
+                                padding: '4px 8px',
+                                fontSize: '11.5px',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '3px',
+                              }}
+                              onClick={() => handleDeleteTeam(team)}
+                              title="Delete Team from Database"
+                            >
+                              <Trash2 size={12} /> {t.deleteTeamBtn}
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -1920,6 +1971,23 @@ export default function AdminPage() {
                   onClick={() => handleRejectRound1(inspectTeam._id)}
                 >
                   {t.rejectModal}
+                </button>
+
+                <button
+                  className="btn"
+                  style={{
+                    background: '#fef2f2',
+                    color: '#b91c1c',
+                    border: '1px solid #fecaca',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    fontWeight: 700,
+                  }}
+                  onClick={() => handleDeleteTeam(inspectTeam)}
+                  title="Delete Team from Database"
+                >
+                  <Trash2 size={15} /> {t.deleteTeamModal}
                 </button>
               </div>
             </div>

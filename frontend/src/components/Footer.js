@@ -100,43 +100,43 @@ export default function Footer() {
           <p className="helpline-subtext">{t.helpSub}</p>
 
           <div className="helpline-list">
-            <a href="tel:+919880012345" className="helpline-card">
+            <a href="tel:+919886892570" className="helpline-card">
               <div className="helpline-icon">
                 <Phone size={15} />
               </div>
               <div className="helpline-info">
                 <span className="helpline-title">{t.h1Title}</span>
-                <span className="helpline-num">+91 98800 12345</span>
+                <span className="helpline-num">+91 9886892570</span>
               </div>
             </a>
 
-            <a href="tel:+919880023456" className="helpline-card">
+            <a href="tel:+919008935599" className="helpline-card">
               <div className="helpline-icon">
                 <Phone size={15} />
               </div>
               <div className="helpline-info">
                 <span className="helpline-title">{t.h2Title}</span>
-                <span className="helpline-num">+91 98800 23456</span>
+                <span className="helpline-num">+91 9008935599</span>
               </div>
             </a>
 
-            <a href="tel:+919880034567" className="helpline-card">
+            <a href="tel:+919959723509" className="helpline-card">
               <div className="helpline-icon">
                 <Phone size={15} />
               </div>
               <div className="helpline-info">
                 <span className="helpline-title">{t.h3Title}</span>
-                <span className="helpline-num">+91 98800 34567</span>
+                <span className="helpline-num">+91 9959723509</span>
               </div>
             </a>
 
-            <a href="mailto:hasirusamvada@reimagine.org" className="helpline-card email-card">
+            <a href="tel:+919916488990" className="helpline-card">
               <div className="helpline-icon">
-                <Mail size={15} />
+                <Phone size={15} />
               </div>
               <div className="helpline-info">
-                <span className="helpline-title">{t.emailTitle}</span>
-                <span className="helpline-num">hasirusamvada@reimagine.org</span>
+                <span className="helpline-title">{t.h3Title}</span>
+                <span className="helpline-num">+91 9916488990</span>
               </div>
             </a>
           </div>
