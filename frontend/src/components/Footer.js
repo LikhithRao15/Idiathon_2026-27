@@ -13,9 +13,9 @@ const footerTranslations = {
     helpTitle: 'Helpdesk & Helplines',
     helpSub: 'For registration, rules, or submission support:',
     h1Title: 'Helpdesk 1 · General & Registration',
-    h2Title: 'Helpdesk 2 · Technical & Pitch Support',
-    h3Title: 'Helpdesk 3 · Mentorship & Rounds Desk',
-    h4Title: 'Helpdesk 4 · Regional & General Support',
+    h2Title: 'Helpdesk 2 · Regional & General Support',
+    h3Title: 'Helpdesk 3 · Technical & Pitch Support',
+    h4Title: 'Helpdesk 4 · Mentorship & Rounds Desk',
     emailTitle: 'Official Inquiries & Help Email',
     quickLinks: 'Quick Links',
     portals: 'Portals',
@@ -24,6 +24,7 @@ const footerTranslations = {
     timeline: '03. Milestone Timeline',
     faq: '04. Rubric & FAQs',
     register: '05. Register Team',
+    posterLink: '06. Official Event Poster',
     leaderSignIn: 'Team Leader Sign In',
     participantWorkspace: 'Participant Workspace',
     judgeEval: 'Panelist Evaluation',
@@ -37,9 +38,9 @@ const footerTranslations = {
     helpTitle: 'ಸಹಾಯವಾಣಿ ಮತ್ತು ಮಾಹಿತಿ',
     helpSub: 'ನೋಂದಣಿ, ನಿಯಮಗಳು ಅಥವಾ ಆಲೋಚನೆ ಸಲ್ಲಿಕೆ ಸಹಾಯಕ್ಕಾಗಿ:',
     h1Title: 'ಸಹಾಯವಾಣಿ ೧ · ಸಾಮಾನ್ಯ & ನೋಂದಣಿ ಮಾಹಿತಿ',
-    h2Title: 'ಸಹಾಯವಾಣಿ ೨ · ತಾಂತ್ರಿಕ & ಸಲ್ಲಿಕೆ ಸಹಾಯ',
-    h3Title: 'ಸಹಾಯವಾಣಿ ೩ · ಮಾರ್ಗದರ್ಶನ & ಹಂತಗಳ ಡೆಸ್ಕ್',
-    h4Title: 'ಸಹಾಯವಾಣಿ ೪ · ಪ್ರಾದೇಶಿಕ & ಸಾಮಾನ್ಯ ಸಹಾಯ',
+    h2Title: 'ಸಹಾಯವಾಣಿ ೨ · ಪ್ರಾದೇಶಿಕ & ಸಾಮಾನ್ಯ ಸಹಾಯ',
+    h3Title: 'ಸಹಾಯವಾಣಿ ೩ · ತಾಂತ್ರಿಕ & ಸಲ್ಲಿಕೆ ಸಹಾಯ',
+    h4Title: 'ಸಹಾಯವಾಣಿ ೪ · ಮಾರ್ಗದರ್ಶನ & ಹಂತಗಳ ಡೆಸ್ಕ್',
     emailTitle: 'ಅಧಿಕೃತ ವಿಚಾರಣೆ & ಸಹಾಯ ಇಮೇಲ್',
     quickLinks: 'ಮುಖ್ಯ ಲಿಂಕ್‌ಗಳು',
     portals: 'ಪೋರ್ಟಲ್‌ಗಳು',
@@ -48,6 +49,7 @@ const footerTranslations = {
     timeline: '೦೩. ಪ್ರಮುಖ ದಿನಾಂಕಗಳು',
     faq: '೦೪. ನಿಯಮಾವಳಿ & ಪ್ರಶ್ನೋತ್ತರ',
     register: '೦೫. ತಂಡ ನೋಂದಣಿ',
+    posterLink: '೦೬. ಅಧಿಕೃತ ಈವೆಂಟ್ ಪೋಸ್ಟರ್',
     leaderSignIn: 'ತಂಡದ ಮುಖ್ಯಸ್ಥರ ಪ್ರವೇಶ',
     participantWorkspace: 'ಸ್ಪರ್ಧಾರ್ಥಿಗಳ ವೇದಿಕೆ',
     judgeEval: 'ತೀರ್ಪುಗಾರರ ಮೌಲ್ಯಮಾಪನ',
@@ -94,7 +96,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* 3 SAMPLE HELPLINES / CONTACT NUMBERS */}
+        {/* 4 HELPLINES / CONTACT NUMBERS ACCORDING TO POSTER */}
         <div className="footer-col helpline-col">
           <h4 className="footer-heading">
             <HelpCircle size={16} /> {t.helpTitle}
@@ -112,23 +114,23 @@ export default function Footer() {
               </div>
             </a>
 
-            <a href="tel:+919008935599" className="helpline-card">
+            <a href="tel:+918050755075" className="helpline-card">
               <div className="helpline-icon">
                 <Phone size={15} />
               </div>
               <div className="helpline-info">
                 <span className="helpline-title">{t.h2Title}</span>
-                <span className="helpline-num">+91 9008935599</span>
+                <span className="helpline-num">+91 8050755075</span>
               </div>
             </a>
 
-            <a href="tel:+919959723509" className="helpline-card">
+            <a href="tel:+919008935599" className="helpline-card">
               <div className="helpline-icon">
                 <Phone size={15} />
               </div>
               <div className="helpline-info">
                 <span className="helpline-title">{t.h3Title}</span>
-                <span className="helpline-num">+91 9959723509</span>
+                <span className="helpline-num">+91 9008935599 / +91 9959723509</span>
               </div>
             </a>
 
@@ -172,6 +174,11 @@ export default function Footer() {
               <Link href="/register">
                 {t.register}
               </Link>
+            </li>
+            <li>
+              <a href="/event-poster.jpg" target="_blank" rel="noopener noreferrer">
+                {t.posterLink}
+              </a>
             </li>
           </ul>
 

@@ -182,45 +182,139 @@ a {
 .poster-modal-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 300;
-  background: rgba(6, 28, 17, 0.82);
-  backdrop-filter: blur(10px);
-  display: grid;
-  place-items: center;
-  padding: 24px;
+  z-index: 9999;
+  background: rgba(5, 24, 15, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  animation: posterFadeIn 0.22s ease-out;
 }
 
 .poster-modal {
   position: relative;
-  max-width: 620px;
-  max-height: 90vh;
-  background: #fff;
+  max-width: 680px;
+  width: 100%;
+  max-height: 92vh;
+  background: #ffffff;
   border-radius: 22px;
-  padding: 12px;
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
-  overflow: auto;
+  padding: 14px 16px 16px;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: posterScaleIn 0.26s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.poster-modal img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 14px;
+.poster-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px 12px 6px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.poster-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: #143d2b;
+  letter-spacing: -0.01em;
+}
+
+.poster-title-icon {
+  color: #1b8a5a;
+  flex-shrink: 0;
+}
+
+.poster-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.poster-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #f0f7f2;
+  color: #145936;
+  border: 1px solid rgba(20, 89, 54, 0.18);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.poster-action-btn:hover {
+  background: #145936;
+  color: #ffffff;
+  border-color: #145936;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(20, 89, 54, 0.2);
 }
 
 .poster-modal-close {
-  position: sticky;
-  top: 8px;
-  float: right;
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: var(--green);
-  color: #fff;
-  display: grid;
-  place-items: center;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-  z-index: 2;
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.poster-modal-close:hover {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+  transform: scale(1.05);
+}
+
+.poster-image-wrap {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: calc(92vh - 75px);
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  border-radius: 14px;
+  background: #f9fafb;
+}
+
+.poster-modal img,
+.poster-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
+  object-fit: contain;
+}
+
+@keyframes posterFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes posterScaleIn {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 /* ---------------- NAV (FIXED & ADAPTIVE) ---------------- */

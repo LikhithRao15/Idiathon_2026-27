@@ -10,6 +10,8 @@ import {
   Check,
   ChevronDown,
   Clock3,
+  Download,
+  ExternalLink,
   FileText,
   Globe,
   HelpCircle,
@@ -40,15 +42,20 @@ const GOOGLE_FORM_SURVEY_URL = '#';
 // ============================================================
 const EVENT_SCHEDULE = {
   registration: {
-    end: '2026-09-28T23:59:59+05:30',
+    start: '2026-10-01T00:00:00+05:30',
+    end: '2026-11-01T23:59:59+05:30',
+    date: {
+      en: '01 OCT – 01 NOV 2026',
+      kn: '೦೧ ಅಕ್ಟೋಬರ್ – ೦೧ ನವೆಂಬರ್ ೨೦೨೬',
+    },
   },
 
   round1: {
-    start: '2026-10-02T00:00:00+05:30',
+    start: '2026-10-01T00:00:00+05:30',
     end: '2026-11-01T23:59:59+05:30',
     date: {
-      en: '02 OCT – 01 NOV 2026',
-      kn: '೦೨ ಅಕ್ಟೋಬರ್ – ೦೧ ನವೆಂಬರ್ ೨೦೨೬',
+      en: '01 OCT – 01 NOV 2026',
+      kn: '೦೧ ಅಕ್ಟೋಬರ್ – ೦೧ ನವೆಂಬರ್ ೨೦೨೬',
     },
   },
 
@@ -62,10 +69,10 @@ const EVENT_SCHEDULE = {
   },
 
   finale: {
-    start: '2026-12-15T00:00:00+05:30',
+    start: '2027-01-06T00:00:00+05:30',
     date: {
-      en: '15 DEC 2026',
-      kn: '೧೫ ಡಿಸೆಂಬರ್ ೨೦೨೬',
+      en: '06 – 07 JAN 2027',
+      kn: '೦೬ – ೦೭ ಜನವರಿ ೨೦೨೭',
     },
   },
 };
@@ -243,26 +250,26 @@ const data = {
       {
         id: 'round1',
         date: EVENT_SCHEDULE.round1.date,
-        title: 'Round 1: Idea Pitching',
-        copy: 'Submit your team registration, problem root-cause brief, and initial proposed technical solution.',
+        title: 'Stage 1: Registration',
+        copy: 'Submit your team registration (1–4 members), problem statement, and proposed intervention concept.',
         color: 'green',
-        items: ['Team of 1–4 members', 'Choose 1 of 3 focus tracks', 'Problem & solution submission'],
+        items: ['Team of 1–4 members', 'Choose 1 of 3 focus tracks', 'Registration & problem brief'],
       },
       {
         id: 'round2',
         date: EVENT_SCHEDULE.round2.date,
-        title: 'Round 2: Idea Elaboration',
-        copy: 'Unlocked exclusively for teams selected in Round 1: Submit detailed concept, 90-day plan, budget, and circularity model.',
+        title: 'Stage 2: Idea Submission',
+        copy: 'Submit detailed concept, 90-day pilot execution plan, budget estimate, and circularity framework.',
         color: 'blue',
-        items: ['Feasibility & 90-day execution plan', 'Value proposition & resource needs', 'Jury intermediate screening'],
+        items: ['Feasibility & 90-day execution plan', 'Value proposition & resource needs', 'Jury screening & shortlisting'],
       },
       {
         id: 'finale',
         date: EVENT_SCHEDULE.finale.date,
-        title: 'Round 3: Grand Finale',
+        title: 'Stage 3: Idea Pitching (Finals)',
         copy: 'Top finalist teams present live before the Grand Jury with prototypes, hardware demos, and stage pitches.',
         color: 'purple',
-        items: ['Live auditorium presentation', 'Working prototype / demo walkthrough', 'Grand jury Q&A and final cash awards'],
+        items: ['Live auditorium presentation', 'Working prototype / demo walkthrough', 'Grand jury Q&A & ₹ 1,00,008 prize pool'],
       },
     ],
     faqs: [
@@ -502,26 +509,26 @@ const data = {
       {
         id: 'round1',
         date: EVENT_SCHEDULE.round1.date,
-        title: 'ಹಂತ ೧: ಆಲೋಚನೆ ಸಲ್ಲಿಕೆ (Pitch)',
-        copy: 'ನಿಮ್ಮ ತಂಡವನ್ನು ನೋಂದಾಯಿಸಿ, ಸಮಸ್ಯೆಯ ವಿವರಣೆ ಮತ್ತು ತಾಂತ್ರಿಕ ಪರಿಹಾರವನ್ನು ಸಲ್ಲಿಸಿ.',
+        title: 'ಹಂತ ೧: ನೋಂದಣಿ (Registration)',
+        copy: 'ನಿಮ್ಮ ತಂಡವನ್ನು ನೋಂದಾಯಿಸಿ (೧–೪ ಸದಸ್ಯರು), ಸಮಸ್ಯೆಯ ವಿವರಣೆ ಮತ್ತು ಪ್ರಸ್ತಾವಿತ ಪರಿಹಾರದ ಸಲ್ಲಿಕೆ.',
         color: 'green',
         items: ['೧–೪ ಸದಸ್ಯರ ತಂಡ ನೋಂದಣಿ', '೩ ವಿಷಯಗಳಲ್ಲಿ ಒಂದರ ಆಯ್ಕೆ', 'ಸಮಸ್ಯೆ ಮತ್ತು ಪರಿಹಾರದ ಸಲ್ಲಿಕೆ'],
       },
       {
         id: 'round2',
         date: EVENT_SCHEDULE.round2.date,
-        title: 'ಹಂತ ೨: ವಿವರವಾದ ಯೋಜನೆ (Elaboration)',
-        copy: 'ಹಂತ ೧ ರಲ್ಲಿ ಆಯ್ಕೆಯಾದ ತಂಡಗಳಿಗೆ ಮಾತ್ರ: ವಿವರವಾದ ಪರಿಕಲ್ಪನೆ, ೯೦ ದಿನಗಳ ಯೋಜನೆ ಮತ್ತು ಬಜೆಟ್ ಸಲ್ಲಿಸಿ.',
+        title: 'ಹಂತ ೨: ಐಡಿಯಾ ಸಲ್ಲಿಕೆ (Idea Submission)',
+        copy: 'ವಿವರವಾದ ಪರಿಕಲ್ಪನೆ, ೯೦ ದಿನಗಳ ಪ್ರಾಯೋಗಿಕ ಯೋಜನೆ, ಬಜೆಟ್ ಅಂದಾಜು ಮತ್ತು ವೃತ್ತಾಕಾರದ ಮಾದರಿ ಸಲ್ಲಿಸಿ.',
         color: 'blue',
         items: ['ಪ್ರಾಯೋಗಿಕತೆ ಮತ್ತು ೯೦ ದಿನಗಳ ಯೋಜನೆ', 'ಮೌಲ್ಯ ಮತ್ತು ಸಂಪನ್ಮೂಲಗಳ ಅಗತ್ಯತೆ', 'ತೀರ್ಪುಗಾರರ ಮೌಲ್ಯಮಾಪನ'],
       },
       {
         id: 'finale',
         date: EVENT_SCHEDULE.finale.date,
-        title: 'ಹಂತ ೩: ಗ್ರ್ಯಾಂಡ್ ಫಿನಾಲೆ (Grand Finale)',
+        title: 'ಹಂತ ೩: ಐಡಿಯಾ ಪಿಚಿಂಗ್ (Finals)',
         copy: 'ಅಂತಿಮ ಹಂತಕ್ಕೆ ಆಯ್ಕೆಯಾದ ತಂಡಗಳು ತೀರ್ಪುಗಾರರ ಎದುರು ವೇದಿಕೆಯಲ್ಲಿ ಲೈವ್ ಪ್ರಸ್ತುತಿ ಮತ್ತು ಪ್ರಾತ್ಯಕ್ಷಿಕೆ ನೀಡುತ್ತವೆ.',
         color: 'purple',
-        items: ['ವೇದಿಕೆಯಲ್ಲಿ ಲೈವ್ ಪ್ರಸ್ತುತಿ', 'ಮಾದರಿ / ಪ್ರೊಟೊಟೈಪ್ ಡೆಮೊ', 'ತೀರ್ಪುಗಾರರ ಪ್ರಶ್ನೋತ್ತರ ಮತ್ತು ಪ್ರಶಸ್ತಿ ಪ್ರದಾನ'],
+        items: ['ವೇದಿಕೆಯಲ್ಲಿ ಲೈವ್ ಪ್ರಸ್ತುತಿ', 'ಮಾದರಿ / ಪ್ರೊಟೊಟೈಪ್ ಡೆಮೊ', 'ತೀರ್ಪುಗಾರರ ಪ್ರಶ್ನೋತ್ತರ ಮತ್ತು ₹ ೧,೦೦,೦೦೮ ಬಹುಮಾನ'],
       },
     ],
     faqs: [
@@ -642,6 +649,21 @@ function App() {
     };
   }, []);
 
+  // Close poster on Escape key and lock background scroll
+  useEffect(() => {
+    if (!showPoster) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setShowPoster(false);
+    };
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [showPoster]);
+
   const t = data[lang];
 
   const scroll = (id) => {
@@ -683,46 +705,28 @@ function App() {
       let target;
       let label;
 
-      // Registration is still open
+      // Registration is open (1 Oct – 1 Nov 2026)
       if (now < registrationEnd) {
         target = registrationEnd;
-        label = 'REGISTRATION';
+        label = lang === 'en' ? 'REGISTRATION' : 'ನೋಂದಣಿ';
       }
 
-      // Registration closed, Round 1 has not started yet
-      else if (now < round1Start) {
-        target = round1Start;
-        label = 'ROUND 1 · IDEA PITCHING';
-      }
-
-      // Round 1 is active
-      else if (now <= round1End) {
-        target = round1End;
-        label = 'ROUND 1 · IDEA PITCHING';
-      }
-
-      // Round 1 ended, Round 2 has not started yet
-      else if (now < round2Start) {
-        target = round2Start;
-        label = 'ROUND 2 · IDEA ELABORATION';
-      }
-
-      // Round 2 is active
+      // Stage 2: Idea Submission (2 Nov – 1 Dec 2026)
       else if (now <= round2End) {
         target = round2End;
-        label = 'ROUND 2 · IDEA ELABORATION';
+        label = lang === 'en' ? 'IDEA SUBMISSION' : 'ಐಡಿಯಾ ಸಲ್ಲಿಕೆ';
       }
 
-      // Round 2 ended, waiting for Grand Finale
+      // Waiting for Grand Finale (6 – 7 Jan 2027)
       else if (now < finaleStart) {
         target = finaleStart;
-        label = 'GRAND FINALE';
+        label = lang === 'en' ? 'FINALS PITCHING' : 'ಗ್ರ್ಯಾಂಡ್ ಫಿನಾಲೆ';
       }
 
       // Grand Finale day
       else {
         target = finaleStart;
-        label = 'GRAND FINALE';
+        label = lang === 'en' ? 'GRAND FINALE' : 'ಗ್ರ್ಯಾಂಡ್ ಫಿನಾಲೆ';
       }
 
       const remaining = Math.max(0, target - now);
@@ -829,12 +833,55 @@ function App() {
 
       {/* POSTER LIGHTBOX MODAL */}
       {showPoster && (
-        <div className="poster-modal-backdrop" onClick={() => setShowPoster(false)}>
+        <div
+          className="poster-modal-backdrop"
+          onClick={() => setShowPoster(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label={lang === 'en' ? 'Official Ideathon Event Poster' : 'ಅಧಿಕೃತ ಈವೆಂಟ್ ಪೋಸ್ಟರ್'}
+        >
           <div className="poster-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="poster-modal-close" onClick={() => setShowPoster(false)} aria-label="Close poster">
-              <X size={22} />
-            </button>
-            <img src="/event-reference.jpg" alt="Reimagine Waste Management Ideathon Official Poster" />
+            <div className="poster-modal-header">
+              <div className="poster-modal-title">
+                <Leaf size={18} className="poster-title-icon" />
+                <span>{lang === 'en' ? 'Official Event Poster' : 'ಅಧಿಕೃತ ಈವೆಂಟ್ ಪೋಸ್ಟರ್'}</span>
+              </div>
+              <div className="poster-modal-actions">
+                <a
+                  href="/event-poster.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="poster-action-btn"
+                  title={lang === 'en' ? 'Open high-res in new tab' : 'ಹೊಸ ಟ್ಯಾಬ್‌ನಲ್ಲಿ ತೆರೆಯಿರಿ'}
+                >
+                  <ExternalLink size={15} />
+                  <span>{lang === 'en' ? 'Full Size' : 'ಪೂರ್ಣ ಗಾತ್ರ'}</span>
+                </a>
+                <a
+                  href="/event-poster.jpg"
+                  download="Ideathon_2026_Event_Poster.jpg"
+                  className="poster-action-btn download-btn"
+                  title={lang === 'en' ? 'Download poster image' : 'ಪೋಸ್ಟರ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ'}
+                >
+                  <Download size={15} />
+                  <span>{lang === 'en' ? 'Download' : 'ಡೌನ್‌ಲೋಡ್'}</span>
+                </a>
+                <button
+                  className="poster-modal-close"
+                  onClick={() => setShowPoster(false)}
+                  aria-label="Close poster"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </div>
+            <div className="poster-image-wrap">
+              <img
+                src="/event-poster.jpg"
+                alt="Reimagine Waste Management Ideathon Official Event Poster"
+                className="poster-img"
+              />
+            </div>
           </div>
         </div>
       )}
