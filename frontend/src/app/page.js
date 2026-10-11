@@ -31,6 +31,7 @@ import {
   Zap,
 } from 'lucide-react';
 import OurPartners from '../components/OurPartners';
+import SolidWasteManagement from '../components/SolidWasteManagement';
 import './globals.css';
 
 // 📋 Destination Google Form URL for "Attend a Survey"
@@ -1010,23 +1011,15 @@ function App() {
 
               <div className="hero-cta-right">
                 <div className="hero-survey-wrap">
-                  <a
-                    href={GOOGLE_FORM_SURVEY_URL && GOOGLE_FORM_SURVEY_URL !== '#' ? GOOGLE_FORM_SURVEY_URL : undefined}
-                    target={GOOGLE_FORM_SURVEY_URL && GOOGLE_FORM_SURVEY_URL !== '#' ? '_blank' : undefined}
-                    rel={GOOGLE_FORM_SURVEY_URL && GOOGLE_FORM_SURVEY_URL !== '#' ? 'noopener noreferrer' : undefined}
+                  <Link
+                    href="/survey"
                     className="hero-survey-btn"
-                    onClick={handleSurveyClick}
+                    id="attend-survey-btn"
                   >
                     <FileText size={18} />
                     <span>{t.surveyBtn || (lang === 'en' ? 'Attend a Survey' : 'ಸಮೀಕ್ಷೆಯಲ್ಲಿ ಭಾಗವಹಿಸಿ')}</span>
                     <ArrowRight size={18} />
-                  </a>
-                  {surveyNotice && (
-                    <div className="survey-toast" role="status" aria-live="polite">
-                      <Clock3 size={15} />
-                      <span>{t.surveyComingSoon || (lang === 'en' ? 'Survey form coming soon!' : 'ಸಮೀಕ್ಷಾ ನಮೂನೆ ಶೀಘ್ರದಲ್ಲೇ ಬರಲಿದೆ!')}</span>
-                    </div>
-                  )}
+                  </Link>
                 </div>
               </div>
             </div>
@@ -1073,6 +1066,9 @@ function App() {
 
         {/* OUR PARTNERS SECTION — DYNAMIC FADE & RANDOM CONSTELLATION */}
         <OurPartners lang={lang} />
+
+        {/* SOLID WASTE MANAGEMENT STATUTORY FRAMEWORK & PDF SECTION */}
+        <SolidWasteManagement lang={lang} />
 
         {/* VIEW 1: INTRO / THE WHY (BENTO IMPACT GRID) */}
         <section className="section intro snap-section" id="about">

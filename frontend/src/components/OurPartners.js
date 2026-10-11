@@ -9,11 +9,11 @@ import { useState, useEffect } from 'react';
 export const PARTNERS_LIST = [
   {
     id: 'p1',
-    name: 'STRECON',
-    nameKn: 'ಸ್ಟ್ರೆಕಾನ್',
-    color: '#0c5b35',
-    accentGlow: 'rgba(12, 91, 53, 0.35)',
-    logo: '/partners/strecon.png',
+    name: 'STRAECON',
+    nameKn: 'ಸ್ಟ್ರಾಕಾನ್',
+    color: '#ea6d12',
+    accentGlow: 'rgba(234, 109, 18, 0.4)',
+    logo: '/partners/straecon.png',
   },
   {
     id: 'p2',

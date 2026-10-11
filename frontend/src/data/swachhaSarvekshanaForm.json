@@ -1,0 +1,596 @@
+{
+  "id": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad",
+  "name": "Swachha Sarvekshana",
+  "nameKn": "ಸ್ವಚ್ಛ ಸರ್ವೇಕ್ಷಣ",
+  "slug": "swachha-sarvekshana",
+  "type": "hierarchy",
+  "inputs": [
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b90471cfb",
+      "type": "readme",
+      "question": "Survey and Respondent Information / ಸಮೀಕ್ಷೆ ಮತ್ತು ಪ್ರತಿಕ್ರಿಯೆ ನೀಡುವವರ ಮಾಹಿತಿ",
+      "section_id": "sec_respondent"
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b62471ca8",
+      "type": "text",
+      "question": "Survey Team / Data Collector Details / ಸಮೀಕ್ಷಾ ತಂಡ / ದತ್ತಾಂಶ ಸಂಗ್ರಹಿಸಿದವರ ವಿವರಗಳು",
+      "placeholder": "Enter surveyor name or team ID / ಸಮೀಕ್ಷಕರ ಹೆಸರು ಅಥವಾ ತಂಡ",
+      "is_required": false
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b62a71ca9",
+      "type": "text",
+      "question": "Name of the Respondent / ಪ್ರತಿಕ್ರಿಯೆದಾರರ ಹೆಸರು",
+      "placeholder": "Enter full name / ಪೂರ್ಣ ಹೆಸರು",
+      "is_required": true
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6ac8a908f2d28",
+      "type": "text",
+      "question": "Name of the Village / ನಿಮ್ಮ ಗ್ರಾಮದ ಹೆಸರು",
+      "placeholder": "Enter village name / ಗ್ರಾಮದ ಹೆಸರು",
+      "is_required": true
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b65771cae",
+      "type": "radio",
+      "question": "Respondent Category / ಪ್ರತಿಕ್ರಿಯೆದಾರರ ವರ್ಗ",
+      "possible_answers": [
+        { "answer": "Gram Panchayat President / ಗ್ರಾಮ ಪಂಚಾಯತ್ ಅಧ್ಯಕ್ಷರು", "answer_ref": "6a60b66471cb0" },
+        { "answer": "Ward Member / ವಾರ್ಡ್ ಸದಸ್ಯರು", "answer_ref": "6a60b66971cb1" },
+        { "answer": "Village Head / ಗ್ರಾಮ ಮುಖ್ಯಸ್ಥರು", "answer_ref": "6a60b66e71cb2" },
+        { "answer": "Government Official / ಸರ್ಕಾರಿ ಅಧಿಕಾರಿ", "answer_ref": "6a60b67671cb3" },
+        { "answer": "Sanitation Worker / ಸ್ವಚ್ಛತಾ ಕಾರ್ಯಕರ್ತರು", "answer_ref": "6a60b67871cb4" },
+        { "answer": "Household Representative / ಮನೆಯ ಪ್ರತಿನಿಧಿ", "answer_ref": "6a60b67f71cb5" },
+        { "answer": "School/College Teacher / ಶಾಲೆ/ಕಾಲೇಜು ಶಿಕ್ಷಕರು", "answer_ref": "6a60b68a71cb6" },
+        { "answer": "Farmer / ರೈತರು", "answer_ref": "6a60b69071cb7" },
+        { "answer": "Shopkeeper/Commercial Establishment / ಅಂಗಡಿಕಾರರು/ವಾಣಿಜ್ಯ ಸಂಸ್ಥೆ", "answer_ref": "6a60b69671cb8" },
+        { "answer": "Market Vendor / ಮಾರುಕಟ್ಟೆ ವ್ಯಾಪಾರಿ", "answer_ref": "6a60b69c71cb9" },
+        { "answer": "Hotel/Restaurant Representative / ಹೋಟೆಲ್/ರೆಸ್ಟೋರೆಂಟ್ ಪ್ರತಿನಿಧಿ", "answer_ref": "6a60b6a571cba" },
+        { "answer": "NGO/Community Organization Representative / ಸರ್ಕಾರೇತರ ಸಂಸ್ಥೆ/ಸಮುದಾಯ ಸಂಸ್ಥೆಯ ಪ್ರತಿನಿಧಿ", "answer_ref": "6a60b6a871cbb" },
+        { "answer": "School and College Students / ಶಾಲಾ ಮತ್ತು ಕಾಲೇಜು ವಿದ್ಯಾರ್ಥಿಗಳು", "answer_ref": "6ac62d933d054" },
+        { "answer": "Cultral and Religious Heads / ಸಾಂಸ್ಕೃತಿಕ ಮತ್ತು ಧಾರ್ಮಿಕ ಮುಖಂಡರು", "answer_ref": "6ac634a26cb5f" },
+        { "answer": "Other / ಇತರೆ", "answer_ref": "6a60b6b171cbc" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b6c071cbd",
+      "type": "text",
+      "question": "Respondent's Phone Number / ಪ್ರತಿಕ್ರಿಯೆದಾರರ ದೂರವಾಣಿ ಸಂಖ್ಯೆ",
+      "placeholder": "10-digit mobile number / ಮೊಬೈಲ್ ಸಂಖ್ಯೆ",
+      "is_required": false
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b6e171cbf",
+      "type": "integer",
+      "question": "Approximate Number of Households in the Village / ಗ್ರಾಮದಲ್ಲಿರುವ ಅಂದಾಜು ಒಟ್ಟು ಮನೆಗಳ ಸಂಖ್ಯೆ",
+      "placeholder": "e.g. 250",
+      "is_required": false
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b6cb71cbe",
+      "type": "integer",
+      "question": "Approximate Population of the Village / ಗ್ರಾಮದ ಅಂದಾಜು ಜನಸಂಖ್ಯೆ",
+      "placeholder": "e.g. 1200",
+      "is_required": false
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b70271cc1",
+      "type": "radio",
+      "question": "Approximate Distance from your house to the Nearest River or Stream / ನಿಮ್ಮ ಮನೆಯಿಂದ ಹತ್ತಿರದ ನದಿ ಅಥವಾ ಹೊಳೆಗೆ ಇರುವ ಅಂದಾಜು ದೂರ",
+      "possible_answers": [
+        { "answer": "Less than 100 m / 100 ಮೀಟರ್‌ಗಿಂತ ಕಡಿಮೆ", "answer_ref": "6a60b70271cc2" },
+        { "answer": "100–250 m / 100–250 ಮೀಟರ್", "answer_ref": "6a60b70a71cc3" },
+        { "answer": "251–500 m / 251–500 ಮೀಟರ್", "answer_ref": "6a60b71371cc4" },
+        { "answer": "501–750 m / 501–750 ಮೀಟರ್", "answer_ref": "6a60b71571cc5" },
+        { "answer": "751 m–1 km / 751 ಮೀಟರ್–1 ಕಿ.ಮೀ.", "answer_ref": "6a60b71c71cc6" },
+        { "answer": "1–2 km / 1–2 ಕಿ.ಮೀ.", "answer_ref": "6a60b72371cc7" },
+        { "answer": "More than 2 km / 2 ಕಿ.ಮೀ.ಗಿಂತ ಹೆಚ್ಚು", "answer_ref": "6a60b72f71cc8" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60b73771cc9" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b73d71cca",
+      "type": "readme",
+      "question": "Waste Generation and Sources / ತ್ಯಾಜ್ಯ ಉತ್ಪಾದನೆ ಮತ್ತು ಮೂಲಗಳು",
+      "section_id": "sec_sources"
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b75271ccb",
+      "type": "radio",
+      "question": "What Is the Approximate Quantity of Waste Generated Per Day in the Household or Establishment? / ಮನೆ ಅಥವಾ ಸಂಸ್ಥೆಯಲ್ಲಿ ಪ್ರತಿದಿನ ಉತ್ಪತ್ತಿಯಾಗುವ ಅಂದಾಜು ತ್ಯಾಜ್ಯದ ಪ್ರಮಾಣ ಎಷ್ಟು?",
+      "possible_answers": [
+        { "answer": "Less than 100 g / 100 ಗ್ರಾಂ ಗಿಂತ ಕಡಿಮೆ", "answer_ref": "6a60b75271ccc" },
+        { "answer": "100–250 g / 100–250 ಗ್ರಾಂ", "answer_ref": "6a60b76471ccd" },
+        { "answer": "251–500 g / 251–500 ಗ್ರಾಂ", "answer_ref": "6a60b76971cce" },
+        { "answer": "501–750 g / 501–750 ಗ್ರಾಂ", "answer_ref": "6a60b76e71ccf" },
+        { "answer": "751 g–1 kg / 751 ಗ್ರಾಂ–1 ಕೆಜಿ", "answer_ref": "6a60b77471cd0" },
+        { "answer": "1–1.5 kg / 1–1.5 ಕೆಜಿ", "answer_ref": "6a60b77b71cd1" },
+        { "answer": "1.5–2 kg / 1.5–2 ಕೆಜಿ", "answer_ref": "6a60b78171cd2" },
+        { "answer": "More than 2 kg / 2 ಕೆಜಿಗಿಂತ ಹೆಚ್ಚು", "answer_ref": "6a60b78771cd3" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60b78e71cd4" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b7a871cd5",
+      "type": "checkbox",
+      "question": "What Are the Major Sources of Waste Generation in the Village? / ಗ್ರಾಮದಲ್ಲಿ ತ್ಯಾಜ್ಯ ಉತ್ಪತ್ತಿಯಾಗುವ ಪ್ರಮುಖ ಮೂಲಗಳು ಯಾವುವು?",
+      "possible_answers": [
+        { "answer": "Households / ಮನೆಗಳು", "answer_ref": "6a60b7a871cd6" },
+        { "answer": "Shops and Markets / ಅಂಗಡಿಗಳು ಮತ್ತು ಮಾರುಕಟ್ಟೆಗಳು", "answer_ref": "6a60b7bc71cd7" },
+        { "answer": "Schools and Colleges / ಶಾಲೆಗಳು ಮತ್ತು ಕಾಲೇಜುಗಳು", "answer_ref": "6a60b7c271cd8" },
+        { "answer": "Religious and Cultural Places / ಧಾರ್ಮಿಕ ಮತ್ತು ಸಾಂಸ್ಕೃತಿಕ ಸ್ಥಳಗಳು", "answer_ref": "6a60b7c471cd9" },
+        { "answer": "Hotels, Restaurants and Tea Stalls / ಹೋಟೆಲ್‌ಗಳು, ರೆಸ್ಟೋರೆಂಟ್‌ಗಳು ಮತ್ತು ಚಹಾ ಅಂಗಡಿಗಳು", "answer_ref": "6a60b7ca71cda" },
+        { "answer": "Weekly Markets / ವಾರದ ಸಂತೆಗಳು", "answer_ref": "6a60b7d371cdb" },
+        { "answer": "Agricultural Activities / ಕೃಷಿ ಚಟುವಟಿಕೆಗಳು", "answer_ref": "6a60b7da71cdc" },
+        { "answer": "Garages and Vehicle Repair Shops / ಗ್ಯಾರೇಜ್‌ಗಳು ಮತ್ತು ವಾಹನ ದುರಸ್ತಿ ಅಂಗಡಿಗಳು", "answer_ref": "6a60b7e271cdd" },
+        { "answer": "Other / ಇತರೆ", "answer_ref": "6a60b7ea71cde" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b7f871cdf",
+      "type": "checkbox",
+      "question": "What Types of Waste Are Commonly Generated in the Village? / ಗ್ರಾಮದಲ್ಲಿ ಸಾಮಾನ್ಯವಾಗಿ ಯಾವ ರೀತಿಯ ತ್ಯಾಜ್ಯ ಉತ್ಪತ್ತಿಯಾಗುತ್ತದೆ?",
+      "possible_answers": [
+        { "answer": "Organic/Wet Waste / ಸಾವಯವ/ಹಸಿ ತ್ಯಾಜ್ಯ", "answer_ref": "6a60b7f871ce0" },
+        { "answer": "Plastic / ಪ್ಲಾಸ್ಟಿಕ್", "answer_ref": "6a65f2be628a4" },
+        { "answer": "Paper and Cardboard / ಕಾಗದ ಮತ್ತು ರಟ್ಟಿನ ತ್ಯಾಜ್ಯ", "answer_ref": "6a60b80b71ce2" },
+        { "answer": "Glass / ಗಾಜು", "answer_ref": "6a60b81471ce3" },
+        { "answer": "Metal / ಲೋಹ", "answer_ref": "6a60b81a71ce4" },
+        { "answer": "Sanitary Waste / ಸ್ಯಾನಿಟರಿ ತ್ಯಾಜ್ಯ", "answer_ref": "6a60b82371ce5" },
+        { "answer": "Agricultural Waste / ಕೃಷಿ ತ್ಯಾಜ್ಯ", "answer_ref": "6a60b82b71ce6" },
+        { "answer": "E-Waste / ಇ-ತ್ಯಾಜ್ಯ", "answer_ref": "6a60b83171ce7" },
+        { "answer": "Hazardous Waste / ಅಪಾಯಕಾರಿ ತ್ಯಾಜ್ಯ", "answer_ref": "6a60b83a71ce8" },
+        { "answer": "Thermocol / ಥರ್ಮೋಕೋಲ್", "answer_ref": "6a60b84171ce9" },
+        { "answer": "Rubber/Footwear Waste / ರಬ್ಬರ್/ಚಪ್ಪಲಿ ತ್ಯಾಜ್ಯ", "answer_ref": "6a60b84871cea" },
+        { "answer": "Other / ಇತರೆ", "answer_ref": "6a60b85271ceb" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b86b71cec",
+      "type": "radio",
+      "question": "Has Waste Generation Increased in Recent Years? / ಇತ್ತೀಚಿನ ವರ್ಷಗಳಲ್ಲಿ ತ್ಯಾಜ್ಯ ಉತ್ಪಾದನೆ ಹೆಚ್ಚಿದೆಯೇ?",
+      "possible_answers": [
+        { "answer": "Yes / ಹೌದು", "answer_ref": "6a60b86b71ced" },
+        { "answer": "No / ಇಲ್ಲ", "answer_ref": "6a60b87371cee" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60b87871cef" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b95471cfc",
+      "type": "radio",
+      "question": "Approximately how much has waste generation increased? / ತ್ಯಾಜ್ಯ ಉತ್ಪಾದನೆಯು ಅಂದಾಜು ಎಷ್ಟು ಪ್ರಮಾಣದಲ್ಲಿ ಹೆಚ್ಚಾಗಿದೆ?",
+      "possible_answers": [
+        { "answer": "Less than 25% / 25% ಕ್ಕಿಂತ ಕಡಿಮೆ", "answer_ref": "6a60b95471cfd" },
+        { "answer": "25–50% / 25–50%", "answer_ref": "6a60b95b71cfe" },
+        { "answer": "51–100% / 51–100%", "answer_ref": "6a60b96171cff" },
+        { "answer": "2 times / 2 ಪಟ್ಟು", "answer_ref": "6a60b96671d00" },
+        { "answer": "3 times / 3 ಪಟ್ಟು", "answer_ref": "6a60b96e71d01" },
+        { "answer": "More than 3 times / 3 ಪಟ್ಟುಗಳಿಗಿಂತ ಹೆಚ್ಚು", "answer_ref": "6a60b97871d02" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60f34e32478" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b88171cf0",
+      "type": "radio",
+      "question": "What Are the Main Reasons for Increased Waste Generation? / ತ್ಯಾಜ್ಯ ಉತ್ಪಾದನೆ ಹೆಚ್ಚಲು ಮುಖ್ಯ ಕಾರಣಗಳು ಯಾವುವು?",
+      "possible_answers": [
+        { "answer": "Population Growth / ಜನಸಂಖ್ಯೆ ಹೆಚ್ಚಳ", "answer_ref": "6a60b88171cf1" },
+        { "answer": "Increased Household Consumption / ಮನೆ ಬಳಕೆಯ ವಸ್ತುಗಳ ಬಳಕೆ ಹೆಚ್ಚಳ", "answer_ref": "6a60b89271cf2" },
+        { "answer": "Increased Use of Plastic and Packaged Products / ಪ್ಲಾಸ್ಟಿಕ್ ಮತ್ತು ಪ್ಯಾಕೇಜ್ ಮಾಡಿದ ವಸ್ತುಗಳ ಹೆಚ್ಚಿದ ಬಳಕೆ", "answer_ref": "6a60b89871cf3" },
+        { "answer": "Growth of Shops and Commercial Activities / ಅಂಗಡಿಗಳು ಮತ್ತು ವಾಣಿಜ್ಯ ಚಟುವಟಿಕೆಗಳ ಹೆಚ್ಚಳ", "answer_ref": "6a60b8a171cf4" },
+        { "answer": "Growth of Hotels and Restaurants / ಹೋಟೆಲ್‌ಗಳು ಮತ್ತು ರೆಸ್ಟೋರೆಂಟ್‌ಗಳ ಹೆಚ್ಚಳ", "answer_ref": "6a60b8a871cf5" },
+        { "answer": "Weekly Markets and Public Events / ವಾರದ ಸಂತೆಗಳು ಮತ್ತು ಸಾರ್ವಜನಿಕ ಕಾರ್ಯಕ್ರಮಗಳು", "answer_ref": "6a60b8b371cf6" },
+        { "answer": "Changes in Lifestyle / ಜೀವನಶೈಲಿಯ ಬದಲಾವಣೆ", "answer_ref": "6a60b8bc71cf7" },
+        { "answer": "Lack of Awareness / ಅರಿವಿನ ಕೊರತೆ", "answer_ref": "6a60b8c371cf8" },
+        { "answer": "Other / ಇತರೆ", "answer_ref": "6a60b8ca71cf9" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60b8d071cfa" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60bce971d03",
+      "type": "readme",
+      "question": "Waste Dumping and Black Spots / ತ್ಯಾಜ್ಯ ಸುರಿಯುವ ಸ್ಥಳಗಳು",
+      "section_id": "sec_dumping"
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60bcf971d04",
+      "type": "radio",
+      "question": "Are there any visible black spots or locations where waste is routinely dumped in the village? / ಗ್ರಾಮದಲ್ಲಿ ತ್ಯಾಜ್ಯವನ್ನು ನಿಯಮಿತವಾಗಿ ಸುರಿಯುವ ಕಸದ ರಾಶಿ/ಬ್ಲ್ಯಾಕ್ ಸ್ಪಾಟ್‌ಗಳು ಕಂಡುಬರುತ್ತವೆಯೇ?",
+      "possible_answers": [
+        { "answer": "Yes / ಹೌದು", "answer_ref": "6a60bcf971d05" },
+        { "answer": "No / ಇಲ್ಲ", "answer_ref": "6a60bd1071d06" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60bd1571d07" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60bd2371d08",
+      "type": "radio",
+      "question": "Approximately how many black spots are there? / ಅಂದಾಜು ಎಷ್ಟು ಬ್ಲ್ಯಾಕ್ ಸ್ಪಾಟ್‌ಗಳು/ಕಸದ ರಾಶಿ ಸ್ಥಳಗಳಿವೆ?",
+      "possible_answers": [
+        { "answer": "1", "answer_ref": "6a60bd2d71d0a" },
+        { "answer": "2", "answer_ref": "6a60bd3371d0b" },
+        { "answer": "3", "answer_ref": "6a60bd3671d0c" },
+        { "answer": "4", "answer_ref": "6a60bd3771d0d" },
+        { "answer": "5", "answer_ref": "6a60bd3b71d0e" },
+        { "answer": "More than 5 / 5 ಕ್ಕಿಂತ ಹೆಚ್ಚು", "answer_ref": "6a60bd3f71d0f" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60bd4671d10" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60bd5a71d11",
+      "type": "checkbox",
+      "question": "Where & How is waste commonly dumped? / ತ್ಯಾಜ್ಯವನ್ನು ಸಾಮಾನ್ಯವಾಗಿ ಎಲ್ಲಿ ಸುರಿಯಲಾಗುತ್ತದೆ?",
+      "possible_answers": [
+        { "answer": "Roadside / ರಸ್ತೆಯ ಬದಿಯಲ್ಲಿ", "answer_ref": "6a60bd5a71d12" },
+        { "answer": "River or Stream / ನದಿ ಅಥವಾ ಹಳ್ಳದಲ್ಲಿ", "answer_ref": "6a60bd6771d13" },
+        { "answer": "Near Bridges or Culverts / ಸೇತುವೆ ಅಥವಾ ಕಲ್ವರ್ಟ್‌ಗಳ ಬಳಿ", "answer_ref": "6a60bd6c71d14" },
+        { "answer": "Open Areas or Vacant Sites / ಖಾಲಿ ಪ್ರದೇಶಗಳು ಅಥವಾ ಖಾಲಿ ನಿವೇಶನಗಳಲ್ಲಿ", "answer_ref": "6a60bd7271d15" },
+        { "answer": "Agricultural Land / ಕೃಷಿ ಭೂಮಿಯಲ್ಲಿ", "answer_ref": "6a60bd7a71d16" },
+        { "answer": "Near Public Places / ಸಾರ್ವಜನಿಕ ಸ್ಥಳಗಳ ಬಳಿ", "answer_ref": "6a60bd8071d17" },
+        { "answer": "Burning / ಸುಡುವುದು", "answer_ref": "6a65f38d628a5" },
+        { "answer": "Burrying / ಹೂಳುವುದು", "answer_ref": "6a65f39c628a6" },
+        { "answer": "Other / ಇತರೆ", "answer_ref": "6a60bd8771d18" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60bd9c71d19",
+      "type": "readme",
+      "question": "Waste Collection System / ತ್ಯಾಜ್ಯ ಸಂಗ್ರಹ ವ್ಯವಸ್ಥೆ",
+      "section_id": "sec_collection"
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60bdae71d1a",
+      "type": "radio",
+      "question": "Is door-to-door waste collection available in the village? / ಗ್ರಾಮದಲ್ಲಿ ಮನೆ-ಮನೆಗೆ ತ್ಯಾಜ್ಯ ಸಂಗ್ರಹ ಸೇವೆ ಲಭ್ಯವಿದೆಯೇ?",
+      "possible_answers": [
+        { "answer": "Yes, throughout the village / ಹೌದು, ಇಡೀ ಗ್ರಾಮದಲ್ಲಿ", "answer_ref": "6a60bdae71d1b" },
+        { "answer": "Yes, in some areas only / ಹೌದು, ಕೆಲವು ಪ್ರದೇಶಗಳಲ್ಲಿ ಮಾತ್ರ", "answer_ref": "6a60bdbb71d1c" },
+        { "answer": "No / ಇಲ್ಲ", "answer_ref": "6a60bdc171d1d" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60bdc671d1e" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60bdd071d1f",
+      "type": "radio",
+      "question": "How frequently is household waste collected? / ಮನೆಗಳಿಂದ ತ್ಯಾಜ್ಯವನ್ನು ಎಷ್ಟು ಬಾರಿ ಸಂಗ್ರಹಿಸಲಾಗುತ್ತದೆ?",
+      "possible_answers": [
+        { "answer": "Daily / ಪ್ರತಿದಿನ", "answer_ref": "6a60bdd071d20" },
+        { "answer": "Every alternate day / ಒಂದು ದಿನ ಬಿಟ್ಟು ಒಂದು ದಿನ", "answer_ref": "6a60bddd71d21" },
+        { "answer": "2 times a week / ವಾರಕ್ಕೆ 2 ಬಾರಿ", "answer_ref": "6a60bde471d22" },
+        { "answer": "Once a week / ವಾರಕ್ಕೊಮ್ಮೆ", "answer_ref": "6a60bdea71d23" },
+        { "answer": "Less than once a week / ವಾರಕ್ಕೆ ಒಂದು ಬಾರಿಗಿಂತ ಕಡಿಮೆ", "answer_ref": "6a60bdf871d24" },
+        { "answer": "Irregular / ಅನಿಯಮಿತ", "answer_ref": "6a60bdff71d25" },
+        { "answer": "No collection / ಸಂಗ್ರಹಣೆ ಇಲ್ಲ", "answer_ref": "6a60be0571d26" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60be0c71d27" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60be1b71d28",
+      "type": "radio",
+      "question": "Is waste segregated during collection? / ತ್ಯಾಜ್ಯ ಸಂಗ್ರಹಿಸುವಾಗ ಅದನ್ನು ಪ್ರತ್ಯೇಕಿಸಲಾಗುತ್ತದೆಯೇ?",
+      "possible_answers": [
+        { "answer": "Yes, wet, dry, sanitary & other waste are collected separately / ಹೌದು, ಹಸಿ ಮತ್ತು ಒಣ ತ್ಯಾಜ್ಯವನ್ನು ಪ್ರತ್ಯೇಕವಾಗಿ ಸಂಗ್ರಹಿಸಲಾಗುತ್ತದೆ", "answer_ref": "6a60be1b71d29" },
+        { "answer": "Partially / ಭಾಗಶಃ", "answer_ref": "6a60be2471d2a" },
+        { "answer": "No / ಇಲ್ಲ", "answer_ref": "6a60be2971d2b" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60be2e71d2c" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60be3871d2d",
+      "type": "radio",
+      "question": "How many sanitation workers are involved in waste management in the village? / ಗ್ರಾಮದಲ್ಲಿ ತ್ಯಾಜ್ಯ ನಿರ್ವಹಣೆಯಲ್ಲಿ ಎಷ್ಟು ಮಂದಿ ಸ್ವಚ್ಛತಾ ಕಾರ್ಯಕರ್ತರು ತೊಡಗಿಸಿಕೊಂಡಿದ್ದಾರೆ?",
+      "possible_answers": [
+        { "answer": "None / ಯಾರೂ ಇಲ್ಲ", "answer_ref": "6a60be3871d2e" },
+        { "answer": "1", "answer_ref": "6a60be4571d2f" },
+        { "answer": "2", "answer_ref": "6a60be4871d30" },
+        { "answer": "3", "answer_ref": "6a60be4a71d31" },
+        { "answer": "4", "answer_ref": "6a60be4d71d32" },
+        { "answer": "More than 4 / 4 ಕ್ಕಿಂತ ಹೆಚ್ಚು", "answer_ref": "6a60be4f71d33" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60be5171d34" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60be9271d3a",
+      "type": "dropdown",
+      "question": "What type of vehicle is used for waste collection? / ತ್ಯಾಜ್ಯ ಸಂಗ್ರಹಣೆಗೆ ಯಾವ ರೀತಿಯ ವಾಹನವನ್ನು ಬಳಸಲಾಗುತ್ತದೆ?",
+      "possible_answers": [
+        { "answer": "Auto/Three-Wheeler / ಆಟೋ/ಮೂರು ಚಕ್ರದ ವಾಹನ", "answer_ref": "6a60beb971d3f" },
+        { "answer": "Pickup Truck / ಪಿಕಪ್ ಟ್ರಕ್", "answer_ref": "6a60be9271d3b" },
+        { "answer": "Tractor / ಟ್ರ್ಯಾಕ್ಟರ್", "answer_ref": "6a60bea471d3c" },
+        { "answer": "Mini Truck / ಮಿನಿ ಟ್ರಕ್", "answer_ref": "6a60beab71d3d" },
+        { "answer": "Large Truck / ದೊಡ್ಡ ಟ್ರಕ್", "answer_ref": "6a60beb171d3e" },
+        { "answer": "Other / ಇತರೆ", "answer_ref": "6a60bec271d40" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60bed671d41",
+      "type": "radio",
+      "question": "Approximately how much time does the waste collection vehicle spend collecting waste during each visit? / ಪ್ರತಿ ಬಾರಿ ತ್ಯಾಜ್ಯ ಸಂಗ್ರಹಿಸಲು ವಾಹನವು ಅಂದಾಜು ಎಷ್ಟು ಸಮಯ ತೆಗೆದುಕೊಳ್ಳುತ್ತದೆ?",
+      "possible_answers": [
+        { "answer": "< 2 minutes / 2 ನಿಮಿಷಗಳಿಗಿಂತ ಕಡಿಮೆ", "answer_ref": "6a60bed671d42" },
+        { "answer": "2–5 minutes / 2 - 5 ನಿಮಿಷ", "answer_ref": "6a60bf1471d43" },
+        { "answer": "5–10 minutes / 5 - 10 ನಿಮಿಷ", "answer_ref": "6a60bf3471d44" },
+        { "answer": "More than 10 minutes / 10 ನಿಮಿಷಗಳಿಗಿಂತ ಹೆಚ್ಚು", "answer_ref": "6a60bf3671d45" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60bfad71d46",
+      "type": "readme",
+      "question": "Waste Processing and Disposal / ತ್ಯಾಜ್ಯ ಸಂಸ್ಕರಣೆ ಮತ್ತು ವಿಲೇವಾರಿ",
+      "section_id": "sec_processing"
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60ea8f924ba",
+      "type": "radio",
+      "question": "Does the Village Have a Composting Facility for Wet or Organic Waste? / ಹಸಿ ಅಥವಾ ಸಾವಯವ ತ್ಯಾಜ್ಯ ಸಂಸ್ಕರಣೆಗೆ ಗ್ರಾಮದಲ್ಲಿ ಕಾಂಪೋಸ್ಟ್ ಘಟಕವಿದೆಯೇ?",
+      "possible_answers": [
+        { "answer": "Yes, Functional / ಹೌದು, ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಿದೆ", "answer_ref": "6a60ea8f924bb" },
+        { "answer": "Yes, but Not Functional / ಹೌದು, ಆದರೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಿಲ್ಲ", "answer_ref": "6a60ea9c924bc" },
+        { "answer": "No / ಇಲ್ಲ", "answer_ref": "6a60eaab924bd" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60eab9924be" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60eae6924bf",
+      "type": "checkbox",
+      "question": "How Is Organic or Kitchen Waste Currently Managed? / ಸಾವಯವ ಅಥವಾ ಅಡುಗೆಮನೆಯ ತ್ಯಾಜ್ಯವನ್ನು ಪ್ರಸ್ತುತ ಹೇಗೆ ನಿರ್ವಹಿಸಲಾಗುತ್ತಿದೆ?",
+      "possible_answers": [
+        { "answer": "Given to Waste Collection Service / ತ್ಯಾಜ್ಯ ಸಂಗ್ರಹಣಾ ಸೇವೆಗೆ ನೀಡಲಾಗುತ್ತದೆ", "answer_ref": "6a60eae6924c0" },
+        { "answer": "Used as Animal Feed / ಪ್ರಾಣಿಗಳ ಆಹಾರವಾಗಿ ಬಳಸಲಾಗುತ್ತದೆ", "answer_ref": "6a60eaf3924c1" },
+        { "answer": "Composted at Home / ಮನೆಯಲ್ಲಿ ಕಾಂಪೋಸ್ಟ್ ಮಾಡಲಾಗುತ್ತದೆ", "answer_ref": "6a60eaf9924c2" },
+        { "answer": "Taken to a Community Composting Facility / ಸಮುದಾಯ ಕಾಂಪೋಸ್ಟ್ ಘಟಕಕ್ಕೆ ನೀಡಲಾಗುತ್ತದೆ", "answer_ref": "6a60eaff924c3" },
+        { "answer": "Used as Manure / ಗೊಬ್ಬರವಾಗಿ ಬಳಸಲಾಗುತ್ತದೆ", "answer_ref": "6a60eb07924c4" },
+        { "answer": "Dumped in Open Areas / ಬಯಲು ಪ್ರದೇಶದಲ್ಲಿ ಸುರಿಯಲಾಗುತ್ತದೆ", "answer_ref": "6a60eb13924c5" },
+        { "answer": "Burned / ಸುಡಲಾಗುತ್ತದೆ", "answer_ref": "6a60eb18924c6" },
+        { "answer": "Other / ಇತರೆ", "answer_ref": "6a60eb22924c7" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60eb3a924c8",
+      "type": "checkbox",
+      "question": "How Is Dry or Recyclable Waste Currently Managed? / ಒಣ ಅಥವಾ ಮರುಬಳಕೆ ಮಾಡಬಹುದಾದ ತ್ಯಾಜ್ಯವನ್ನು ಪ್ರಸ್ತುತ ಹೇಗೆ ನಿರ್ವಹಿಸಲಾಗುತ್ತಿದೆ?",
+      "possible_answers": [
+        { "answer": "Reused / ಮರುಬಳಕೆ ಮಾಡಲಾಗುತ್ತದೆ", "answer_ref": "6a60eb3a924c9" },
+        { "answer": "Recycled / ಮರುಸಂಸ್ಕರಣೆ ಮಾಡಲಾಗುತ್ತದೆ", "answer_ref": "6a60eb45924ca" },
+        { "answer": "Sold to Scrap Dealers / ಸ್ಕ್ರ್ಯಾಪ್ ವ್ಯಾಪಾರಿಗಳಿಗೆ ಮಾರಲಾಗುತ್ತದೆ", "answer_ref": "6a60eb4d924cb" },
+        { "answer": "Handed Over to Waste Collection Service / ತ್ಯಾಜ್ಯ ಸಂಗ್ರಹಣಾ ಸೇವೆಗೆ ನೀಡಲಾಗುತ್ತದೆ", "answer_ref": "6a60eb5b924cc" },
+        { "answer": "Sent to a Material Recovery Facility (MRF) / ವಸ್ತು ಮರುಪಡೆಯುವ ಘಟಕಕ್ಕೆ (MRF) ಕಳುಹಿಸಲಾಗುತ್ತದೆ", "answer_ref": "6a60eb62924cd" },
+        { "answer": "Landfilled / ಭೂಭರ್ತಿ ಮಾಡಲಾಗುತ್ತದೆ", "answer_ref": "6a60eb69924ce" },
+        { "answer": "Dumped in Open Areas / ಬಯಲು ಪ್ರದೇಶದಲ್ಲಿ ಸುರಿಯಲಾಗುತ್ತದೆ", "answer_ref": "6a60eb70924cf" },
+        { "answer": "Burned / ಸುಡಲಾಗುತ್ತದೆ", "answer_ref": "6a60eb77924d0" },
+        { "answer": "Other / ಇತರೆ", "answer_ref": "6a60eb7a924d1" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60ebea924d2",
+      "type": "checkbox",
+      "question": "How Is Plastic Waste Currently Managed in the Village? / ಗ್ರಾಮದಲ್ಲಿ ಪ್ಲಾಸ್ಟಿಕ್ ತ್ಯಾಜ್ಯವನ್ನು ಪ್ರಸ್ತುತ ಹೇಗೆ ನಿರ್ವಹಿಸಲಾಗುತ್ತಿದೆ?",
+      "possible_answers": [
+        { "answer": "Collected Through Door-to-Door Collection / ಮನೆ-ಮನೆಗೆ ಸಂಗ್ರಹಣೆಯ ಮೂಲಕ", "answer_ref": "6a60ebea924d3" },
+        { "answer": "Collected Separately / ಪ್ರತ್ಯೇಕವಾಗಿ ಸಂಗ್ರಹಿಸಲಾಗುತ್ತದೆ", "answer_ref": "6a60ebfc924d4" },
+        { "answer": "Sold to Scrap Dealers / ಸ್ಕ್ರ್ಯಾಪ್ ವ್ಯಾಪಾರಿಗಳಿಗೆ ಮಾರಲಾಗುತ್ತದೆ", "answer_ref": "6a60ebff924d5" },
+        { "answer": "Sent for Recycling / ಮರುಸಂಸ್ಕರಣೆಗೆ ಕಳುಹಿಸಲಾಗುತ್ತದೆ", "answer_ref": "6a60ec0b924d6" },
+        { "answer": "Sent to an MRF / MRF ಗೆ ಕಳುಹಿಸಲಾಗುತ್ತದೆ", "answer_ref": "6a60ec13924d7" },
+        { "answer": "Dumped in Open Areas / ಬಯಲು ಪ್ರದೇಶದಲ್ಲಿ ಸುರಿಯಲಾಗುತ್ತದೆ", "answer_ref": "6a60ec37924d9" },
+        { "answer": "Dumped Near Roads or Water Bodies / ರಸ್ತೆ ಅಥವಾ ಜಲಮೂಲಗಳ ಬಳಿ ಸುರಿಯಲಾಗುತ್ತದೆ", "answer_ref": "6a60ec42924da" },
+        { "answer": "Other / ಇತರೆ", "answer_ref": "6a60ec4b924db" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60ec50924dc" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60ec96924dd",
+      "type": "checkbox",
+      "question": "How Is Sanitary Waste Such as Sanitary Pads, Diapers and Napkins Disposed Of? / ಸ್ಯಾನಿಟರಿ ಪ್ಯಾಡ್‌ಗಳು, ಡೈಪರ್‌ಗಳು ಮತ್ತು ನ್ಯಾಪ್ಕಿನ್‌ಗಳಂತಹ ಸ್ಯಾನಿಟರಿ ತ್ಯಾಜ್ಯವನ್ನು ಹೇಗೆ ವಿಲೇವಾರಿ ಮಾಡಲಾಗುತ್ತದೆ?",
+      "possible_answers": [
+        { "answer": "Collected Through Door-to-Door Waste Collection / ಮನೆ-ಮನೆಗೆ ತ್ಯಾಜ್ಯ ಸಂಗ್ರಹಣೆಯ ಮೂಲಕ", "answer_ref": "6a60ec96924de" },
+        { "answer": "Collected Separately / ಪ್ರತ್ಯೇಕವಾಗಿ ಸಂಗ್ರಹಿಸಲಾಗುತ್ತದೆ", "answer_ref": "6a60eca3924df" },
+        { "answer": "Disposed of Through a Designated Sanitary Waste System / ನಿಗದಿತ ಸ್ಯಾನಿಟರಿ ತ್ಯಾಜ್ಯ ವ್ಯವಸ್ಥೆಯ ಮೂಲಕ", "answer_ref": "6a60eca9924e0" },
+        { "answer": "Buried / ಹೂಳಲಾಗುತ್ತದೆ", "answer_ref": "6a60ecb1924e1" },
+        { "answer": "Burned / ಸುಡಲಾಗುತ್ತದೆ", "answer_ref": "6a60ecb8924e2" },
+        { "answer": "Dumped in Open Areas / ಬಯಲು ಪ್ರದೇಶದಲ್ಲಿ ಸುರಿಯಲಾಗುತ್ತದೆ", "answer_ref": "6a60ecbf924e3" },
+        { "answer": "Mixed with Other Waste / ಇತರ ತ್ಯಾಜ್ಯದೊಂದಿಗೆ ಮಿಶ್ರಣ ಮಾಡಲಾಗುತ್ತದೆ", "answer_ref": "6a60ecc7924e4" },
+        { "answer": "Other / ಇತರೆ", "answer_ref": "6a60ecd0924e5" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60ecd6924e6" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60ecf7924ea",
+      "type": "radio",
+      "question": "Is There a System for Collecting E-Waste Such as Batteries, Bulbs and Electronic Devices? / ಬ್ಯಾಟರಿಗಳು, ಬಲ್ಬ್‌ಗಳು ಮತ್ತು ಎಲೆಕ್ಟ್ರಾನಿಕ್ ಸಾಧನಗಳಂತಹ ಇ-ತ್ಯಾಜ್ಯವನ್ನು ಸಂಗ್ರಹಿಸಲು ವ್ಯವಸ್ಥೆಯಿದೆಯೇ?",
+      "possible_answers": [
+        { "answer": "Yes, Regularly / ಹೌದು, ನಿಯಮಿತವಾಗಿ", "answer_ref": "6a60ecf7924eb" },
+        { "answer": "Yes, Occasionally / ಹೌದು, ಕೆಲವೊಮ್ಮೆ", "answer_ref": "6a60ed03924ec" },
+        { "answer": "No / ಇಲ್ಲ", "answer_ref": "6a60ed05924ed" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60ed0b924ee" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60ed18924ef",
+      "type": "readme",
+      "question": "River Pollution and Aquatic Biodiversity / ನದಿಯ ಮಾಲಿನ್ಯ ಮತ್ತು ಜಲಚರ ಜೀವವೈವಿಧ್ಯ",
+      "section_id": "sec_river"
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60ed31924f0",
+      "type": "radio",
+      "question": "Is Waste Observed in the River or Stream Near the Village? / ಗ್ರಾಮದ ಸಮೀಪದ ನದಿ ಅಥವಾ ಹಳ್ಳದಲ್ಲಿ ತ್ಯಾಜ್ಯ ಕಂಡುಬರುತ್ತದೆಯೇ?",
+      "possible_answers": [
+        { "answer": "Yes, Frequently / ಹೌದು, ಆಗಾಗ್ಗೆ", "answer_ref": "6a60ed31924f1" },
+        { "answer": "Yes, Occasionally / ಹೌದು, ಕೆಲವೊಮ್ಮೆ", "answer_ref": "6a60ed3c924f2" },
+        { "answer": "Rarely / ಅಪರೂಪವಾಗಿ", "answer_ref": "6a60ed44924f3" },
+        { "answer": "No / ಇಲ್ಲ", "answer_ref": "6a60ed49924f4" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60ed4f924f5" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60ed61924f6",
+      "type": "checkbox",
+      "question": "What Types of Pollution or Waste Are Observed in the River or Stream? / ನದಿ ಅಥವಾ ಹಳ್ಳದಲ್ಲಿ ಯಾವ ರೀತಿಯ ಮಾಲಿನ್ಯ ಅಥವಾ ತ್ಯಾಜ್ಯ ಕಂಡುಬರುತ್ತದೆ?",
+      "possible_answers": [
+        { "answer": "Plastic Waste / ಪ್ಲಾಸ್ಟಿಕ್ ತ್ಯಾಜ್ಯ", "answer_ref": "6a60ed61924f7" },
+        { "answer": "Organic/Wet Waste / ಸಾವಯವ/ಹಸಿ ತ್ಯಾಜ್ಯ", "answer_ref": "6a60ed6b924f8" },
+        { "answer": "Sewage or Wastewater / ಕೊಳಚೆ ನೀರು ಅಥವಾ ತ್ಯಾಜ್ಯ ನೀರು", "answer_ref": "6a60ed72924f9" },
+        { "answer": "Domestic Wastewater / ಮನೆಗಳಿಂದ ಹೊರಬರುವ ತ್ಯಾಜ್ಯ ನೀರು", "answer_ref": "6a60ed79924fa" },
+        { "answer": "Agricultural Runoff / ಕೃಷಿ ಪ್ರದೇಶಗಳಿಂದ ಹರಿದುಬರುವ ನೀರು", "answer_ref": "6a60ed80924fb" },
+        { "answer": "Chemical or Industrial Waste / ರಾಸಾಯನಿಕ ಅಥವಾ ಕೈಗಾರಿಕಾ ತ್ಯಾಜ್ಯ", "answer_ref": "6a60ed86924fc" },
+        { "answer": "Animal Waste / ಪ್ರಾಣಿಗಳ ತ್ಯಾಜ್ಯ", "answer_ref": "6a60ed8e924fd" },
+        { "answer": "Sanitary Waste / ಸ್ಯಾನಿಟರಿ ತ್ಯಾಜ್ಯ", "answer_ref": "6a60ed95924fe" },
+        { "answer": "E-Waste / ಇ-ತ್ಯಾಜ್ಯ", "answer_ref": "6a60eda3924ff" },
+        { "answer": "Biomedical Waste / ಜೈವಿಕ ವೈದ್ಯಕೀಯ ತ್ಯಾಜ್ಯ", "answer_ref": "6a60edb292500" },
+        { "answer": "Other / ಇತರೆ", "answer_ref": "6a60edd692501" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60edd992502" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60edf792503",
+      "type": "checkbox",
+      "question": "What Are the Main Sources of Pollution Entering the River or Stream? / ನದಿ ಅಥವಾ ಹಳ್ಳಕ್ಕೆ ಮಾಲಿನ್ಯ ಸೇರುವ ಪ್ರಮುಖ ಮೂಲಗಳು ಯಾವುವು?",
+      "possible_answers": [
+        { "answer": "Household Waste / ಮನೆಗಳ ತ್ಯಾಜ್ಯ", "answer_ref": "6a60edf792504" },
+        { "answer": "Domestic Sewage/Wastewater / ಮನೆಯ ಕೊಳಚೆ ನೀರು/ತ್ಯಾಜ್ಯ ನೀರು", "answer_ref": "6a60ee0192505" },
+        { "answer": "Open Dumping / ಬಯಲು ಪ್ರದೇಶದಲ್ಲಿ ತ್ಯಾಜ್ಯ ಸುರಿಯುವುದು", "answer_ref": "6a60ee0a92506" },
+        { "answer": "Shops and Markets / ಅಂಗಡಿಗಳು ಮತ್ತು ಮಾರುಕಟ್ಟೆಗಳು", "answer_ref": "6a60ee1192507" },
+        { "answer": "Hotels and Restaurants / ಹೋಟೆಲ್‌ಗಳು ಮತ್ತು ರೆಸ್ಟೋರೆಂಟ್‌ಗಳು", "answer_ref": "6a60ee1e92508" },
+        { "answer": "Livestock/Animal Waste / ಜಾನುವಾರು/ಪ್ರಾಣಿಗಳ ತ್ಯಾಜ್ಯ", "answer_ref": "6a60ee2792509" },
+        { "answer": "Religious or Cultural Activities / ಧಾರ್ಮಿಕ ಅಥವಾ ಸಾಂಸ್ಕೃತಿಕ ಚಟುವಟಿಕೆಗಳು", "answer_ref": "6a60ee319250a" },
+        { "answer": "Upstream Areas / ಮೇಲ್ದಂಡೆ ಪ್ರದೇಶಗಳು", "answer_ref": "6a60ee3b9250b" },
+        { "answer": "Industrial Activities / ಕೈಗಾರಿಕಾ ಚಟುವಟಿಕೆಗಳು", "answer_ref": "6a60ee429250c" },
+        { "answer": "Other / ಇತರೆ", "answer_ref": "6a60ee489250d" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60ee4e9250e" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60ee7092510",
+      "type": "radio",
+      "question": "Is the Water in the River or Stream Visibly Polluted? / ನದಿ ಅಥವಾ ಹಳ್ಳದ ನೀರು ಕಣ್ಣಿಗೆ ಕಾಣುವ ರೀತಿಯಲ್ಲಿ ಮಾಲಿನ್ಯಗೊಂಡಿದೆಯೇ?",
+      "possible_answers": [
+        { "answer": "Yes, Highly Polluted / ಹೌದು, ಹೆಚ್ಚು ಮಾಲಿನ್ಯಗೊಂಡಿದೆ", "answer_ref": "6a60ee7a92512" },
+        { "answer": "Slightly Polluted / ಸ್ವಲ್ಪ ಮಾಲಿನ್ಯಗೊಂಡಿದೆ", "answer_ref": "6a60ee7f92513" },
+        { "answer": "No Visible Pollution / ಕಣ್ಣಿಗೆ ಕಾಣುವ ಮಾಲಿನ್ಯವಿಲ್ಲ", "answer_ref": "6a60ee8792514" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60ee9092515" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60eeb892516",
+      "type": "checkbox",
+      "question": "What Signs of Water Pollution Are Observed in the River or Stream? / ನದಿ ಅಥವಾ ಹಳ್ಳದಲ್ಲಿ ನೀರಿನ ಮಾಲಿನ್ಯದ ಯಾವ ಲಕ್ಷಣಗಳು ಕಂಡುಬರುತ್ತವೆ?",
+      "possible_answers": [
+        { "answer": "Bad or Unpleasant Odour / ಕೆಟ್ಟ ಅಥವಾ ಅಹಿತಕರ ವಾಸನೆ", "answer_ref": "6a60eeb892517" },
+        { "answer": "Floating Waste / ನೀರಿನ ಮೇಲೆ ತೇಲುವ ತ್ಯಾಜ್ಯ", "answer_ref": "6a60eec692519" },
+        { "answer": "Foam or Froth / ನೊರೆ", "answer_ref": "6a60eecd9251a" },
+        { "answer": "Oil or Grease on Water Surface / ನೀರಿನ ಮೇಲ್ಮೈಯಲ್ಲಿ ಎಣ್ಣೆ ಅಥವಾ ಗ್ರೀಸ್", "answer_ref": "6a60eed39251b" },
+        { "answer": "Excessive Algae Growth / ಅತಿಯಾದ ಪಾಚಿ ಬೆಳವಣಿಗೆ", "answer_ref": "6a60eed99251c" },
+        { "answer": "Dead Fish or Aquatic Animals / ಸತ್ತ ಮೀನುಗಳು ಅಥವಾ ಜಲಚರಗಳು", "answer_ref": "6a60eee09251d" },
+        { "answer": "Reduced Water Flow / ನೀರಿನ ಹರಿವು ಕಡಿಮೆಯಾಗಿರುವುದು", "answer_ref": "6a60eee79251e" },
+        { "answer": "Other / ಇತರೆ", "answer_ref": "6a60eeef9251f" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60eef692520" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60f0a992544",
+      "type": "radio",
+      "question": "Does waste generated within your village enter or get disposed of into the river or stream? / ನಿಮ್ಮ ಗ್ರಾಮದಲ್ಲಿ ಉತ್ಪತ್ತಿಯಾಗುವ ತ್ಯಾಜ್ಯವು ನದಿ ಅಥವಾ ಹಳ್ಳಕ್ಕೆ ಸೇರುತ್ತದೆಯೇ ಅಥವಾ ಅಲ್ಲಿ ವಿಲೇವಾರಿ ಮಾಡಲಾಗುತ್ತದೆಯೇ?",
+      "possible_answers": [
+        { "answer": "Yes, frequently / ಹೌದು, ಆಗಾಗ್ಗೆ", "answer_ref": "6a60f0a992545" },
+        { "answer": "Yes, occasionally / ಹೌದು, ಕೆಲವೊಮ್ಮೆ", "answer_ref": "6a60f0b692546" },
+        { "answer": "No / ಇಲ್ಲ", "answer_ref": "6a60f0bd92547" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60f0be92548" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60f0809253f",
+      "type": "radio",
+      "question": "Does waste from upstream areas reach or accumulate in the river or stream near your village? / ಮೇಲ್ದಂಡೆ ಪ್ರದೇಶಗಳಿಂದ ಬರುವ ತ್ಯಾಜ್ಯವು ನಿಮ್ಮ ಗ್ರಾಮದ ಸಮೀಪದ ನದಿ ಅಥವಾ ಹಳ್ಳಕ್ಕೆ ಬಂದು ಸೇರುತ್ತದೆಯೇ?",
+      "possible_answers": [
+        { "answer": "Yes, frequently / ಹೌದು, ಆಗಾಗ್ಗೆ", "answer_ref": "6a60f08092540" },
+        { "answer": "Yes, occasionally / ಹೌದು, ಕೆಲವೊಮ್ಮೆ", "answer_ref": "6a60f08892541" },
+        { "answer": "No / ಇಲ್ಲ", "answer_ref": "6a60f08d92542" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60f09192543" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60ef1792521",
+      "type": "radio",
+      "question": "Have You Observed Dead Fish or Other Aquatic Animals in the River or Stream? / ನದಿ ಅಥವಾ ಹಳ್ಳದಲ್ಲಿ ಸತ್ತ ಮೀನುಗಳು ಅಥವಾ ಇತರ ಜಲಚರಗಳನ್ನು ನೀವು ಗಮನಿಸಿದ್ದೀರಾ?",
+      "possible_answers": [
+        { "answer": "Frequently / ಆಗಾಗ್ಗೆ", "answer_ref": "6a60ef1792522" },
+        { "answer": "Occasionally / ಕೆಲವೊಮ್ಮೆ", "answer_ref": "6a60ef2092523" },
+        { "answer": "Rarely / ಅಪರೂಪವಾಗಿ", "answer_ref": "6a60ef2592524" },
+        { "answer": "Never / ಎಂದಿಗೂ ಇಲ್ಲ", "answer_ref": "6a60ef2a92525" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60ef3092526" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60ef4a92527",
+      "type": "radio",
+      "question": "Have You Observed a Decline in the Number or Diversity of Fish and Other Aquatic Animals in the River or Stream? / ನದಿ ಅಥವಾ ಹಳ್ಳದಲ್ಲಿನ ಮೀನುಗಳು ಮತ್ತು ಇತರ ಜಲಚರಗಳ ಸಂಖ್ಯೆ ಅಥವಾ ವೈವಿಧ್ಯತೆ ಕಡಿಮೆಯಾಗಿರುವುದನ್ನು ನೀವು ಗಮನಿಸಿದ್ದೀರಾ?",
+      "possible_answers": [
+        { "answer": "Yes, Significant Decline / ಹೌದು, ಗಮನಾರ್ಹ ಇಳಿಕೆ", "answer_ref": "6a60ef4a92528" },
+        { "answer": "Yes, Some Decline / ಹೌದು, ಸ್ವಲ್ಪ ಇಳಿಕೆ", "answer_ref": "6a60ef5292529" },
+        { "answer": "No Significant Change / ಗಮನಾರ್ಹ ಬದಲಾವಣೆ ಇಲ್ಲ", "answer_ref": "6a60ef589252a" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60ef5f9252b" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60efba92532",
+      "type": "dropdown",
+      "question": "What Are the Main Possible Causes of Fish Mortality or Decline in Aquatic Biodiversity? / ಮೀನುಗಳ ಸಾವು ಅಥವಾ ಜಲಚರ ಜೀವವೈವಿಧ್ಯತೆಯ ಇಳಿಕೆಗೆ ಮುಖ್ಯ ಸಂಭವನೀಯ ಕಾರಣಗಳು ಯಾವುವು?",
+      "possible_answers": [
+        { "answer": "Plastic Waste / ಪ್ಲಾಸ್ಟಿಕ್ ತ್ಯಾಜ್ಯ", "answer_ref": "6a60efba92533" },
+        { "answer": "Sewage or Domestic Wastewater / ಕೊಳಚೆ ಅಥವಾ ಮನೆಯ ತ್ಯಾಜ್ಯ ನೀರು", "answer_ref": "6a60efc492534" },
+        { "answer": "Chemical Pollution / ರಾಸಾಯನಿಕ ಮಾಲಿನ್ಯ", "answer_ref": "6a60efd392536" },
+        { "answer": "Agricultural Runoff or Pesticides / ಕೃಷಿ ಹರಿವು ಅಥವಾ ಕೀಟನಾಶಕಗಳು", "answer_ref": "6a60efd692537" },
+        { "answer": "Industrial Effluents / ಕೈಗಾರಿಕಾ ತ್ಯಾಜ್ಯ ನೀರು", "answer_ref": "6a60efdc92538" },
+        { "answer": "Reduced Water Flow / ನೀರಿನ ಹರಿವು ಕಡಿಮೆಯಾಗಿರುವುದು", "answer_ref": "6a60efe192539" },
+        { "answer": "Low Water Level or Drying / ನೀರಿನ ಮಟ್ಟ ಕಡಿಮೆಯಾಗುವುದು ಅಥವಾ ಹಳ್ಳ ಒಣಗುವುದು", "answer_ref": "6a60efe19253a" },
+        { "answer": "Excessive Fishing / ಅತಿಯಾದ ಮೀನುಗಾರಿಕೆ", "answer_ref": "6a60eff09253b" },
+        { "answer": "Habitat Destruction / ವಾಸಸ್ಥಳ ನಾಶ", "answer_ref": "6a60eff09253c" },
+        { "answer": "Other / ಇತರೆ", "answer_ref": "6a60eff69253d" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60f0049253e" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60ef809252c",
+      "type": "radio",
+      "question": "Does the Level of River or Stream Pollution Change During Different Seasons? / ವಿವಿಧ ಋತುಗಳಲ್ಲಿ ನದಿ ಅಥವಾ ಹಳ್ಳದ ಮಾಲಿನ್ಯದ ಮಟ್ಟದಲ್ಲಿ ಬದಲಾವಣೆ ಕಂಡುಬರುತ್ತದೆಯೇ?",
+      "possible_answers": [
+        { "answer": "Higher During Monsoon / ಮಳೆಗಾಲದಲ್ಲಿ ಹೆಚ್ಚಾಗುತ್ತದೆ", "answer_ref": "6a60ef809252d" },
+        { "answer": "Higher During Dry Season / ಬೇಸಿಗೆ/ಒಣ ಋತುವಿನಲ್ಲಿ ಹೆಚ್ಚಾಗುತ್ತದೆ", "answer_ref": "6a60ef899252e" },
+        { "answer": "Similar Throughout the Year / ವರ್ಷವಿಡೀ ಒಂದೇ ರೀತಿಯಾಗಿದೆ", "answer_ref": "6a60ef909252f" },
+        { "answer": "Don't Know / ಗೊತ್ತಿಲ್ಲ", "answer_ref": "6a60ef9792530" }
+      ]
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_sec_meta",
+      "type": "readme",
+      "question": "Survey Metadata & Location Verification / ದಿನಾಂಕ, ಸಮಯ, ಜಿಪಿಎಸ್ ಮತ್ತು ಛಾಯಾಚಿತ್ರ",
+      "section_id": "sec_meta"
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b5f271ca6",
+      "type": "date",
+      "question": "Date of Survey / ಸಮೀಕ್ಷೆಯ ದಿನಾಂಕ",
+      "set_to_current_datetime": true
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b60971ca7",
+      "type": "time",
+      "question": "Time of Survey / ಸಮೀಕ್ಷೆಯ ಸಮಯ",
+      "set_to_current_datetime": true
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60b5c771ca5",
+      "type": "location",
+      "question": "GPS Location / ಜಿಪಿಎಸ್ ಆಧಾರಿತ ಸ್ಥಳ",
+      "is_required": false
+    },
+    {
+      "ref": "36c62734373c465b98fd8db677d92d92_6a4fd0b9718ad_6a60f0d592549",
+      "type": "photo",
+      "question": "Photograph with Respondent / ಪ್ರತಿಕ್ರಿಯೆದಾರರೊಂದಿಗೆ ಛಾಯಾಚಿತ್ರ",
+      "is_required": false
+    }
+  ]
+}

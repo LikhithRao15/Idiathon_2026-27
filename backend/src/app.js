@@ -18,6 +18,7 @@ const evaluationRoutes = require('./routes/evaluationRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const themeRoutes = require('./routes/themeRoutes');
+const surveyRoutes = require('./routes/surveyRoutes');
 const adminController = require('./controllers/adminController');
 const { requireAuth } = require('./middleware/authMiddleware');
 
@@ -85,6 +86,7 @@ app.use(`${env.API_PREFIX}/evaluations`, evaluationRoutes);
 app.use(`${env.API_PREFIX}/admin`, adminRoutes);
 app.use(`${env.API_PREFIX}/notifications`, notificationRoutes);
 app.use(`${env.API_PREFIX}/themes`, themeRoutes);
+app.use(`${env.API_PREFIX}/survey`, surveyRoutes);
 
 // Direct Finalists endpoint support: GET /api/finalists/:teamId
 app.get(`${env.API_PREFIX}/finalists/:teamId`, requireAuth, adminController.getFinalistDetails);

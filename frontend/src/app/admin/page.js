@@ -34,7 +34,10 @@ import {
   TrendingUp,
   X,
   MessageSquare,
+  Download,
+  ExternalLink,
 } from 'lucide-react';
+import surveySchema from '../../data/swachhaSarvekshanaForm.json';
 
 const adminTranslations = {
   en: {
@@ -258,6 +261,12 @@ export default function AdminPage() {
   const [teamSubmissions, setTeamSubmissions] = useState({ r1: null, r2: null });
   const [inspectLoading, setInspectLoading] = useState(false);
 
+  // Survey Responses State
+  const [surveyResponses, setSurveyResponses] = useState([]);
+  const [surveySearch, setSurveySearch] = useState('');
+  const [inspectSurvey, setInspectSurvey] = useState(null);
+  const [surveyLoading, setSurveyLoading] = useState(false);
+
   // Admin Auth Form
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPassword, setAdminPassword] = useState('');
@@ -293,6 +302,15 @@ export default function AdminPage() {
     }
   }, [token, user]);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('tab') === 'surveys') {
+        setActiveTab('surveys');
+      }
+    }
+  }, []);
+
   const handleAdminLogin = async (e) => {
     e.preventDefault();
     setAuthLoading(true);
@@ -302,7 +320,7 @@ export default function AdminPage() {
 
   const loadData = async () => {
     setLoading(true);
-    await Promise.all([loadStats(), loadTeams(), loadPanelists(), loadThemes()]);
+    await Promise.all([loadStats(), loadTeams(), loadPanelists(), loadThemes(), loadSurveys()]);
     setLoading(false);
   };
 
@@ -336,6 +354,74 @@ export default function AdminPage() {
     if (res.ok && Array.isArray(data)) {
       setThemes(data);
     }
+  };
+
+  const loadSurveys = async () => {
+    setSurveyLoading(true);
+    const res = await apiRequest('/survey/responses?limit=500');
+    if (res.ok && res.data?.responses) {
+      setSurveyResponses(res.data.responses);
+    }
+    setSurveyLoading(false);
+  };
+
+  const openInspectSurveyModal = async (survey) => {
+    setInspectSurvey(survey);
+    if (!survey.photoData && survey._id) {
+      const fullRes = await apiRequest(`/survey/responses/${survey._id}`);
+      if (fullRes.ok && fullRes.data) {
+        setInspectSurvey(fullRes.data);
+      }
+    }
+  };
+
+  const closeInspectSurveyModal = () => {
+    setInspectSurvey(null);
+  };
+
+  const exportSurveyCSV = () => {
+    if (!surveyResponses.length) {
+      showToast('No survey responses available to export', 'error');
+      return;
+    }
+
+    const headers = [
+      'Submission ID',
+      'Date',
+      'Time',
+      'Respondent Name',
+      'Category',
+      'Phone',
+      'Village',
+      'Survey Team',
+      'GPS Coordinates'
+    ];
+    const rows = surveyResponses.map((r) => [
+      r._id,
+      r.surveyDate || new Date(r.createdAt).toLocaleDateString(),
+      r.surveyTime || new Date(r.createdAt).toLocaleTimeString(),
+      `"${(r.respondentName || '').replace(/"/g, '""')}"`,
+      `"${(r.respondentCategory || '').replace(/"/g, '""')}"`,
+      `"${(r.respondentPhone || '').replace(/"/g, '""')}"`,
+      `"${(r.villageName || '').replace(/"/g, '""')}"`,
+      `"${(r.surveyTeam || '').replace(/"/g, '""')}"`,
+      `"${(r.location?.text || (r.location?.latitude ? `${r.location.latitude}, ${r.location.longitude}` : '')).replace(/"/g, '""')}"`
+    ]);
+
+    const csvContent =
+      'data:text/csv;charset=utf-8,' +
+      [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute(
+      'download',
+      `swachha_sarvekshana_responses_${new Date().toISOString().split('T')[0]}.csv`
+    );
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showToast('Survey responses exported to CSV', 'success');
   };
 
   // Inspect Team & Fetch Full Dossier
@@ -825,6 +911,13 @@ export default function AdminPage() {
           <span className="admin-tab-count">
             {teams.filter((t) => t.finalStatus === 'FINALIST').length}
           </span>
+        </button>
+        <button
+          className={`admin-tab ${activeTab === 'surveys' ? 'active' : ''}`}
+          onClick={() => setActiveTab('surveys')}
+        >
+          <FileText size={16} /> 📋 Survey Responses
+          <span className="admin-tab-count">{surveyResponses.length}</span>
         </button>
       </div>
 
@@ -1671,6 +1764,309 @@ export default function AdminPage() {
 
               <div style={{ borderTop: '1px dashed #f59e0b', paddingTop: '12px', fontSize: '12px', color: '#78350f' }}>
                 <strong>Guidelines:</strong> {schedInstructions}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* TAB 4: SWACHHA SARVEKSHANA SURVEY RESPONSES                               */}
+      {/* ========================================================================= */}
+      {activeTab === 'surveys' && (
+        <div className="light-card" style={{ padding: '28px' }}>
+          {/* HEADER & CONTROLS */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', marginBottom: '24px' }}>
+            <div>
+              <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '22px', fontWeight: 800, margin: 0, color: 'var(--ink)' }}>
+                📋 Swachha Sarvekshana Ground Survey Responses
+              </h2>
+              <p style={{ margin: '4px 0 0', fontSize: '14px', color: 'var(--muted)' }}>
+                Review live field submissions, respondent profiles, waste patterns, GPS coordinates, and photos.
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+              <button
+                className="btn btn-secondary btn-sm"
+                onClick={loadSurveys}
+                disabled={surveyLoading}
+                title="Refresh Surveys"
+              >
+                <RefreshCw size={14} className={surveyLoading ? 'animate-spin' : ''} /> Refresh
+              </button>
+              <button
+                className="btn btn-primary btn-sm"
+                onClick={exportSurveyCSV}
+                title="Export all responses to CSV"
+              >
+                <Download size={14} /> Export CSV
+              </button>
+            </div>
+          </div>
+
+          {/* SEARCH & STATS BAR */}
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap', marginBottom: '20px', background: '#f8fafc', padding: '14px 18px', borderRadius: '12px', border: '1px solid rgba(12, 91, 53, 0.1)' }}>
+            <div style={{ position: 'relative', flex: '1', minWidth: '240px' }}>
+              <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+              <input
+                type="text"
+                placeholder="Search by respondent name, village, or phone number..."
+                value={surveySearch}
+                onChange={(e) => setSurveySearch(e.target.value)}
+                style={{ width: '100%', padding: '8px 12px 8px 36px', fontSize: '14px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+              />
+            </div>
+
+            <div style={{ display: 'flex', gap: '16px', fontSize: '13px', fontWeight: 600, color: 'var(--ink)' }}>
+              <span>Total Responses: <strong style={{ color: 'var(--green)' }}>{surveyResponses.length}</strong></span>
+              <span>Unique Villages: <strong style={{ color: 'var(--green)' }}>{new Set(surveyResponses.map((r) => r.villageName).filter(Boolean)).size}</strong></span>
+            </div>
+          </div>
+
+          {/* TABLE OF RESPONSES */}
+          {surveyResponses.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '48px 20px', color: 'var(--muted)' }}>
+              <FileText size={48} style={{ opacity: 0.3, marginBottom: '12px' }} />
+              <p style={{ fontSize: '16px', fontWeight: 600 }}>No survey responses recorded yet.</p>
+              <small>Responses submitted through the "Attend a Survey" button will appear here in real-time.</small>
+            </div>
+          ) : (
+            <div style={{ overflowX: 'auto' }}>
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>Date & Time</th>
+                    <th>Respondent</th>
+                    <th>Category</th>
+                    <th>Village</th>
+                    <th>Phone</th>
+                    <th>Survey Team</th>
+                    <th>GPS Location</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {surveyResponses
+                    .filter((r) => {
+                      if (!surveySearch) return true;
+                      const s = surveySearch.toLowerCase();
+                      return (
+                        r.respondentName?.toLowerCase().includes(s) ||
+                        r.villageName?.toLowerCase().includes(s) ||
+                        r.respondentPhone?.includes(s) ||
+                        r.respondentCategory?.toLowerCase().includes(s)
+                      );
+                    })
+                    .map((resp) => {
+                      const lat = resp.location?.latitude;
+                      const lon = resp.location?.longitude;
+                      return (
+                        <tr key={resp._id}>
+                          <td style={{ fontSize: '13px', whiteSpace: 'nowrap' }}>
+                            <div>{resp.surveyDate || new Date(resp.createdAt).toLocaleDateString()}</div>
+                            <small style={{ color: 'var(--muted)' }}>{resp.surveyTime || new Date(resp.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>
+                          </td>
+                          <td>
+                            <strong>{resp.respondentName || 'Anonymous'}</strong>
+                          </td>
+                          <td style={{ fontSize: '13px' }}>
+                            <span className="badge" style={{ background: '#f0fdf4', color: '#166534', border: '1px solid #bbf7d0' }}>
+                              {resp.respondentCategory?.split('/')[0] || resp.respondentCategory || 'N/A'}
+                            </span>
+                          </td>
+                          <td>
+                            <strong style={{ color: 'var(--green)' }}>{resp.villageName || 'N/A'}</strong>
+                          </td>
+                          <td style={{ fontSize: '13px' }}>
+                            {resp.respondentPhone || '—'}
+                          </td>
+                          <td style={{ fontSize: '13px', color: 'var(--muted)' }}>
+                            {resp.surveyTeam || '—'}
+                          </td>
+                          <td style={{ fontSize: '13px' }}>
+                            {lat && lon ? (
+                              <a
+                                href={`https://www.google.com/maps?q=${lat},${lon}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: '#0284c7', textDecoration: 'none', fontWeight: 600 }}
+                              >
+                                <MapPin size={13} /> {lat.toFixed(4)}, {lon.toFixed(4)} <ExternalLink size={11} />
+                              </a>
+                            ) : resp.location?.text ? (
+                              <span>{resp.location.text}</span>
+                            ) : (
+                              <span style={{ color: '#94a3b8' }}>—</span>
+                            )}
+                          </td>
+                          <td>
+                            <button
+                              className="btn btn-secondary btn-sm"
+                              onClick={() => openInspectSurveyModal(resp)}
+                              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                            >
+                              <Eye size={13} /> View Details
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* INSPECT SURVEY RESPONSE MODAL                                             */}
+      {/* ========================================================================= */}
+      {inspectSurvey && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(15, 41, 30, 0.75)',
+            backdropFilter: 'blur(8px)',
+            zIndex: 9999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px',
+          }}
+          onClick={closeInspectSurveyModal}
+        >
+          <div
+            style={{
+              background: '#ffffff',
+              borderRadius: '20px',
+              width: '100%',
+              maxWidth: '850px',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              boxShadow: '0 25px 60px rgba(0,0,0,0.3)',
+              border: '1px solid rgba(12, 91, 53, 0.2)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* MODAL HEADER */}
+            <div
+              style={{
+                padding: '20px 24px',
+                borderBottom: '1px solid rgba(12, 91, 53, 0.1)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                position: 'sticky',
+                top: 0,
+                background: '#ffffff',
+                zIndex: 10,
+              }}
+            >
+              <div>
+                <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 800, color: 'var(--ink)' }}>
+                  Survey Response: {inspectSurvey.respondentName} ({inspectSurvey.villageName})
+                </h3>
+                <small style={{ color: 'var(--muted)' }}>
+                  Submitted on {inspectSurvey.surveyDate || new Date(inspectSurvey.createdAt).toLocaleDateString()} at {inspectSurvey.surveyTime || new Date(inspectSurvey.createdAt).toLocaleTimeString()}
+                </small>
+              </div>
+              <button
+                onClick={closeInspectSurveyModal}
+                style={{
+                  background: '#f1f5f9',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: '34px',
+                  height: '34px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* MODAL BODY */}
+            <div style={{ padding: '24px' }}>
+              {/* PHOTO IF AVAILABLE */}
+              {inspectSurvey.photoData && (
+                <div style={{ marginBottom: '24px', textAlign: 'center' }}>
+                  <img
+                    src={inspectSurvey.photoData}
+                    alt="Respondent"
+                    style={{ maxWidth: '300px', maxHeight: '220px', borderRadius: '12px', border: '2px solid var(--green)', boxShadow: '0 8px 24px rgba(0,0,0,0.1)' }}
+                  />
+                  <div style={{ fontSize: '12px', color: 'var(--muted)', marginTop: '6px' }}>Respondent Photograph</div>
+                </div>
+              )}
+
+              {/* OVERVIEW PILLS */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px', marginBottom: '24px', background: '#f8fafc', padding: '16px', borderRadius: '12px' }}>
+                <div>
+                  <small style={{ color: '#64748b', fontSize: '11px', textTransform: 'uppercase', fontWeight: 700 }}>Respondent</small>
+                  <div style={{ fontWeight: 700 }}>{inspectSurvey.respondentName}</div>
+                </div>
+                <div>
+                  <small style={{ color: '#64748b', fontSize: '11px', textTransform: 'uppercase', fontWeight: 700 }}>Village</small>
+                  <div style={{ fontWeight: 700, color: 'var(--green)' }}>{inspectSurvey.villageName}</div>
+                </div>
+                <div>
+                  <small style={{ color: '#64748b', fontSize: '11px', textTransform: 'uppercase', fontWeight: 700 }}>Category</small>
+                  <div style={{ fontWeight: 600 }}>{inspectSurvey.respondentCategory || 'N/A'}</div>
+                </div>
+                <div>
+                  <small style={{ color: '#64748b', fontSize: '11px', textTransform: 'uppercase', fontWeight: 700 }}>Phone</small>
+                  <div style={{ fontWeight: 600 }}>{inspectSurvey.respondentPhone || 'N/A'}</div>
+                </div>
+              </div>
+
+              {/* ANSWERS BREAKDOWN */}
+              <h4 style={{ margin: '0 0 16px', fontSize: '16px', fontWeight: 700, color: 'var(--ink)' }}>
+                Field Survey Questionnaire Answers
+              </h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {surveySchema.inputs
+                  .filter((inp) => inp.type !== 'readme')
+                  .map((inp) => {
+                    const ans = inspectSurvey.answers ? inspectSurvey.answers[inp.ref] : null;
+                    if (!ans) return null;
+
+                    let displayAns = ans;
+                    if (inp.type === 'radio' || inp.type === 'dropdown') {
+                      const match = inp.possible_answers?.find((p) => p.answer_ref === ans);
+                      if (match) displayAns = match.answer;
+                    } else if (inp.type === 'checkbox' && Array.isArray(ans)) {
+                      displayAns = ans
+                        .map((aRef) => {
+                          const match = inp.possible_answers?.find((p) => p.answer_ref === aRef);
+                          return match ? match.answer : aRef;
+                        })
+                        .join('; ');
+                    }
+
+                    return (
+                      <div
+                        key={inp.ref}
+                        style={{
+                          background: '#ffffff',
+                          padding: '14px 16px',
+                          borderRadius: '10px',
+                          border: '1px solid #e2e8f0',
+                        }}
+                      >
+                        <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--ink)', marginBottom: '4px' }}>
+                          {inp.question}
+                        </div>
+                        <div style={{ fontSize: '14px', color: 'var(--green)', fontWeight: 600 }}>
+                          {String(displayAns)}
+                        </div>
+                      </div>
+                    );
+                  })}
               </div>
             </div>
           </div>
