@@ -9,9 +9,11 @@ import {
   CalendarDays,
   Check,
   ChevronDown,
+  ClipboardCheck,
   Clock3,
   Download,
   ExternalLink,
+  FileEdit,
   FileText,
   Globe,
   HelpCircle,
@@ -22,8 +24,10 @@ import {
   Menu,
   MessageCircle,
   Phone,
+  Presentation,
   QrCode,
   Recycle,
+  Search,
   Sparkles,
   Trophy,
   Users,
@@ -39,7 +43,7 @@ import './globals.css';
 const GOOGLE_FORM_SURVEY_URL = '#';
 
 // ============================================================
-// EVENT SCHEDULE — SINGLE SOURCE OF TRUTH
+// EVENT SCHEDULE — SINGLE SOURCE OF TRUTH (UPDATED DATES)
 // ============================================================
 const EVENT_SCHEDULE = {
   registration: {
@@ -51,32 +55,46 @@ const EVENT_SCHEDULE = {
     },
   },
 
-  round1: {
-    start: '2026-10-01T00:00:00+05:30',
-    end: '2026-11-01T23:59:59+05:30',
+  scrutiny1: {
+    start: '2026-11-02T00:00:00+05:30',
+    end: '2026-11-11T23:59:59+05:30',
     date: {
-      en: '01 OCT – 01 NOV 2026',
-      kn: '೦೧ ಅಕ್ಟೋಬರ್ – ೦೧ ನವೆಂಬರ್ ೨೦೨೬',
+      en: '02 NOV – 11 NOV 2026',
+      kn: '೦೨ ನವೆಂಬರ್ – ೧೧ ನವೆಂಬರ್ ೨೦೨೬',
     },
   },
 
-  round2: {
-    start: '2026-11-02T00:00:00+05:30',
+  stage2: {
+    start: '2026-11-12T00:00:00+05:30',
     end: '2026-12-01T23:59:59+05:30',
     date: {
-      en: '02 NOV – 01 DEC 2026',
-      kn: '೦೨ ನವೆಂಬರ್ – ೦೧ ಡಿಸೆಂಬರ್ ೨೦೨೬',
+      en: '12 NOV – 01 DEC 2026',
+      kn: '೧೨ ನವೆಂಬರ್ – ೦೧ ಡಿಸೆಂಬರ್ ೨೦೨೬',
+    },
+  },
+
+  scrutiny2: {
+    start: '2026-12-02T00:00:00+05:30',
+    end: '2026-12-11T23:59:59+05:30',
+    date: {
+      en: '02 DEC – 11 DEC 2026',
+      kn: '೦೨ ಡಿಸೆಂಬರ್ – ೧೧ ಡಿಸೆಂಬರ್ ೨೦೨೬',
     },
   },
 
   finale: {
     start: '2027-01-06T00:00:00+05:30',
+    end: '2027-01-07T23:59:59+05:30',
     date: {
       en: '06 – 07 JAN 2027',
       kn: '೦೬ – ೦೭ ಜನವರಿ ೨೦೨೭',
     },
   },
 };
+
+// Backwards compatibility aliases
+EVENT_SCHEDULE.round1 = EVENT_SCHEDULE.registration;
+EVENT_SCHEDULE.round2 = EVENT_SCHEDULE.stage2;
 
 const data = {
   en: {
@@ -249,28 +267,68 @@ const data = {
     ],
     timeline: [
       {
-        id: 'round1',
-        date: EVENT_SCHEDULE.round1.date,
-        title: 'Stage 1: Registration',
-        copy: 'Submit your team registration (1–4 members), problem statement, and proposed intervention concept.',
+        id: 'stage1',
+        type: 'stage',
+        stageNum: '01',
+        stageBadge: 'STAGE 01',
         color: 'green',
-        items: ['Team of 1–4 members', 'Choose 1 of 3 focus tracks', 'Registration & problem brief'],
+        date: EVENT_SCHEDULE.registration.date,
+        title: 'Registration & Preliminary Submission',
+        copy: 'Submit your team registration (1–4 members), problem statement, and preliminary solution concept.',
+        items: [
+          'Team of 1–4 members',
+          'Choose 1 of 3 focus tracks',
+          'Registration & preliminary solution brief',
+        ],
+        iconType: 'document',
       },
       {
-        id: 'round2',
-        date: EVENT_SCHEDULE.round2.date,
-        title: 'Stage 2: Idea Submission',
-        copy: 'Submit detailed concept, 90-day pilot execution plan, budget estimate, and circularity framework.',
+        id: 'scrutiny1',
+        type: 'scrutiny',
+        iconType: 'search',
+        title: '10-Day Preliminary Scrutiny',
+        date: EVENT_SCHEDULE.scrutiny1.date,
+        copy: 'Evaluation, eligibility check and shortlisting for Stage 2.',
+      },
+      {
+        id: 'stage2',
+        type: 'stage',
+        stageNum: '02',
+        stageBadge: 'STAGE 02',
         color: 'blue',
-        items: ['Feasibility & 90-day execution plan', 'Value proposition & resource needs', 'Jury screening & shortlisting'],
+        date: EVENT_SCHEDULE.stage2.date,
+        title: 'Detailed Idea Submission',
+        copy: 'Submit detailed concept, 90-day pilot execution plan, budget estimate, and circularity framework.',
+        items: [
+          'Feasibility & 90-day execution plan',
+          'Value proposition & resource needs',
+          'Jury screening & shortlisting',
+        ],
+        iconType: 'bulb',
       },
       {
-        id: 'finale',
-        date: EVENT_SCHEDULE.finale.date,
-        title: 'Stage 3: Idea Pitching (Finals)',
-        copy: 'Top finalist teams present live before the Grand Jury with prototypes, hardware demos, and stage pitches.',
+        id: 'scrutiny2',
+        type: 'scrutiny',
+        iconType: 'checklist',
+        title: '10-Day Finalist Scrutiny',
+        date: EVENT_SCHEDULE.scrutiny2.date,
+        copy: 'Detailed evaluation and selection of finalist teams for the Grand Jury.',
+      },
+      {
+        id: 'stage3',
+        type: 'stage',
+        stageNum: '03',
+        stageBadge: 'STAGE 03',
         color: 'purple',
-        items: ['Live auditorium presentation', 'Working prototype / demo walkthrough', 'Grand jury Q&A & ₹ 1,00,008 prize pool'],
+        date: EVENT_SCHEDULE.finale.date,
+        title: 'Idea Pitching (Finals)',
+        copy: 'Top finalist teams present live before the Grand Jury with prototypes, hardware demos, and stage pitches.',
+        items: [
+          'Live auditorium presentation',
+          'Working prototype / demo walkthrough',
+          'Grand jury Q&A & ₹ 1,00,008 prize pool',
+        ],
+        iconType: 'presentation',
       },
     ],
     faqs: [
@@ -508,28 +566,68 @@ const data = {
     ],
     timeline: [
       {
-        id: 'round1',
-        date: EVENT_SCHEDULE.round1.date,
-        title: 'ಹಂತ ೧: ನೋಂದಣಿ (Registration)',
-        copy: 'ನಿಮ್ಮ ತಂಡವನ್ನು ನೋಂದಾಯಿಸಿ (೧–೪ ಸದಸ್ಯರು), ಸಮಸ್ಯೆಯ ವಿವರಣೆ ಮತ್ತು ಪ್ರಸ್ತಾವಿತ ಪರಿಹಾರದ ಸಲ್ಲಿಕೆ.',
+        id: 'stage1',
+        type: 'stage',
+        stageNum: '೦೧',
+        stageBadge: 'ಹಂತ ೦೧',
         color: 'green',
-        items: ['೧–೪ ಸದಸ್ಯರ ತಂಡ ನೋಂದಣಿ', '೩ ವಿಷಯಗಳಲ್ಲಿ ಒಂದರ ಆಯ್ಕೆ', 'ಸಮಸ್ಯೆ ಮತ್ತು ಪರಿಹಾರದ ಸಲ್ಲಿಕೆ'],
+        date: EVENT_SCHEDULE.registration.date,
+        title: 'ನೋಂದಣಿ & ಪ್ರಾಥಮಿಕ ಸಲ್ಲಿಕೆ',
+        copy: 'ನಿಮ್ಮ ತಂಡವನ್ನು ನೋಂದಾಯಿಸಿ (೧–೪ ಸದಸ್ಯರು), ಸಮಸ್ಯೆಯ ವಿವರಣೆ ಮತ್ತು ಪ್ರಾಥಮಿಕ ಪರಿಹಾರ ಪರಿಕಲ್ಪನೆ ಸಲ್ಲಿಸಿ.',
+        items: [
+          '೧–೪ ಸದಸ್ಯರ ತಂಡ ನೋಂದಣಿ',
+          '೩ ಪ್ರಮುಖ ಕ್ಷೇತ್ರಗಳಲ್ಲಿ ಒಂದರ ಆಯ್ಕೆ',
+          'ನೋಂದಣಿ & ಪ್ರಾಥಮಿಕ ಪರಿಹಾರ ವಿವರಣೆ',
+        ],
+        iconType: 'document',
       },
       {
-        id: 'round2',
-        date: EVENT_SCHEDULE.round2.date,
-        title: 'ಹಂತ ೨: ಐಡಿಯಾ ಸಲ್ಲಿಕೆ (Idea Submission)',
-        copy: 'ವಿವರವಾದ ಪರಿಕಲ್ಪನೆ, ೯೦ ದಿನಗಳ ಪ್ರಾಯೋಗಿಕ ಯೋಜನೆ, ಬಜೆಟ್ ಅಂದಾಜು ಮತ್ತು ವೃತ್ತಾಕಾರದ ಮಾದರಿ ಸಲ್ಲಿಸಿ.',
+        id: 'scrutiny1',
+        type: 'scrutiny',
+        iconType: 'search',
+        title: '೧೦ ದಿನಗಳ ಪ್ರಾಥಮಿಕ ಪರಿಶೀಲನೆ',
+        date: EVENT_SCHEDULE.scrutiny1.date,
+        copy: 'ಮೌಲ್ಯಮಾಪನ, ಅರ್ಹತಾ ಪರಿಶೀಲನೆ ಮತ್ತು ಹಂತ ೨ ಕ್ಕೆ ಶಾರ್ಟ್‌ಲಿಸ್ಟಿಂಗ್.',
+      },
+      {
+        id: 'stage2',
+        type: 'stage',
+        stageNum: '೦೨',
+        stageBadge: 'ಹಂತ ೦೨',
         color: 'blue',
-        items: ['ಪ್ರಾಯೋಗಿಕತೆ ಮತ್ತು ೯೦ ದಿನಗಳ ಯೋಜನೆ', 'ಮೌಲ್ಯ ಮತ್ತು ಸಂಪನ್ಮೂಲಗಳ ಅಗತ್ಯತೆ', 'ತೀರ್ಪುಗಾರರ ಮೌಲ್ಯಮಾಪನ'],
+        date: EVENT_SCHEDULE.stage2.date,
+        title: 'ವಿವರವಾದ ಐಡಿಯಾ ಸಲ್ಲಿಕೆ',
+        copy: 'ವಿವರವಾದ ಪರಿಕಲ್ಪನೆ, ೯೦ ದಿನಗಳ ಪ್ರಾಯೋಗಿಕ ಯೋಜನೆ, ಬಜೆಟ್ ಅಂದಾಜು ಮತ್ತು ವೃತ್ತಾಕಾರದ ಮಾದರಿ ಸಲ್ಲಿಸಿ.',
+        items: [
+          'ಪ್ರಾಯೋಗಿಕತೆ & ೯೦ ದಿನಗಳ ಅನುಷ್ಠಾನ ಯೋಜನೆ',
+          'ಮೌಲ್ಯ ಪ್ರತಿಪಾದನೆ & ಅಗತ್ಯ ಸಂಪನ್ಮೂಲಗಳು',
+          'ತೀರ್ಪುಗಾರರ ಮೌಲ್ಯಮಾಪನ & ಶಾರ್ಟ್‌ಲಿಸ್ಟಿಂಗ್',
+        ],
+        iconType: 'bulb',
       },
       {
-        id: 'finale',
-        date: EVENT_SCHEDULE.finale.date,
-        title: 'ಹಂತ ೩: ಐಡಿಯಾ ಪಿಚಿಂಗ್ (Finals)',
-        copy: 'ಅಂತಿಮ ಹಂತಕ್ಕೆ ಆಯ್ಕೆಯಾದ ತಂಡಗಳು ತೀರ್ಪುಗಾರರ ಎದುರು ವೇದಿಕೆಯಲ್ಲಿ ಲೈವ್ ಪ್ರಸ್ತುತಿ ಮತ್ತು ಪ್ರಾತ್ಯಕ್ಷಿಕೆ ನೀಡುತ್ತವೆ.',
+        id: 'scrutiny2',
+        type: 'scrutiny',
+        iconType: 'checklist',
+        title: '೧೦ ದಿನಗಳ ಅಂತಿಮ ಪರಿಶೀಲನೆ',
+        date: EVENT_SCHEDULE.scrutiny2.date,
+        copy: 'ಗ್ರ್ಯಾಂಡ್ ಜ್ಯೂರಿಗಾಗಿ ಫೈನಲಿಸ್ಟ್ ತಂಡಗಳ ವಿವರವಾದ ಮೌಲ್ಯಮಾಪನ ಮತ್ತು ಆಯ್ಕೆ.',
+      },
+      {
+        id: 'stage3',
+        type: 'stage',
+        stageNum: '೦೩',
+        stageBadge: 'ಹಂತ ೦೩',
         color: 'purple',
-        items: ['ವೇದಿಕೆಯಲ್ಲಿ ಲೈವ್ ಪ್ರಸ್ತುತಿ', 'ಮಾದರಿ / ಪ್ರೊಟೊಟೈಪ್ ಡೆಮೊ', 'ತೀರ್ಪುಗಾರರ ಪ್ರಶ್ನೋತ್ತರ ಮತ್ತು ₹ ೧,೦೦,೦೦೮ ಬಹುಮಾನ'],
+        date: EVENT_SCHEDULE.finale.date,
+        title: 'ಐಡಿಯಾ ಪಿಚಿಂಗ್ (ಗ್ರ್ಯಾಂಡ್ ಫಿನಾಲೆ)',
+        copy: 'ಅಂತಿಮ ಹಂತಕ್ಕೆ ಆಯ್ಕೆಯಾದ ತಂಡಗಳು ಗ್ರ್ಯಾಂಡ್ ಜ್ಯೂರಿ ಎದುರು ವೇದಿಕೆಯಲ್ಲಿ ಲೈವ್ ಪ್ರಸ್ತುತಿ, ಮಾದರಿಗಳು ಮತ್ತು ಪ್ರಾತ್ಯಕ್ಷಿಕೆ ನೀಡುತ್ತವೆ.',
+        items: [
+          'ಆಡಿಟೋರಿಯಂನಲ್ಲಿ ಲೈವ್ ಪ್ರಸ್ತುತಿ',
+          'ಕಾರ್ಯನಿರ್ವಹಿಸುವ ಪ್ರೊಟೊಟೈಪ್ / ಡೆಮೊ',
+          'ಜ್ಯೂರಿ ಪ್ರಶ್ನೋತ್ತರ & ₹ ೧,೦೦,೦೦೮ ಬಹುಮಾನ',
+        ],
+        iconType: 'presentation',
       },
     ],
     faqs: [
@@ -697,34 +795,41 @@ function App() {
       const now = Date.now();
 
       const registrationEnd = new Date(EVENT_SCHEDULE.registration.end).getTime();
-      const round1Start = new Date(EVENT_SCHEDULE.round1.start).getTime();
-      const round1End = new Date(EVENT_SCHEDULE.round1.end).getTime();
-      const round2Start = new Date(EVENT_SCHEDULE.round2.start).getTime();
-      const round2End = new Date(EVENT_SCHEDULE.round2.end).getTime();
+      const scrutiny1End = new Date(EVENT_SCHEDULE.scrutiny1.end).getTime();
+      const stage2Start = new Date(EVENT_SCHEDULE.stage2.start).getTime();
+      const stage2End = new Date(EVENT_SCHEDULE.stage2.end).getTime();
+      const scrutiny2End = new Date(EVENT_SCHEDULE.scrutiny2.end).getTime();
       const finaleStart = new Date(EVENT_SCHEDULE.finale.start).getTime();
 
       let target;
       let label;
 
-      // Registration is open (1 Oct – 1 Nov 2026)
+      // 1. Stage 1: Registration open (01 Oct – 01 Nov 2026)
       if (now < registrationEnd) {
         target = registrationEnd;
         label = lang === 'en' ? 'REGISTRATION' : 'ನೋಂದಣಿ';
       }
-
-      // Stage 2: Idea Submission (2 Nov – 1 Dec 2026)
-      else if (now <= round2End) {
-        target = round2End;
+      // 2. 10-Day Preliminary Scrutiny (02 Nov – 11 Nov 2026) -> Countdown to Stage 2 Idea Submission
+      else if (now < stage2Start) {
+        target = stage2Start;
+        label = lang === 'en' ? 'PRELIMINARY SCRUTINY' : 'ಪ್ರಾಥಮಿಕ ಪರಿಶೀಲನೆ';
+      }
+      // 3. Stage 2: Detailed Idea Submission (12 Nov – 01 Dec 2026)
+      else if (now <= stage2End) {
+        target = stage2End;
         label = lang === 'en' ? 'IDEA SUBMISSION' : 'ಐಡಿಯಾ ಸಲ್ಲಿಕೆ';
       }
-
-      // Waiting for Grand Finale (6 – 7 Jan 2027)
+      // 4. 10-Day Finalist Scrutiny (02 Dec – 11 Dec 2026)
+      else if (now < scrutiny2End) {
+        target = finaleStart;
+        label = lang === 'en' ? 'FINALIST SCRUTINY' : 'ಅಂತಿಮ ಪರಿಶೀಲನೆ';
+      }
+      // 5. Final stretch to Grand Finale (12 Dec 2026 – 06 Jan 2027)
       else if (now < finaleStart) {
         target = finaleStart;
         label = lang === 'en' ? 'FINALS PITCHING' : 'ಗ್ರ್ಯಾಂಡ್ ಫಿನಾಲೆ';
       }
-
-      // Grand Finale day
+      // 6. Grand Finale days & beyond
       else {
         target = finaleStart;
         label = lang === 'en' ? 'GRAND FINALE' : 'ಗ್ರ್ಯಾಂಡ್ ಫಿನಾಲೆ';
@@ -752,7 +857,7 @@ function App() {
     const id = setInterval(getCountdownState, 1000);
 
     return () => clearInterval(id);
-  }, []);
+  }, [lang]);
 
   // Track active section and scroll state
   useEffect(() => {
@@ -849,7 +954,7 @@ function App() {
               </div>
               <div className="poster-modal-actions">
                 <a
-                  href="/event-poster.jpg"
+                  href={lang === 'kn' ? '/event-poster-kn.jpg' : '/event-poster.jpg'}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="poster-action-btn"
@@ -859,8 +964,8 @@ function App() {
                   <span>{lang === 'en' ? 'Full Size' : 'ಪೂರ್ಣ ಗಾತ್ರ'}</span>
                 </a>
                 <a
-                  href="/event-poster.jpg"
-                  download="Ideathon_2026_Event_Poster.jpg"
+                  href={lang === 'kn' ? '/event-poster-kn.jpg' : '/event-poster.jpg'}
+                  download={lang === 'kn' ? 'Ideathon_2026_Event_Poster_Kannada.jpg' : 'Ideathon_2026_Event_Poster.jpg'}
                   className="poster-action-btn download-btn"
                   title={lang === 'en' ? 'Download poster image' : 'ಪೋಸ್ಟರ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ'}
                 >
@@ -878,8 +983,8 @@ function App() {
             </div>
             <div className="poster-image-wrap">
               <img
-                src="/event-poster.jpg"
-                alt="Reimagine Waste Management Ideathon Official Event Poster"
+                src={lang === 'kn' ? '/event-poster-kn.jpg' : '/event-poster.jpg'}
+                alt={lang === 'kn' ? 'ಹಸಿರು ಸಂವಾದ ಐಡಿಯಾಥಾನ್ ಅಧಿಕೃತ ಈವೆಂಟ್ ಪೋಸ್ಟರ್' : 'Reimagine Waste Management Ideathon Official Event Poster'}
                 className="poster-img"
               />
             </div>
@@ -1299,34 +1404,112 @@ function App() {
 
                 <small>
                   {lang === 'en'
-                    ? 'days · hours · mins · secs'
+                    ? 'DAYS · HOURS · MINS · SECS'
                     : 'ದಿನ · ಗಂಟೆ · ನಿಮಿಷ · ಸೆಕೆಂಡ್'}
                 </small>
               </div>
             </div>
 
-            <div className="timeline-cards">
-              {t.timeline.map((step, i) => (
-                <article className={`timeline-card step-${step.color}`} key={step.id}>
-                  <div className="timeline-card-ribbon">
-                    <span className="step-badge">STAGE 0{i + 1}</span>
-                    <span className="step-date">
-                      <CalendarDays size={15} /> {step.date[lang]}
-                    </span>
-                  </div>
-                  <div className="timeline-card-body">
-                    <h3>{step.title}</h3>
-                    <p>{step.copy}</p>
-                    <ul className="timeline-checklist">
-                      {step.items.map((item) => (
-                        <li key={item}>
-                          <Check size={15} /> <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </article>
-              ))}
+            <div className="timeline-flow-wrapper">
+              <div className="timeline-flow">
+                {t.timeline.map((step) => {
+                  if (step.type === 'stage') {
+                    return (
+                      <article className={`stage-card stage-${step.color}`} key={step.id}>
+                        <div className="stage-card-ribbon">
+                          <div className="stage-pill-left">
+                            <span className="stage-num-circle">{step.stageNum}</span>
+                            <span className="stage-badge-text">{step.stageBadge}</span>
+                          </div>
+                          <span className="stage-date">
+                            <CalendarDays size={13} /> {step.date[lang]}
+                          </span>
+                        </div>
+                        <div className="stage-card-body">
+                          <h3>{step.title}</h3>
+                          <p>{step.copy}</p>
+                          <ul className="stage-checklist">
+                            {step.items.map((item, idx) => (
+                              <li key={idx}>
+                                <Check size={14} strokeWidth={2.5} className="stage-check-icon" />
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          {step.iconType === 'document' && (
+                            <div className="stage-corner-art stage-art-green">
+                              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <polyline points="14 2 14 8 20 8" />
+                                <line x1="16" y1="13" x2="8" y2="13" />
+                                <line x1="16" y1="17" x2="8" y2="17" />
+                                <path d="M18 10l-4 4-2-2 4-4z" opacity="0.6" />
+                              </svg>
+                            </div>
+                          )}
+                          {step.iconType === 'bulb' && (
+                            <div className="stage-corner-art stage-art-blue">
+                              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M9 18h6" />
+                                <path d="M10 22h4" />
+                                <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.41 2.5" />
+                                <line x1="12" y1="2" x2="12" y2="3.5" />
+                                <line x1="4.5" y1="4.5" x2="5.8" y2="5.8" />
+                                <line x1="19.5" y1="4.5" x2="18.2" y2="5.8" />
+                              </svg>
+                            </div>
+                          )}
+                          {step.iconType === 'presentation' && (
+                            <div className="stage-corner-art stage-art-purple">
+                              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="2" y="3" width="20" height="13" rx="2" />
+                                <line x1="8" y1="21" x2="12" y2="16" />
+                                <line x1="16" y1="21" x2="12" y2="16" />
+                                <line x1="12" y1="16" x2="12" y2="16" />
+                              </svg>
+                            </div>
+                          )}
+                        </div>
+                      </article>
+                    );
+                  }
+
+                  return (
+                    <div className="scrutiny-track-col" key={step.id}>
+                      <div className="scrutiny-connector-header">
+                        <div className="scrutiny-dashed-line scrutiny-line-left" />
+                        <div className="scrutiny-node-pin">
+                          <div className="scrutiny-node-inner" />
+                        </div>
+                        <div className="scrutiny-dashed-line scrutiny-line-right" />
+                      </div>
+                      <article className="scrutiny-card">
+                        <div className="scrutiny-icon-wrapper">
+                          <svg className="scrutiny-sparks" viewBox="0 0 54 54" fill="none" stroke="#f59e0b" strokeWidth="2.2" strokeLinecap="round">
+                            <line x1="12" y1="12" x2="5" y2="5" />
+                            <line x1="19" y1="7" x2="17" y2="1" />
+                            <line x1="42" y1="12" x2="49" y2="5" />
+                            <line x1="35" y1="7" x2="37" y2="1" />
+                          </svg>
+                          <div className="scrutiny-icon-badge">
+                            {step.iconType === 'search' ? (
+                              <Search size={20} color="#ffffff" strokeWidth={2.5} />
+                            ) : (
+                              <ClipboardCheck size={20} color="#ffffff" strokeWidth={2.5} />
+                            )}
+                          </div>
+                        </div>
+                        <h4 className="scrutiny-title">{step.title}</h4>
+                        <div className="scrutiny-date">
+                          <CalendarDays size={13} />
+                          <span>{step.date[lang]}</span>
+                        </div>
+                        <p className="scrutiny-desc">{step.copy}</p>
+                      </article>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </section>

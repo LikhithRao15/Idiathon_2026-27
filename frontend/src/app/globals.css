@@ -1901,107 +1901,328 @@ h1 {
   font-size: 22px;
 }
 
-.timeline-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
+/* ---------------- VIEW 4: TIMELINE (5-STAGE CONNECTED PIPELINE) ---------------- */
+.timeline-section {
+  background:
+    radial-gradient(circle at 12% 80%, rgba(11, 83, 120, 0.08), transparent 36%),
+    radial-gradient(circle at 88% 20%, rgba(12, 91, 53, 0.12), transparent 36%),
+    linear-gradient(180deg, #dcf0e2 0%, #e9f5ed 100%);
+  position: relative;
 }
 
-.timeline-card {
+.timeline-flow-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  padding: 24px 0 20px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.timeline-flow-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.timeline-flow-wrapper::-webkit-scrollbar-track {
+  background: rgba(12, 91, 53, 0.08);
+  border-radius: 999px;
+}
+
+.timeline-flow-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(12, 91, 53, 0.25);
+  border-radius: 999px;
+}
+
+.timeline-flow {
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+  min-width: 1060px;
+  width: 100%;
+  position: relative;
+}
+
+/* STAGE CARDS (Green, Blue, Purple) */
+.stage-card {
+  flex: 1.35;
+  min-width: 255px;
   background: #ffffff;
-  border-radius: 24px;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 18px 42px rgba(12, 58, 34, 0.1);
-  border: 1.5px solid rgba(12, 91, 53, 0.14);
+  box-shadow: 0 10px 28px rgba(12, 58, 34, 0.08);
+  border: 1.5px solid rgba(12, 91, 53, 0.12);
   display: flex;
   flex-direction: column;
-  transition: transform 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
 }
 
-.timeline-card:hover {
-  transform: translateY(-5px);
+.stage-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(12, 58, 34, 0.14);
 }
 
-.timeline-card-ribbon {
-  padding: 16px 22px;
+.stage-card-ribbon {
+  padding: 13px 18px;
   color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-weight: 800;
 }
 
-/* Exact Poster Chevron Progression: Green -> Blue -> Purple */
-.step-green .timeline-card-ribbon {
-  background: linear-gradient(135deg, #2b8a3e 0%, #1b6329 100%);
+.stage-green .stage-card-ribbon {
+  background: #15803d;
 }
 
-.step-blue .timeline-card-ribbon {
-  background: linear-gradient(135deg, #0d6efd 0%, #094eb2 100%);
+.stage-blue .stage-card-ribbon {
+  background: #0260e8;
 }
 
-.step-purple .timeline-card-ribbon {
-  background: linear-gradient(135deg, #673ab7 0%, #482486 100%);
+.stage-purple .stage-card-ribbon {
+  background: #5b21b6;
 }
 
-.step-badge {
+.stage-pill-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stage-num-circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: 11px;
-  letter-spacing: 0.14em;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 4px 10px;
-  border-radius: 999px;
+  font-weight: 800;
+  line-height: 1;
 }
 
-.step-date {
+.stage-green .stage-num-circle {
+  color: #15803d;
+}
+
+.stage-blue .stage-num-circle {
+  color: #0260e8;
+}
+
+.stage-purple .stage-num-circle {
+  color: #5b21b6;
+}
+
+.stage-badge-text {
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.stage-date {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
-  letter-spacing: 0.06em;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.02em;
 }
 
-.timeline-card-body {
-  padding: 24px;
+.stage-card-body {
+  padding: 20px 18px 22px;
   flex: 1;
   display: flex;
   flex-direction: column;
+  position: relative;
+  background: #ffffff;
 }
 
-.timeline-card-body h3 {
-  font: 800 24px Manrope, sans-serif;
-  margin-bottom: 8px;
-  color: #102b1e;
+.stage-card-body h3 {
+  font: 800 17.5px Manrope, sans-serif;
+  color: #111827;
+  margin: 0 0 7px;
+  line-height: 1.3;
 }
 
-.timeline-card-body p {
-  font-size: 15px;
-  color: #485f52;
-  margin-bottom: 18px;
+.stage-card-body p {
+  font-size: 12px;
+  color: #4b5563;
+  line-height: 1.45;
+  margin: 0 0 16px;
 }
 
-.timeline-checklist {
+.stage-checklist {
   list-style: none;
   padding: 0;
   margin: auto 0 0;
-  border-top: 1px solid rgba(12, 91, 53, 0.12);
-  padding-top: 14px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  position: relative;
+  z-index: 2;
 }
 
-.timeline-checklist li {
+.stage-checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  line-height: 1.35;
+}
+
+.stage-check-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.stage-green .stage-check-icon {
+  color: #16a34a;
+}
+
+.stage-blue .stage-check-icon {
+  color: #2563eb;
+}
+
+.stage-purple .stage-check-icon {
+  color: #7c3aed;
+}
+
+.stage-corner-art {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  pointer-events: none;
+  opacity: 0.85;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.stage-card:hover .stage-corner-art {
+  transform: scale(1.08) rotate(3deg);
+}
+
+/* SCRUTINY TRACK COLUMNS (Amber / Cream Cards) */
+.scrutiny-track-col {
+  flex: 0.95;
+  min-width: 185px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.scrutiny-connector-header {
+  height: 48px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13.5px;
-  font-weight: 700;
-  color: #254132;
+  justify-content: center;
+  position: relative;
+  width: 100%;
 }
 
-.timeline-checklist li svg {
-  color: var(--green2);
+.scrutiny-dashed-line {
+  flex: 1;
+  height: 0;
+  border-top: 2px dashed #86efac;
+}
+
+.scrutiny-node-pin {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 3px solid #f59e0b;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 6px;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
   flex-shrink: 0;
+  z-index: 2;
+}
+
+.scrutiny-node-inner {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #f59e0b;
+}
+
+.scrutiny-card {
+  background: #fef9ee;
+  border: 1.5px solid #fde68a;
+  border-radius: 20px;
+  padding: 20px 14px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  box-shadow: 0 8px 22px rgba(217, 119, 6, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.scrutiny-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(217, 119, 6, 0.14);
+}
+
+.scrutiny-icon-wrapper {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.scrutiny-sparks {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 52px;
+  height: 52px;
+  pointer-events: none;
+}
+
+.scrutiny-icon-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+}
+
+.scrutiny-title {
+  font: 800 14.5px Manrope, sans-serif;
+  color: #1f2937;
+  margin: 0 0 6px;
+  line-height: 1.3;
+}
+
+.scrutiny-date {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #d97706;
+  margin-bottom: 10px;
+}
+
+.scrutiny-desc {
+  font-size: 11.5px;
+  color: #4b5563;
+  line-height: 1.45;
+  margin: 0;
 }
 
 /* ---------------- VIEW 5: RULES & INTERACTIVE FAQ ---------------- */

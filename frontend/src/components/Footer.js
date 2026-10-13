@@ -176,7 +176,11 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <a href="/event-poster.jpg" target="_blank" rel="noopener noreferrer">
+              <a
+                href={lang === 'kn' ? '/event-poster-kn.jpg' : '/event-poster.jpg'}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {t.posterLink}
               </a>
             </li>
