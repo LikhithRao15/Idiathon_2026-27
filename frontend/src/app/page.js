@@ -48,37 +48,37 @@ const GOOGLE_FORM_SURVEY_URL = '#';
 const EVENT_SCHEDULE = {
   registration: {
     start: '2026-10-01T00:00:00+05:30',
-    end: '2026-11-01T23:59:59+05:30',
+    end: '2026-11-12T23:59:59+05:30',
     date: {
-      en: '01 OCT – 01 NOV 2026',
-      kn: '೦೧ ಅಕ್ಟೋಬರ್ – ೦೧ ನವೆಂಬರ್ ೨೦೨೬',
+      en: '01 OCT – 12 NOV 2026',
+      kn: '೦೧ ಅಕ್ಟೋಬರ್ – ೧೨ ನವೆಂಬರ್ ೨೦೨೬',
     },
   },
 
   scrutiny1: {
-    start: '2026-11-02T00:00:00+05:30',
-    end: '2026-11-11T23:59:59+05:30',
+    start: '2026-11-13T00:00:00+05:30',
+    end: '2026-11-17T23:59:59+05:30',
     date: {
-      en: '02 NOV – 11 NOV 2026',
-      kn: '೦೨ ನವೆಂಬರ್ – ೧೧ ನವೆಂಬರ್ ೨೦೨೬',
+      en: '13 NOV – 17 NOV 2026',
+      kn: '೧೩ ನವೆಂಬರ್ – ೧೭ ನವೆಂಬರ್ ೨೦೨೬',
     },
   },
 
   stage2: {
-    start: '2026-11-12T00:00:00+05:30',
-    end: '2026-12-01T23:59:59+05:30',
+    start: '2026-11-18T00:00:00+05:30',
+    end: '2026-12-30T23:59:59+05:30',
     date: {
-      en: '12 NOV – 01 DEC 2026',
-      kn: '೧೨ ನವೆಂಬರ್ – ೦೧ ಡಿಸೆಂಬರ್ ೨೦೨೬',
+      en: '18 NOV – 30 DEC 2026',
+      kn: '೧೮ ನವೆಂಬರ್ – ೩೦ ಡಿಸೆಂಬರ್ ೨೦೨೬',
     },
   },
 
   scrutiny2: {
-    start: '2026-12-02T00:00:00+05:30',
-    end: '2026-12-11T23:59:59+05:30',
+    start: '2026-12-31T00:00:00+05:30',
+    end: '2027-01-04T23:59:59+05:30',
     date: {
-      en: '02 DEC – 11 DEC 2026',
-      kn: '೦೨ ಡಿಸೆಂಬರ್ – ೧೧ ಡಿಸೆಂಬರ್ ೨೦೨೬',
+      en: '31 DEC 2026 – 04 JAN 2027',
+      kn: '೩೧ ಡಿಸೆಂಬರ್ ೨೦೨೬ – ೦೪ ಜನವರಿ ೨೦೨೭',
     },
   },
 
@@ -286,7 +286,7 @@ const data = {
         id: 'scrutiny1',
         type: 'scrutiny',
         iconType: 'search',
-        title: '10-Day Preliminary Scrutiny',
+        title: '5-Day Preliminary Scrutiny',
         date: EVENT_SCHEDULE.scrutiny1.date,
         copy: 'Evaluation, eligibility check and shortlisting for Stage 2.',
       },
@@ -310,7 +310,7 @@ const data = {
         id: 'scrutiny2',
         type: 'scrutiny',
         iconType: 'checklist',
-        title: '10-Day Finalist Scrutiny',
+        title: '5-Day Finalist Scrutiny',
         date: EVENT_SCHEDULE.scrutiny2.date,
         copy: 'Detailed evaluation and selection of finalist teams for the Grand Jury.',
       },
@@ -476,7 +476,7 @@ const data = {
     challenges: [
       {
         theme: 'emerald',
-        title: 'ತ್ಯಾಜ್ಯ ನಿರ್ವಹಣೆ',
+        title: 'ತ್ಯಾಜ್ಯ ಸಂಸ್ಕರಣೆ',
         desc: 'ಸ್ಯಾನಿಟರಿ, ನಿರ್ಮಾಣ, ಬಟ್ಟೆ ಮತ್ತು ಪ್ಲಾಸ್ಟಿಕ್ ತ್ಯಾಜ್ಯವನ್ನು ಹೇಗೆ ಕಡಿಮೆ, ವಿಂಗಡಣೆ ಮತ್ತು ಮರುಪಡೆಯಬಹುದು ಎಂಬುದನ್ನು ಮರುಚಿಂತಿಸಿ.',
         icon: Recycle,
         subtopics: [
@@ -500,7 +500,7 @@ const data = {
       },
       {
         theme: 'ocean',
-        title: 'ಚುರುಕಾದ ನಿರ್ವಹಣೆ',
+        title: 'ತ್ಯಾಜ್ಯ ನಿರ್ವಹಣೆ',
         desc: 'ವಿಂಗಡಣೆ, ಸಂಗ್ರಹಣೆ, ಮೇಲ್ವಿಚಾರಣೆ ಮತ್ತು ಮಿಶ್ರ ತ್ಯಾಜ್ಯ ನಿರ್ವಹಣೆಗಾಗಿ ಚುರುಕಾದ ವ್ಯವಸ್ಥೆಗಳನ್ನು ವಿನ್ಯಾಸಗೊಳಿಸಿ.',
         icon: Zap,
         subtopics: [
@@ -528,7 +528,7 @@ const data = {
       },
       {
         theme: 'amber',
-        title: 'ತ್ಯಾಜ್ಯ ವಿಲೇವಾರಿ',
+        title: 'ನಡವಳಿಕೆಯ ಬದಲಾವಣೆ',
         desc: 'ಪ್ರವಾಸಿ ತ್ಯಾಜ್ಯ, ನೀರಿನ ತ್ಯಾಜ್ಯ ಮತ್ತು ಭೂಗತ ವಿಲೇವಾರಿಗಾಗಿ ಹೆಚ್ಚು ಸುರಕ್ಷಿತ, ಸ್ವಚ್ಛ ಪರಿಹಾರಗಳನ್ನು ಕಂಡುಹಿಡಿಯಿರಿ.',
         icon: Leaf,
         subtopics: [
@@ -585,7 +585,7 @@ const data = {
         id: 'scrutiny1',
         type: 'scrutiny',
         iconType: 'search',
-        title: '೧೦ ದಿನಗಳ ಪ್ರಾಥಮಿಕ ಪರಿಶೀಲನೆ',
+        title: '೫ ದಿನಗಳ ಪ್ರಾಥಮಿಕ ಪರಿಶೀಲನೆ',
         date: EVENT_SCHEDULE.scrutiny1.date,
         copy: 'ಮೌಲ್ಯಮಾಪನ, ಅರ್ಹತಾ ಪರಿಶೀಲನೆ ಮತ್ತು ಹಂತ ೨ ಕ್ಕೆ ಶಾರ್ಟ್‌ಲಿಸ್ಟಿಂಗ್.',
       },
@@ -609,7 +609,7 @@ const data = {
         id: 'scrutiny2',
         type: 'scrutiny',
         iconType: 'checklist',
-        title: '೧೦ ದಿನಗಳ ಅಂತಿಮ ಪರಿಶೀಲನೆ',
+        title: '೫ ದಿನಗಳ ಅಂತಿಮ ಪರಿಶೀಲನೆ',
         date: EVENT_SCHEDULE.scrutiny2.date,
         copy: 'ಗ್ರ್ಯಾಂಡ್ ಜ್ಯೂರಿಗಾಗಿ ಫೈನಲಿಸ್ಟ್ ತಂಡಗಳ ವಿವರವಾದ ಮೌಲ್ಯಮಾಪನ ಮತ್ತು ಆಯ್ಕೆ.',
       },
@@ -804,27 +804,27 @@ function App() {
       let target;
       let label;
 
-      // 1. Stage 1: Registration open (01 Oct – 01 Nov 2026)
+      // 1. Stage 1: Registration open (01 Oct – 12 Nov 2026)
       if (now < registrationEnd) {
         target = registrationEnd;
         label = lang === 'en' ? 'REGISTRATION' : 'ನೋಂದಣಿ';
       }
-      // 2. 10-Day Preliminary Scrutiny (02 Nov – 11 Nov 2026) -> Countdown to Stage 2 Idea Submission
+      // 2. 5-Day Preliminary Scrutiny (13 Nov – 17 Nov 2026) -> Countdown to Stage 2 Idea Submission
       else if (now < stage2Start) {
         target = stage2Start;
         label = lang === 'en' ? 'PRELIMINARY SCRUTINY' : 'ಪ್ರಾಥಮಿಕ ಪರಿಶೀಲನೆ';
       }
-      // 3. Stage 2: Detailed Idea Submission (12 Nov – 01 Dec 2026)
+      // 3. Stage 2: Detailed Idea Submission (18 Nov – 30 Dec 2026)
       else if (now <= stage2End) {
         target = stage2End;
         label = lang === 'en' ? 'IDEA SUBMISSION' : 'ಐಡಿಯಾ ಸಲ್ಲಿಕೆ';
       }
-      // 4. 10-Day Finalist Scrutiny (02 Dec – 11 Dec 2026)
+      // 4. 5-Day Finalist Scrutiny (31 Dec 2026 – 04 Jan 2027)
       else if (now < scrutiny2End) {
         target = finaleStart;
         label = lang === 'en' ? 'FINALIST SCRUTINY' : 'ಅಂತಿಮ ಪರಿಶೀಲನೆ';
       }
-      // 5. Final stretch to Grand Finale (12 Dec 2026 – 06 Jan 2027)
+      // 5. Final stretch to Grand Finale (05 Jan 2027 – 06 Jan 2027)
       else if (now < finaleStart) {
         target = finaleStart;
         label = lang === 'en' ? 'FINALS PITCHING' : 'ಗ್ರ್ಯಾಂಡ್ ಫಿನಾಲೆ';

@@ -14,9 +14,11 @@ A complete, production-grade, full-stack platform built for the **Hasiru Samvadh
   2. *Handling Waste* (Hazardous/E-waste, worker safety, collection logistics)
   3. *Waste Disposal* (Composting, landfill reduction, circular recycling)
 - **📅 Exact Milestone Timeline**:
-  - **Round 1 (Idea Pitching Proposal)**: Oct 2, 2026 – Nov 1, 2026
-  - **Round 2 (Idea Elaboration & 90-Day Plan)**: Nov 2, 2026 – Dec 1, 2026
-  - **Grand Finale Stage Pitch**: Dec 15, 2026
+  - **Stage 1 (Registration & Preliminary Pitch)**: Oct 1, 2026 – Nov 12, 2026
+  - **5-Day Preliminary Scrutiny**: Nov 13, 2026 – Nov 17, 2026
+  - **Stage 2 (Idea Elaboration & 90-Day Plan)**: Nov 18, 2026 – Dec 30, 2026
+  - **5-Day Finalist Scrutiny**: Dec 31, 2026 – Jan 4, 2027
+  - **Stage 3 Grand Finale Stage Pitch**: Jan 6 – Jan 7, 2027
 - **📞 Unified Footer with Helplines**:
   - 📞 **Helpdesk 1 · General & Registration**: `+91 98800 12345`
   - 📞 **Helpdesk 2 · Technical & Pitch Support**: `+91 98800 23456`
@@ -181,7 +183,7 @@ graph TD
     J -->|REJECT| K[Status: NOT_SELECTED]
     J -->|SELECT| L[Status: FINALIST<br>SMS/Email Broadcast]
     L --> M[Admin Issues Grand Finale Pass & Slot]
-    M --> N[Grand Finale Stage Evaluation on Dec 15, 2026]
+    M --> N[Grand Finale Stage Evaluation on Jan 6–7, 2027]
 ```
 
 ---

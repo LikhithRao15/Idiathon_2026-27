@@ -516,7 +516,7 @@ export default function IdeaPitchSection() {
                   Round 1: Idea Pitch Submission
                 </h3>
                 <p style={{ color: 'var(--muted)', fontSize: '13px', marginTop: '4px' }}>
-                  Deadline: <strong>Nov 1, 2026</strong> • Clear, concise problem definition & technical solution
+                  Deadline: <strong>Nov 12, 2026</strong> • Clear, concise problem definition & technical solution
                 </p>
               </div>
 
@@ -659,7 +659,7 @@ export default function IdeaPitchSection() {
                 Round 2: Concept Elaboration & 90-Day Feasibility Plan
               </h3>
               <p style={{ color: 'var(--muted)', fontSize: '13px', marginTop: '4px' }}>
-                Timeline: <strong>Nov 2 – Dec 1, 2026</strong> • Strict access for teams marked SELECTED in Round 1
+                Timeline: <strong>Nov 18 – Dec 30, 2026</strong> • Strict access for teams marked SELECTED in Round 1
               </p>
             </div>
 
@@ -782,7 +782,7 @@ export default function IdeaPitchSection() {
               <div style={{ background: '#ffffff', padding: '16px', borderRadius: '12px', border: '1px solid #fde68a' }}>
                 <div style={{ fontSize: '11px', fontWeight: 800, color: '#b45309', textTransform: 'uppercase' }}>Event Date</div>
                 <div style={{ fontSize: '16px', fontWeight: 800, color: '#78350f', marginTop: '4px' }}>
-                  {finalistPass.eventDate ? new Date(finalistPass.eventDate).toLocaleDateString() : 'Dec 15, 2026'}
+                  {finalistPass.eventDate ? new Date(finalistPass.eventDate).toLocaleDateString() : 'Jan 6, 2027'}
                 </div>
               </div>
 
