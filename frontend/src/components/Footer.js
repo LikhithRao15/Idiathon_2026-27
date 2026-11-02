@@ -29,7 +29,7 @@ const footerTranslations = {
     participantWorkspace: 'Participant Workspace',
     judgeEval: 'Panelist Evaluation',
     adminConsole: 'Admin Console',
-    copyright: '© 2026 ಹಸಿರು ಸಂವಾದ · Reimagine Waste Management Ideathon. All rights reserved.',
+    copyright: '© Managed by LogicHue Technology Pvt. Ltd. All rights reserved.',
     slogan: 'CLEAN COMMUNITIES · HEALTHY PLANET · BRIGHTER FUTURE',
   },
   kn: {
