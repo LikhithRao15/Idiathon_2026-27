@@ -37,6 +37,12 @@ import {
   Download,
   ExternalLink,
 } from 'lucide-react';
+import {
+  exportTeamsToExcel,
+  exportSingleTeamToExcel,
+  exportTeamsToPDF,
+  exportSingleTeamToPDF,
+} from '../../lib/exportUtils';
 import surveySchema from '../../data/swachhaSarvekshanaForm.json';
 
 const adminTranslations = {
@@ -72,6 +78,10 @@ const adminTranslations = {
     cutoffToolTitle: '🎯 Score-Based Selection & Batch Advancement',
     cutoffMinScore: 'Min R1 Cutoff Score (≥):',
     selectQualified: 'Select Qualified Teams',
+    downloadExcel: 'Download Excel',
+    downloadPDF: 'Download PDF',
+    downloadExcelSelected: 'Excel (Selected)',
+    downloadPDFSelected: 'PDF (Selected)',
     batchSelectR1: '✓ Batch Advance Selected to Round 2',
     batchSelectR2: '🏆 Batch Promote Selected to Finalists',
     clearSelection: 'Clear Selection',
@@ -167,6 +177,10 @@ const adminTranslations = {
     cutoffToolTitle: '🎯 ಅಂಕ ಆಧಾರಿತ ಆಯ್ಕೆ ಮತ್ತು ಸಾಮೂಹಿಕ ಮುಂಬಡ್ತಿ',
     cutoffMinScore: 'ಕನಿಷ್ಠ ಹಂತ ೧ ಕಟ್‌ಆಫ್ ಅಂಕ (≥):',
     selectQualified: 'ಅರ್ಹ ತಂಡಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿ',
+    downloadExcel: 'ಎಕ್ಸೆಲ್ ಡೌನ್‌ಲೋಡ್',
+    downloadPDF: 'ಪಿಡಿಎಫ್ ಡೌನ್‌ಲೋಡ್',
+    downloadExcelSelected: 'ಆಯ್ಕೆಮಾಡಿದ ಎಕ್ಸೆಲ್',
+    downloadPDFSelected: 'ಆಯ್ಕೆಮಾಡಿದ ಪಿಡಿಎಫ್',
     batchSelectR1: '✓ ಆಯ್ಕೆ ಮಾಡಿದ ತಂಡಗಳನ್ನು ಹಂತ ೨ ಕ್ಕೆ ಮುಂಬಡ್ತಿ ನೀಡಿ',
     batchSelectR2: '🏆 ಆಯ್ಕೆ ಮಾಡಿದ ತಂಡಗಳನ್ನು ಫೈನಲ್‌ಗೆ ಮುಂಬಡ್ತಿ ನೀಡಿ',
     clearSelection: 'ಆಯ್ಕೆ ರದ್ದುಗೊಳಿಸಿ',
@@ -748,6 +762,99 @@ export default function AdminPage() {
       return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
     });
 
+  // Export handlers for Excel and PDF downloads
+  const handleExportExcelAll = (type = 'all') => {
+    try {
+      let targetTeams = teams;
+      let filename = `Ideathon_Teams_All_${new Date().toISOString().split('T')[0]}.xlsx`;
+
+      if (type === 'selected' && selectedTeamIds.length > 0) {
+        targetTeams = teams.filter((t) => selectedTeamIds.includes(t._id));
+        filename = `Ideathon_Selected_Teams_${targetTeams.length}_${new Date().toISOString().split('T')[0]}.xlsx`;
+      } else if (type === 'filtered' && filteredTeams.length > 0) {
+        targetTeams = filteredTeams;
+        filename = `Ideathon_Filtered_Teams_${targetTeams.length}_${new Date().toISOString().split('T')[0]}.xlsx`;
+      }
+
+      if (!targetTeams || targetTeams.length === 0) {
+        showToast('No teams available to export', 'error');
+        return;
+      }
+
+      exportTeamsToExcel(targetTeams, filename);
+      showToast(`Exported ${targetTeams.length} team(s) to Excel successfully!`, 'success');
+    } catch (err) {
+      console.error('Export Excel error:', err);
+      showToast(err.message || 'Failed to export Excel', 'error');
+    }
+  };
+
+  const handleExportPDFAll = (type = 'all') => {
+    try {
+      let targetTeams = teams;
+      let filename = `Ideathon_Teams_All_${new Date().toISOString().split('T')[0]}.pdf`;
+
+      if (type === 'selected' && selectedTeamIds.length > 0) {
+        targetTeams = teams.filter((t) => selectedTeamIds.includes(t._id));
+        filename = `Ideathon_Selected_Teams_${targetTeams.length}_${new Date().toISOString().split('T')[0]}.pdf`;
+      } else if (type === 'filtered' && filteredTeams.length > 0) {
+        targetTeams = filteredTeams;
+        filename = `Ideathon_Filtered_Teams_${targetTeams.length}_${new Date().toISOString().split('T')[0]}.pdf`;
+      }
+
+      if (!targetTeams || targetTeams.length === 0) {
+        showToast('No teams available to export', 'error');
+        return;
+      }
+
+      exportTeamsToPDF(targetTeams, filename);
+      showToast(`Generated PDF report for ${targetTeams.length} team(s) successfully!`, 'success');
+    } catch (err) {
+      console.error('Export PDF error:', err);
+      showToast(err.message || 'Failed to generate PDF', 'error');
+    }
+  };
+
+  const handleExportSingleExcel = async (team) => {
+    try {
+      let teamToExport = { ...team };
+      if (!teamToExport.round1Submission) {
+        const [r1Res, r2Res] = await Promise.all([
+          apiRequest(`/round1/submission?teamId=${team._id}`),
+          apiRequest(`/round2/submission?teamId=${team._id}`).catch(() => ({ ok: false })),
+        ]);
+        if (r1Res.ok && r1Res.data) teamToExport.round1Submission = r1Res.data;
+        if (r2Res.ok && r2Res.data) teamToExport.round2Submission = r2Res.data;
+      }
+
+      exportSingleTeamToExcel(teamToExport);
+      showToast(`Downloaded Excel dossier for ${team.teamName}`, 'success');
+    } catch (err) {
+      console.error('Single team Excel export error:', err);
+      showToast(err.message || 'Failed to download Excel', 'error');
+    }
+  };
+
+  const handleExportSinglePDF = async (team) => {
+    try {
+      let teamToExport = { ...team };
+      if (!teamToExport.round1Submission) {
+        const [r1Res, r2Res] = await Promise.all([
+          apiRequest(`/round1/submission?teamId=${team._id}`),
+          apiRequest(`/round2/submission?teamId=${team._id}`).catch(() => ({ ok: false })),
+        ]);
+        if (r1Res.ok && r1Res.data) teamToExport.round1Submission = r1Res.data;
+        if (r2Res.ok && r2Res.data) teamToExport.round2Submission = r2Res.data;
+      }
+
+      exportSingleTeamToPDF(teamToExport);
+      showToast(`Downloaded PDF scorecard for ${team.teamName}`, 'success');
+    } catch (err) {
+      console.error('Single team PDF export error:', err);
+      showToast(err.message || 'Failed to download PDF', 'error');
+    }
+  };
+
   // Unauthenticated Admin Login Screen
   if (!token || user?.role !== 'admin') {
     return (
@@ -984,6 +1091,88 @@ export default function AdminPage() {
                 >
                   {t.selectQualified}
                 </button>
+
+                {/* EXCEL & PDF DOWNLOAD BUTTONS AFTER SELECT QUALIFIED TEAMS */}
+                <button
+                  type="button"
+                  className="btn btn-sm"
+                  onClick={() => handleExportExcelAll(selectedTeamIds.length > 0 ? 'selected' : 'all')}
+                  style={{
+                    background: '#107c41',
+                    color: '#ffffff',
+                    border: 'none',
+                    padding: '6px 12px',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
+                  }}
+                  title={
+                    selectedTeamIds.length > 0
+                      ? `Export ${selectedTeamIds.length} Selected Teams to Excel`
+                      : 'Export All Teams to Excel'
+                  }
+                >
+                  <Download size={13} />
+                  {selectedTeamIds.length > 0
+                    ? `${t.downloadExcelSelected || 'Excel (Selected)'} (${selectedTeamIds.length})`
+                    : t.downloadExcel || 'Download Excel'}
+                </button>
+
+                <button
+                  type="button"
+                  className="btn btn-sm"
+                  onClick={() => handleExportPDFAll(selectedTeamIds.length > 0 ? 'selected' : 'all')}
+                  style={{
+                    background: '#dc2626',
+                    color: '#ffffff',
+                    border: 'none',
+                    padding: '6px 12px',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
+                  }}
+                  title={
+                    selectedTeamIds.length > 0
+                      ? `Export ${selectedTeamIds.length} Selected Teams to PDF`
+                      : 'Export All Teams to PDF'
+                  }
+                >
+                  <FileText size={13} />
+                  {selectedTeamIds.length > 0
+                    ? `${t.downloadPDFSelected || 'PDF (Selected)'} (${selectedTeamIds.length})`
+                    : t.downloadPDF || 'Download PDF'}
+                </button>
+
+                {selectedTeamIds.length > 0 && (
+                  <button
+                    type="button"
+                    className="btn btn-sm"
+                    onClick={() => handleExportExcelAll('all')}
+                    style={{
+                      background: 'transparent',
+                      color: '#107c41',
+                      border: '1px solid #107c41',
+                      padding: '5px 10px',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                    }}
+                    title="Export All Teams to Excel regardless of selection"
+                  >
+                    Export All Excel
+                  </button>
+                )}
               </div>
             </div>
 
@@ -1278,6 +1467,50 @@ export default function AdminPage() {
                               style={{ padding: '4px 8px', fontSize: '11.5px' }}
                             >
                               <Eye size={13} /> {t.inspectBtn}
+                            </button>
+
+                            <button
+                              type="button"
+                              className="btn btn-sm"
+                              style={{
+                                background: '#f0fdf4',
+                                color: '#166534',
+                                border: '1px solid #bbf7d0',
+                                padding: '4px 7px',
+                                fontSize: '11px',
+                                fontWeight: 700,
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '3px',
+                                borderRadius: '4px',
+                                cursor: 'pointer',
+                              }}
+                              onClick={() => handleExportSingleExcel(team)}
+                              title={`Download ${team.teamName} full details in Excel`}
+                            >
+                              <Download size={11} /> Excel
+                            </button>
+
+                            <button
+                              type="button"
+                              className="btn btn-sm"
+                              style={{
+                                background: '#fef2f2',
+                                color: '#991b1b',
+                                border: '1px solid #fecaca',
+                                padding: '4px 7px',
+                                fontSize: '11px',
+                                fontWeight: 700,
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '3px',
+                                borderRadius: '4px',
+                                cursor: 'pointer',
+                              }}
+                              onClick={() => handleExportSinglePDF(team)}
+                              title={`Download ${team.teamName} official dossier PDF`}
+                            >
+                              <FileText size={11} /> PDF
                             </button>
 
                             {team.round1Status !== 'SELECTED' && (
@@ -2337,9 +2570,53 @@ export default function AdminPage() {
                 gap: '12px',
               }}
             >
-              <button className="btn btn-secondary" onClick={closeInspectModal}>
-                {t.closeModal}
-              </button>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+                <button className="btn btn-secondary" onClick={closeInspectModal}>
+                  {t.closeModal}
+                </button>
+
+                <button
+                  type="button"
+                  className="btn"
+                  style={{
+                    background: '#107c41',
+                    color: '#ffffff',
+                    border: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    fontWeight: 600,
+                    padding: '8px 14px',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => handleExportSingleExcel(inspectTeam)}
+                  title="Download complete team dossier in Excel (.xlsx)"
+                >
+                  <Download size={14} /> Download Excel
+                </button>
+
+                <button
+                  type="button"
+                  className="btn"
+                  style={{
+                    background: '#dc2626',
+                    color: '#ffffff',
+                    border: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    fontWeight: 600,
+                    padding: '8px 14px',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => handleExportSinglePDF(inspectTeam)}
+                  title="Download official scorecard PDF report"
+                >
+                  <FileText size={14} /> Download PDF
+                </button>
+              </div>
 
               <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                 {inspectTeam.round1Status !== 'SELECTED' && (

@@ -267,6 +267,8 @@ const updateMyTeam = async (req, res, next) => {
 };
 
 const Evaluation = require('../models/Evaluation');
+const Round1Submission = require('../models/Round1Submission');
+const Round2Submission = require('../models/Round2Submission');
 
 /**
  * @desc    Get all teams (Admin or Panelist view)
@@ -300,12 +302,25 @@ const getAllTeams = async (req, res, next) => {
       .sort({ createdAt: -1 })
       .lean();
 
-    // Fetch all evaluations for the fetched teams to enrich scoring insights for Admin & Panelists
+    // Fetch all evaluations and submissions for the fetched teams to enrich data for Admin & Panelists
     const teamIds = teams.map((t) => t._id);
-    const allEvaluations = await Evaluation.find({ teamId: { $in: teamIds } })
-      .populate('panelistId', 'name email')
-      .sort({ createdAt: -1 })
-      .lean();
+    const [allEvaluations, allR1Submissions, allR2Submissions] = await Promise.all([
+      Evaluation.find({ teamId: { $in: teamIds } })
+        .populate('panelistId', 'name email')
+        .sort({ createdAt: -1 })
+        .lean(),
+      Round1Submission.find({ teamId: { $in: teamIds } }).lean(),
+      Round2Submission.find({ teamId: { $in: teamIds } }).lean(),
+    ]);
+
+    const r1Map = {};
+    for (const r1 of allR1Submissions) {
+      r1Map[r1.teamId.toString()] = r1;
+    }
+    const r2Map = {};
+    for (const r2 of allR2Submissions) {
+      r2Map[r2.teamId.toString()] = r2;
+    }
 
     // Group evaluations by teamId and compute metrics
     const evalMap = {};
@@ -331,6 +346,8 @@ const getAllTeams = async (req, res, next) => {
 
       return {
         ...team,
+        round1Submission: r1Map[team._id.toString()] || null,
+        round2Submission: r2Map[team._id.toString()] || null,
         evaluations: evals.all,
         r1AvgScore: r1Avg,
         r1EvaluationsCount: evals.r1.length,
